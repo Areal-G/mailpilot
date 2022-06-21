@@ -1,5 +1,5 @@
 import { SWRProvider } from "@/utils/SWR";
-import "./globals.css";
+import "../globals.css";
 import "cal-sans";
 import { Inter } from "next/font/google";
 import { NotificationProvider } from "@/components/NotificationProvider";
