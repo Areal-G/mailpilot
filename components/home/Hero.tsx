@@ -53,8 +53,8 @@ export function Hero(props: {}) {
             Reach Mail Pilot in Minutes, Daily
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-300">
-            Mail Pilot uses AI to help you achieve Mail Pilot daily. What
-            previously tool hours, now takes minutes. Mail Pilot is your VA for
+            Mail Pilot uses AI to help you empty your inbox daily. What
+            previously took hours, now takes minutes. Mail Pilot is your VA for
             emails.
           </p>
           <div className="mt-10 flex items-center gap-x-6">
