@@ -50,7 +50,7 @@ export function Hero(props: {}) {
         <div className="mx-auto max-w-2xl flex-shrink-0 text-blue-500 lg:mx-0 lg:max-w-xl lg:pt-8">
           <Logo className="h-4" />
           <h1 className="mt-10 text-4xl font-bold text-white sm:text-6xl">
-            Reach Mail Pilot in Minutes, Daily
+            Reach Mail Pilot in Minutes
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-300">
             Mail Pilot uses AI to help you empty your inbox daily. What
