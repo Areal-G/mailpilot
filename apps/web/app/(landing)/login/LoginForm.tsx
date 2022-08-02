@@ -34,9 +34,10 @@ export function LoginForm() {
       <Modal title="Sign in" isOpen={isModalOpen} hideModal={closeModal}>
         <div className="mt-2">
           <SectionDescription>
-            Mail Pilot sends your emails to OpenAI for processing. OpenAI does
-            not use the submitted data to train or improve their AI models.
-            Mail Pilot does not store your emails.
+            By continuing you agree to allow Mail Pilot to send your emails to
+            OpenAI for processing. OpenAI does not use the submitted data to
+            train or improve their AI models. Mail Pilot does not store your
+            emails.
           </SectionDescription>
           <div className="mt-4">
             <Button
@@ -51,7 +52,7 @@ export function LoginForm() {
                 });
               }}
             >
-              I understand
+              I agree
             </Button>
           </div>
         </div>
