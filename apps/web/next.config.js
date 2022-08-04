@@ -15,8 +15,18 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/roadmap",
+        destination: "https://mailpilot.canny.io/",
+        permanent: true,
+      },
+      {
         source: "/github",
         destination: "https://github.com/areal/mailpilot",
+        permanent: true,
+      },
+      {
+        source: "/discord",
+        destination: "https://discord.gg/UnBwsydrug",
         permanent: true,
       },
     ];
