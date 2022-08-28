@@ -1,25 +1,20 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { useSession } from "next-auth/react";
-import { toast } from "sonner";
 import {
   ArchiveBoxArrowDownIcon,
   ArrowTopRightOnSquareIcon,
   ChatBubbleBottomCenterIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
+import { OrbitIcon } from "lucide-react";
 import { ButtonGroup } from "@/components/ButtonGroup";
 import { LoadingMiniSpinner } from "@/components/Loading";
-import { postRequest } from "@/utils/api";
-import {
-  ArchiveBody,
-  ArchiveResponse,
-} from "@/app/api/google/threads/archive/controller";
-import { OrbitIcon } from "lucide-react";
 
 export function ActionButtons(props: {
   threadId: string;
   isPlanning: boolean;
   isCategorizing: boolean;
+  isArchiving: boolean;
   onPlanAiAction: () => void;
   onAiCategorize: () => void;
   onReply: () => void;
@@ -36,6 +31,7 @@ export function ActionButtons(props: {
     onReply,
     isCategorizing,
     isPlanning,
+    isArchiving,
   } = props;
 
   const openInGmail = useCallback(() => {
@@ -43,29 +39,6 @@ export function ActionButtons(props: {
     const url = `https://mail.google.com/mail/u/${email || 0}/#all/${threadId}`;
     window.open(url, "_blank");
   }, [threadId, email]);
-
-  const [isArchiving, setIsArchiving] = useState(false);
-
-  const archive = useCallback(() => {
-    toast.promise(
-      async () => {
-        setIsArchiving(true);
-        await postRequest<ArchiveResponse, ArchiveBody>(
-          "/api/google/threads/archive",
-          {
-            id: threadId,
-          }
-        );
-        onArchive();
-        setIsArchiving(false);
-      },
-      {
-        loading: "Archiving...",
-        success: "Email archived!",
-        error: "Error archiving email",
-      }
-    );
-  }, [threadId, onArchive]);
 
   const buttons = useMemo(
     () => [
@@ -109,7 +82,7 @@ export function ActionButtons(props: {
       },
       {
         tooltip: "Archive",
-        onClick: archive,
+        onClick: onArchive,
         icon: isArchiving ? (
           <LoadingMiniSpinner />
         ) : (
@@ -121,14 +94,14 @@ export function ActionButtons(props: {
       },
     ],
     [
-      archive,
+      onArchive,
       isArchiving,
       onPlanAiAction,
+      isPlanning,
       onAiCategorize,
+      isCategorizing,
       onReply,
       openInGmail,
-      isCategorizing,
-      isPlanning,
     ]
   );
 
