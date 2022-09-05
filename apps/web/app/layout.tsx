@@ -16,9 +16,9 @@ const calFont = localFont({
 });
 
 export const metadata = {
-  title: "Mail Pilot AI",
+  title: "Mail Pilot",
   description:
-    "Handle emails fast with AI assistance. Automate replies and archiving. Mail Pilot is your virtual assistant for emails.",
+    "The quickest way to inbox zero. Mail Pilot is your virtual assistant for emails.",
 };
 
 export default function RootLayout({
