@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
@@ -15,10 +16,24 @@ const calFont = localFont({
   display: "swap",
 });
 
-export const metadata = {
-  title: "Mail Pilot",
-  description:
-    "The quickest way to inbox zero. Mail Pilot is your virtual assistant for emails.",
+const title = "Mail Pilot";
+const description =
+  "The quickest way to inbox zero. Mail Pilot is your virtual assistant for emails.";
+
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    creator: "@getmailpilot",
+  },
+  themeColor: "#FFF",
 };
 
 export default function RootLayout({
