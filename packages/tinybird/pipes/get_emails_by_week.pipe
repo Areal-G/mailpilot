@@ -2,7 +2,7 @@ VERSION 2
 
 NODE get_emails_by_week
 DESCRIPTION >
-  Get the number of emails sent by week
+  Get the number of emails received by week
 
 SQL >
   %

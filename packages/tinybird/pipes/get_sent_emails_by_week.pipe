@@ -1,0 +1,17 @@
+VERSION 1
+
+NODE get_sent_emails_by_week
+DESCRIPTION >
+  Get the number of sent emails by week
+
+SQL >
+  %
+    SELECT
+        toStartOfWeek(fromUnixTimestamp64Milli(timestamp)) AS week_start,
+        COUNT(*) as count
+    FROM email__v3
+    WHERE
+        "ownerEmail" = {{ String(ownerEmail) }}
+        AND "sent" = 1
+    GROUP BY week_start
+    ORDER BY week_start
