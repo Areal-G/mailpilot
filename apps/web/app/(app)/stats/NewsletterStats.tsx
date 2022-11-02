@@ -224,10 +224,9 @@ export function NewsletterStats(props: {
                           <Button
                             size="sm"
                             variant="secondary"
-                            disabled={!item.lastUnsubscribeLink}
                             onClick={() => setSelectedNewsletter(item)}
                           >
-                            View
+                            More
                           </Button>
                         </TableCell>
                       </TableRow>
