@@ -48,6 +48,11 @@ const nextConfig = {
         destination: "https://airtable.com/shr7HNx6FXaIxR5q6",
         permanent: true,
       },
+      {
+        source: "/affiliates",
+        destination: "https://mailpilot.lemonsqueezy.com/affiliates",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
