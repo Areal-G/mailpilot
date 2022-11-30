@@ -8,7 +8,7 @@ import { CTA } from "@/app/(landing)/home/CTA";
 import { Footer } from "@/app/(landing)/home/Footer";
 import { FeaturesStats } from "@/app/(landing)/home/Features";
 
-export default function Home() {
+export default function EmailAnalytics() {
   return (
     <div className="bg-white">
       <Header />
