@@ -1,4 +1,3 @@
-// import '@/app/(landing)/home/home.css'
 import { Header } from "@/app/(landing)/home/Header";
 import { Hero } from "@/app/(landing)/home/Hero";
 // import { LogoCloud } from "@/app/(landing)/home/LogoCloud";
