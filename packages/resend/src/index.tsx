@@ -36,7 +36,11 @@ const sendEmail = async ({
     react,
     headers: {
       ...(listUnsubscribe
-        ? { "List-Unsubscribe": "<https://mailpilot.dev/settings>" }
+        ? {
+            "List-Unsubscribe": "<https://www.mailpilot.dev/settings>",
+            // TODO From Feb 2024 Google requires this for bulk senders
+            // "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+          }
         : {}),
       // Prevent threading on Gmail
       "X-Entity-Ref-ID": nanoid(),
