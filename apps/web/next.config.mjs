@@ -35,7 +35,7 @@ const nextConfig = {
       },
       {
         source: "/twitter",
-        destination: "https://twitter.com/getmailpilot",
+        destination: "https://twitter.com/mailpilot_ai",
         permanent: true,
       },
       {

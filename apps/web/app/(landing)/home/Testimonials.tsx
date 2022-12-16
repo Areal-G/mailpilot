@@ -22,7 +22,7 @@ const testimonials: {
   [
     [
       {
-        body: "Love this new open-source app by @areal2: http://mailpilot.dev",
+        body: "Love this new open-source app by @areal2: mailpilot.dev",
         author: {
           name: "Steven Tey",
           handle: "steventey",
