@@ -30,7 +30,7 @@ const sendEmail = async ({
     return Promise.resolve();
   }
   return resend.emails.send({
-    from: "Elie from Mail Pilot <elie@mailpilot.dev>",
+    from: "Mail Pilot <elie@mailpilot.dev>",
     to: test ? "delivered@resend.dev" : to,
     subject,
     react,
