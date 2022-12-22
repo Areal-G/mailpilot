@@ -29,11 +29,6 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: "/roadmap",
-        destination: "https://mailpilot.canny.io/",
-        permanent: true,
-      },
-      {
         source: "/twitter",
         destination: "https://twitter.com/mailpilot_ai",
         permanent: true,
