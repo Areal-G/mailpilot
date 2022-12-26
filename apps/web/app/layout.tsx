@@ -23,7 +23,7 @@ const calFont = localFont({
 
 const title = "Mail Pilot";
 const description =
-  "The quickest way to inbox zero. Mail Pilot is your virtual assistant for emails.";
+  "Clean your inbox in minutes. Mail Pilot is the quickest way to reach inbox zero, with our newsletter cleaner, AI automation, and email analytics.";
 
 export const metadata: Metadata = {
   title,

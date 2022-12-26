@@ -6,6 +6,7 @@ import { env } from "@/env.mjs";
 export const metadata: Metadata = {
   title: "Terms of Service - Mail Pilot",
   description: "Terms of Service - Mail Pilot",
+  alternates: { canonical: "/terms" },
 };
 
 export default function Terms() {
