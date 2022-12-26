@@ -5,8 +5,11 @@ import { LoginForm } from "@/app/(landing)/login/LoginForm";
 import { auth } from "@/app/api/auth/[...nextauth]/auth";
 
 export const metadata: Metadata = {
-  title: "Log in",
+  title: "Log in | Mail Pilot",
   description: "Log in to Mail Pilot.",
+  alternates: {
+    canonical: "/login",
+  },
 };
 
 export default async function AuthenticationPage() {
