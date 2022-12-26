@@ -23,7 +23,7 @@ const calFont = localFont({
 
 const title = "Mail Pilot";
 const description =
-  "The quickest way to inbox zero. Mail Pilot is your virtual assistant for emails.";
+  "Clean your inbox in minutes. Mail Pilot is the quickest way to reach inbox zero, with our newsletter cleaner, AI automation, and email analytics.";
 
 export const metadata: Metadata = {
   title,
@@ -36,9 +36,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    creator: "@getmailpilot",
+    creator: "@mailpilot_ai",
   },
   metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
+  // issues with robots.txt: https://github.com/vercel/next.js/issues/58615#issuecomment-1852457285
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const viewport = {
