@@ -15,6 +15,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: "https://www.mailpilot.dev/email-analytics",
     },
     {
+      url: "https://www.mailpilot.dev/block-cold-emails",
+    },
+    {
       url: "https://www.mailpilot.dev/new-email-senders",
     },
     {
