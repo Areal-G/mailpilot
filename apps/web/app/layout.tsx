@@ -23,9 +23,9 @@ const calFont = localFont({
   display: "swap",
 });
 
-const title = "Mail Pilot";
+const title = "Mail Pilot | Clean your inbox in minutes";
 const description =
-  "Clean your inbox in minutes. Mail Pilot is the quickest way to reach inbox zero, with our newsletter cleaner, AI automation, and email analytics.";
+  "Mail Pilot is the quickest way to reach inbox zero, with our newsletter cleaner, AI automation, cold email blocker, and email analytics.";
 
 export const metadata: Metadata = {
   title,
