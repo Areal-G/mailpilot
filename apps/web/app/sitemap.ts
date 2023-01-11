@@ -26,5 +26,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: "https://www.mailpilot.dev/terms",
     },
+    {
+      url: "https://www.mailpilot.dev/blog",
+    },
+    {
+      url: "https://www.mailpilot.dev/blog/post/how-my-open-source-saas-hit-first-on-product-hunt",
+    },
   ];
 }
