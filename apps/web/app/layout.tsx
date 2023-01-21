@@ -33,6 +33,8 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
+    siteName: "Mail Pilot",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
