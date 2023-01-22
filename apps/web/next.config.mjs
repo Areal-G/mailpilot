@@ -36,6 +36,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/feedback',
+        destination: 'https://mailpilot.canny.io/feature-requests',
+        permanent: true,
+      },
+      {
         source: "/twitter",
         destination: "https://twitter.com/mailpilot_ai",
         permanent: true,
