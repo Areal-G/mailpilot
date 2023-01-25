@@ -13,6 +13,11 @@ const navigation = {
   support: [
     { name: "Pricing", href: "/#pricing" },
     { name: "Contact", href: "mailto:elie@mailpilot.dev", target: "_blank" },
+    {
+      name: "Documentation",
+      href: "https://docs.mailpilot.dev",
+      target: "_blank",
+    },
     { name: "Feature Requests", href: "/feature-requests", target: "_blank" },
   ],
   company: [
