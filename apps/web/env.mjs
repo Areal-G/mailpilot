@@ -21,7 +21,7 @@ export const env = createEnv({
     LOG_ZOD_ERRORS: z.coerce.boolean().optional(),
     LEMON_SQUEEZY_SIGNING_SECRET: z.string().optional(),
     LEMON_SQUEEZY_API_KEY: z.string().optional(),
-    TINYBIRD_TOKEN: z.string(),
+    TINYBIRD_TOKEN: z.string().min(1),
     TINYBIRD_BASE_URL: z.string().default("https://api.us-east.tinybird.co/"),
     ENCRYPT_SECRET: z.string().optional(),
     ENCRYPT_SALT: z.string().optional(),
@@ -59,6 +59,7 @@ export const env = createEnv({
     NEXT_PUBLIC_UNSUBSCRIBE_CREDITS: z.number().default(5),
     NEXT_PUBLIC_CALL_LINK: z.string().default("https://cal.com/team/mailpilot/feedback"),
     NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
+    NEXT_PUBLIC_POSTHOG_HERO_AB: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_ONBOARDING_SURVEY_ID: z.string().optional(),
     NEXT_PUBLIC_BASE_URL: z.string().default("https://www.mailpilot.dev"),
     NEXT_PUBLIC_CONTACTS_ENABLED: z.coerce.boolean().optional().default(false),
@@ -103,6 +104,7 @@ export const env = createEnv({
 
     NEXT_PUBLIC_CALL_LINK: process.env.NEXT_PUBLIC_CALL_LINK,
     NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    NEXT_PUBLIC_POSTHOG_HERO_AB: process.env.NEXT_PUBLIC_POSTHOG_HERO_AB,
     NEXT_PUBLIC_POSTHOG_ONBOARDING_SURVEY_ID:
       process.env.NEXT_PUBLIC_POSTHOG_ONBOARDING_SURVEY_ID,
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
