@@ -32,5 +32,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: "https://www.mailpilot.dev/blog/post/how-my-open-source-saas-hit-first-on-product-hunt",
     },
+    {
+      url: "https://www.mailpilot.dev/blog/post/why-build-an-open-source-saas",
+    },
+    {
+      url: "https://docs.mailpilot.dev/",
+    },
+    {
+      url: "https://docs.mailpilot.dev/introduction",
+    },
+    {
+      url: "https://docs.mailpilot.dev/essentials/email-ai-automation",
+    },
+    {
+      url: "https://docs.mailpilot.dev/essentials/bulk-email-unsubscriber",
+    },
+    {
+      url: "https://docs.mailpilot.dev/essentials/cold-email-blocker",
+    },
   ];
 }
