@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description:
     "Mail Pilot finished first place on Product Hunt. This is how we did it.",
   alternates: {
-    canonical: "/blog/how-my-open-source-saas-hit-first-on-product-hunt",
+    canonical: "/blog/post/how-my-open-source-saas-hit-first-on-product-hunt",
   },
 };
 

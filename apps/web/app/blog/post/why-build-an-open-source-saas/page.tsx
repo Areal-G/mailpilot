@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description:
     "Open source SaaS products are blowing up. This is why you should consider building one.",
   alternates: {
-    canonical: "/blog/why-build-an-open-source-saas",
+    canonical: "/blog/post/why-build-an-open-source-saas",
   },
 };
 
