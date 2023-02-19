@@ -45,7 +45,7 @@ const faqs = [
     ),
   },
   {
-    question: "Can I still use Mail Pilot alonside my current email client?",
+    question: "Can I still use Mail Pilot alongside my current email client?",
     answer:
       "Yes! Mail Pilot is intended to be used alongside your existing email client.",
   },
