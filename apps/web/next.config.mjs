@@ -70,6 +70,11 @@ const nextConfig = {
         destination: "https://mailpilot.lemonsqueezy.com/affiliates",
         permanent: true,
       },
+      {
+        source: "/newsletters",
+        destination: "/bulk-unsubscribe",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {
