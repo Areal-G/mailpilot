@@ -3,7 +3,7 @@
 import { subDays } from "date-fns";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { NewsletterStats } from "@/app/(app)/newsletters/NewsletterStats";
+import { NewsletterStats } from "@/app/(app)/bulk-unsubscribe/NewsletterStats";
 import { LoadStatsButton } from "@/app/(app)/stats/LoadStatsButton";
 import { ActionBar } from "@/app/(app)/stats/ActionBar";
 import { useStatLoader } from "@/providers/StatLoaderProvider";
