@@ -33,12 +33,12 @@ const nextConfig = {
     return [
       {
         source: "/feature-requests",
-        destination: "https://mailpilot.canny.io/feature-requests",
+        destination: "https://mailpilot.featurebase.app",
         permanent: true,
       },
       {
         source: '/feedback',
-        destination: 'https://mailpilot.canny.io/feature-requests',
+        destination: 'https://mailpilot.featurebase.app',
         permanent: true,
       },
       {
