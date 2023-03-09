@@ -42,6 +42,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/roadmap',
+        destination: 'https://mailpilot.featurebase.app/roadmap',
+        permanent: true,
+      },
+      {
+        source: '/changelog',
+        destination: 'https://mailpilot.featurebase.app/changelog',
+        permanent: true,
+      },
+      {
         source: "/twitter",
         destination: "https://twitter.com/mailpilot_ai",
         permanent: true,
