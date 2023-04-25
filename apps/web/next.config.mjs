@@ -9,7 +9,6 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
-    instrumentationHook: true,
     serverComponentsExternalPackages: ['@sentry/nextjs', '@sentry/node'],
   },
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
@@ -33,12 +32,22 @@ const nextConfig = {
     return [
       {
         source: "/feature-requests",
-        destination: "https://mailpilot.canny.io/feature-requests",
+        destination: "https://mailpilot.featurebase.app",
         permanent: true,
       },
       {
         source: '/feedback',
-        destination: 'https://mailpilot.canny.io/feature-requests',
+        destination: 'https://mailpilot.featurebase.app',
+        permanent: true,
+      },
+      {
+        source: '/roadmap',
+        destination: 'https://mailpilot.featurebase.app/roadmap',
+        permanent: true,
+      },
+      {
+        source: '/changelog',
+        destination: 'https://mailpilot.featurebase.app/changelog',
         permanent: true,
       },
       {
