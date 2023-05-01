@@ -24,7 +24,7 @@ const calFont = localFont({
   display: "swap",
 });
 
-const title = "Mail Pilot | Your AI personal assistant for email";
+const title = "Mail Pilot | Automate and clean your inbox";
 const description =
   "Mail Pilot is your AI personal assistant for email and the quickest way to reach inbox zero. Automate your email, bulk unsubscribe from newsletters, block cold emails, and view your email analytics. Fully open-source.";
 
