@@ -9,10 +9,6 @@ import { captureException } from "@/utils/error";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
-export type SendWeeklyStatsAllUpdateResponse = Awaited<
-  ReturnType<typeof sendWeeklyStatsAllUpdate>
->;
-
 async function sendWeeklyStatsAllUpdate() {
   const users = await prisma.user.findMany({
     select: { email: true },
