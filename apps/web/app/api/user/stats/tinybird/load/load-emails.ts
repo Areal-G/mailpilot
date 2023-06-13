@@ -1,11 +1,11 @@
-import { type gmail_v1 } from "googleapis";
-import { LoadTinybirdEmailsBody } from "@/app/api/user/stats/tinybird/load/validation";
+import type { gmail_v1 } from "googleapis";
+import type { LoadTinybirdEmailsBody } from "@/app/api/user/stats/tinybird/load/validation";
 import { getLastEmail } from "@mailpilot/tinybird";
 import { sleep } from "@/utils/sleep";
 import { getMessagesBatch } from "@/utils/gmail/message";
 import { isDefined } from "@/utils/types";
 import { extractDomainFromEmail } from "@/utils/email";
-import { TinybirdEmail, publishEmail } from "@mailpilot/tinybird";
+import { type TinybirdEmail, publishEmail } from "@mailpilot/tinybird";
 import { findUnsubscribeLink } from "@/utils/parse/parseHtml.server";
 import { env } from "@/env.mjs";
 import {
