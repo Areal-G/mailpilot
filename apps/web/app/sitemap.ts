@@ -39,6 +39,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: "https://www.mailpilot.dev/blog/post/alternatives-to-skiff-mail",
     },
     {
+      url: "https://www.mailpilot.dev/blog/post/best-email-unsubscribe-app",
+    },
+    {
       url: "https://www.mailpilot.dev/blog/post/bulk-unsubscribe-from-emails",
     },
     {
