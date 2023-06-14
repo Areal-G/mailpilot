@@ -6,7 +6,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { createContact as createLoopsContact } from "@mailpilot/loops";
 import { createContact as createResendContact } from "@mailpilot/resend";
 import prisma from "@/utils/prisma";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import { captureException } from "@/utils/error";
 
 const SCOPES = [
