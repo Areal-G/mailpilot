@@ -50,6 +50,17 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  // pwa
+  applicationName: "Mail Pilot",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Mail Pilot",
+    startupImage: ["/icons/icon-512x512.png"],
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 export const viewport = {
