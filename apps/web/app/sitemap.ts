@@ -45,6 +45,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: "https://www.mailpilot.dev/blog/post/bulk-unsubscribe-from-emails",
     },
     {
+      url: "https://www.mailpilot.dev/blog/post/escape-email-trap-unsubscribe-for-good",
+    },
+    {
       url: "https://docs.mailpilot.dev/",
     },
     {
