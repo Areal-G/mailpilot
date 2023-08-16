@@ -6,7 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: "https://www.mailpilot.dev/",
     },
     {
-      url: "https://www.mailpilot.dev/newsletter-cleaner",
+      url: "https://www.mailpilot.dev/bulk-email-unsubscriber",
     },
     {
       url: "https://www.mailpilot.dev/ai-automation",
