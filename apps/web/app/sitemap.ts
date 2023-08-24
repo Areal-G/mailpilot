@@ -1,7 +1,20 @@
 import type { MetadataRoute } from "next";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { postSlugsQuery } from "@/sanity/lib/queries";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+async function getBlogPosts() {
+  const posts = await sanityFetch<{ slug: string }[]>({
+    query: postSlugsQuery,
+  });
+  return posts.map((post) => ({
+    url: `https://www.mailpilot.dev/blog/post/${post.slug}`,
+  }));
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const blogPosts = await getBlogPosts();
+
+  const staticUrls = [
     {
       url: "https://www.mailpilot.dev/",
     },
@@ -63,4 +76,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: "https://docs.mailpilot.dev/essentials/cold-email-blocker",
     },
   ];
+
+  return [...staticUrls, ...blogPosts];
 }
