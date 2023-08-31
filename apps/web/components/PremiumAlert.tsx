@@ -51,9 +51,11 @@ export function usePremium() {
 function PremiumAlert({
   plan = "Mail Pilot Business",
   showSetApiKey,
+  className,
 }: {
   plan?: "Mail Pilot Business" | "Mail Pilot Pro";
   showSetApiKey: boolean;
+  className?: string;
 }) {
   const { PremiumModal, openModal } = usePremiumModal();
 
@@ -61,6 +63,7 @@ function PremiumAlert({
     <>
       <AlertWithButton
         title="Premium"
+        className={className}
         description={
           <>
             This is a premium feature. Upgrade to {plan}
@@ -90,7 +93,7 @@ function PremiumAlert({
   );
 }
 
-export function PremiumAlertWithData() {
+export function PremiumAlertWithData({ className }: { className?: string }) {
   const {
     hasAiAccess,
     isLoading: isLoadingPremium,
@@ -98,7 +101,12 @@ export function PremiumAlertWithData() {
   } = usePremium();
 
   if (!isLoadingPremium && !hasAiAccess)
-    return <PremiumAlert showSetApiKey={isProPlanWithoutApiKey} />;
+    return (
+      <PremiumAlert
+        showSetApiKey={isProPlanWithoutApiKey}
+        className={className}
+      />
+    );
 
   return null;
 }
