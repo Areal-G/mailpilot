@@ -1,4 +1,4 @@
-import { publishDelete, TinybirdEmailAction } from "@mailpilot/tinybird";
+import { publishDelete, type TinybirdEmailAction } from "@mailpilot/tinybird";
 import type { gmail_v1 } from "googleapis";
 
 // trash moves the thread/message to the trash folder
