@@ -15,15 +15,14 @@ export default function OnboardingPage({
 }) {
   return (
     <div className="mx-auto mt-8 max-w-5xl">
-      <PageHeading>Let's get you to Mail Pilot</PageHeading>
-      <TypographyP>
-        We'll help you get your inbox to zero and set you up with the tools you
-        need to stay there.
-      </TypographyP>
+      <PageHeading>First steps to Mail Pilot</PageHeading>
+      <TypographyP>Get to know Mail Pilot and set up your account.</TypographyP>
 
       <div className="my-8">
         <Steps
-          selectedStep={parseInt(searchParams.step || "1")}
+          selectedStep={
+            searchParams.step ? parseInt(searchParams.step) : undefined
+          }
           steps={[
             {
               title: "Bulk Unsubscriber",
