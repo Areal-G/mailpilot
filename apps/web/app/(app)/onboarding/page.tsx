@@ -23,7 +23,7 @@ export default function OnboardingPage({
       <PermissionsCheck />
       <LoadStats loadBefore showToast={false} />
 
-      <div className="px-4 lg:px-0">
+      <div className="px-4 xl:px-0">
         <PageHeading>First steps to Mail Pilot</PageHeading>
         <TypographyP>
           Get to know Mail Pilot and set up your account.
