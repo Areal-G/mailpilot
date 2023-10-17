@@ -175,7 +175,7 @@ export const tiers: {
 ];
 
 export const lifetimeFeatures = [
-  "Everything in Mail Pilot Business",
+  "Everything in Mail Pilot AI",
   "Priority support",
   "$100 of AI credits",
   "Early access to new features",
