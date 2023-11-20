@@ -1,9 +1,8 @@
 export const inboxZeroLabels = {
-  archived: "IZ Archived",
-  labeled: "IZ Labeled",
-  acted: "IZ Acted",
-  cold_email: "Cold Email",
-  unsubscribed: "Unsubscribed",
+  archived: "Mail Pilot/Archived",
+  acted: "Mail Pilot/Acted",
+  cold_email: "Mail Pilot/Cold Email",
+  unsubscribed: "Mail Pilot/Unsubscribed",
   // drafted: "Response Drafted by IZ",
   // suggested_label: "Label Suggested by IZ",
 };
