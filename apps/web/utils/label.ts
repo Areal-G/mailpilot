@@ -1,8 +1,9 @@
+export const PARENT_LABEL = "Mail Pilot";
+
 export const inboxZeroLabels = {
-  archived: "Mail Pilot/Archived",
-  acted: "Mail Pilot/Acted",
-  cold_email: "Mail Pilot/Cold Email",
-  unsubscribed: "Mail Pilot/Unsubscribed",
-  // drafted: "Response Drafted by IZ",
-  // suggested_label: "Label Suggested by IZ",
+  archived: `${PARENT_LABEL}/Archived`,
+  acted: `${PARENT_LABEL}/Acted`,
+  cold_email: `${PARENT_LABEL}/Cold Email`,
+  unsubscribed: `${PARENT_LABEL}/Unsubscribed`,
 };
+export type InboxZeroLabel = keyof typeof inboxZeroLabels;
