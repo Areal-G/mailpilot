@@ -37,9 +37,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: "https://www.mailpilot.dev/block-cold-emails",
     },
     {
-      url: "https://www.mailpilot.dev/new-email-senders",
-    },
-    {
       url: "https://www.mailpilot.dev/privacy",
     },
     {
