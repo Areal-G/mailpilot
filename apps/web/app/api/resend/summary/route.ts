@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { NextResponse } from "next/server";
-import { subHours } from "date-fns/subHours";
+import subHours from "date-fns/subHours";
 import { sendSummaryEmail } from "@mailpilot/resend";
 import { withError } from "@/utils/middleware";
 import { env } from "@/env";
