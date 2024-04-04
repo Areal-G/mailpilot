@@ -145,14 +145,13 @@ export function List({
         />
       ) : (
         <div className="mt-20">
-          <Celebration
-            message={
-              type === "inbox"
-                ? "You made it to Mail Pilot!"
-                : "All emails handled!"
-            }
-            confetti={type === "inbox"}
-          />
+          {type === "inbox" ? (
+            <Celebration message={"You made it to Mail Pilot!"} />
+          ) : (
+            <div className="flex items-center justify-center font-cal text-2xl text-primary">
+              No emails to display
+            </div>
+          )}
         </div>
       )}
     </>
