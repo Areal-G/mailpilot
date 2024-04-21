@@ -38,10 +38,11 @@ services:
       - mailpilot-network
 
   web:
+    image: ghcr.io/areal/mailpilot:latest
+    pull_policy: always
     build:
       context: .
       dockerfile: ./docker/Dockerfile.web
-    # image: ghcr.io/areal/mailpilot:latest
     env_file:
       - ./apps/web/.env
     depends_on:
