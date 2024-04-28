@@ -39,7 +39,7 @@ services:
 
   web:
     image: ghcr.io/areal/mailpilot:latest
-    pull_policy: always
+    pull_policy: if_not_present
     build:
       context: .
       dockerfile: ./docker/Dockerfile.prod
