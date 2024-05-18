@@ -4,7 +4,7 @@ set -e
 echo "🔧 Setting up private marketing content..."
 
 # Check if GitHub token is available
-if [ -z "$GITHUB_ACCESS_TOKEN" ]; then
+if [ -z "${GITHUB_ACCESS_TOKEN}" ]; then
     echo "⚠️  No GITHUB_ACCESS_TOKEN found - skipping private marketing setup"
     echo "ℹ️  This is normal for contributors and forks"
     echo "✅ Continuing with standard installation..."
@@ -16,7 +16,7 @@ fi
 cat > .gitmodules << EOF
 [submodule "(marketing)"]
 	path = apps/web/app/(marketing)
-	url = https://\${GITHUB_ACCESS_TOKEN}@github.com/mailpilot/marketing.git
+	url = https://${GITHUB_ACCESS_TOKEN}@github.com/mailpilot/marketing.git
 EOF
 
 echo "📁 Created .gitmodules file"
