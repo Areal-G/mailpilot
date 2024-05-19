@@ -11,22 +11,22 @@ if [ -z "${GITHUB_ACCESS_TOKEN}" ]; then
     exit 0
 fi
 
-# Create .gitmodules with token from environment
-# This allows Vercel to access our private marketing repository
+echo "🔑 GitHub token found, setting up marketing content..."
+
+# Create .gitmodules with authenticated URL
+echo "📝 Creating .gitmodules with authenticated URL..."
 cat > .gitmodules << EOF
-[submodule "(marketing)"]
+[submodule "apps/web/app/(marketing)"]
 	path = apps/web/app/(marketing)
 	url = https://${GITHUB_ACCESS_TOKEN}@github.com/mailpilot/marketing.git
 EOF
 
-echo "📁 Created .gitmodules file"
-
-# Initialize and update submodules
+# Initialize and update the submodule
 echo "🔄 Initializing marketing submodule..."
 git submodule update --init --recursive
 
+# Clean up .gitmodules after cloning
 echo "🧹 Cleaning up .gitmodules..."
-# Clean up - remove .gitmodules to avoid committing the token
-rm .gitmodules
+rm -f .gitmodules
 
 echo "✅ Private marketing setup complete!" 
