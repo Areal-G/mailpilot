@@ -171,6 +171,11 @@ const nextConfig: NextConfig = {
         destination: "https://email-blaster.vercel.app/",
         permanent: false,
       },
+      {
+        source: "/soc2",
+        destination: "https://trust.inc/mailpilot",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
