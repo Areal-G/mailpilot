@@ -173,7 +173,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/soc2",
-        destination: "https://trust.inc/mailpilot",
+        destination: "https://security.mailpilot.dev/",
         permanent: true,
       },
     ];
