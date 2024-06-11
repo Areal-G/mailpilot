@@ -97,58 +97,52 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/feature-requests",
-        destination: "https://mailpilot.featurebase.app",
+        destination: "https://go.mailpilot.dev/feature-requests",
         permanent: true,
       },
       {
         source: "/feedback",
-        destination: "https://mailpilot.featurebase.app",
-        permanent: true,
-      },
-      {
-        source: "/roadmap",
-        destination: "https://mailpilot.featurebase.app/roadmap",
+        destination: "https://go.mailpilot.dev/feedback",
         permanent: true,
       },
       {
         source: "/changelog",
-        destination: "https://mailpilot.featurebase.app/changelog",
+        destination: "https://go.mailpilot.dev/changelog",
         permanent: true,
       },
       {
         source: "/twitter",
-        destination: "https://twitter.com/mailpilot_ai",
+        destination: "https://go.mailpilot.dev/x",
         permanent: true,
       },
       {
         source: "/github",
-        destination: "https://github.com/areal/mailpilot",
+        destination: "https://go.mailpilot.dev/github",
         permanent: true,
       },
       {
         source: "/discord",
-        destination: "https://discord.gg/UnBwsydrug",
+        destination: "https://go.mailpilot.dev/discord",
         permanent: true,
       },
       {
         source: "/linkedin",
-        destination: "https://www.linkedin.com/company/mailpilot-ai/",
+        destination: "https://go.mailpilot.dev/linkedin",
         permanent: true,
       },
       {
         source: "/waitlist",
-        destination: "https://airtable.com/shr7HNx6FXaIxR5q6",
+        destination: "https://go.mailpilot.dev/waitlist",
         permanent: true,
       },
       {
         source: "/waitlist-other",
-        destination:
-          "https://airtable.com/applHl6PVBOa0Q8gD/pagRqrxRK1TChsAMp/form",
+        destination: "https://go.mailpilot.dev/waitlist-other",
         permanent: false,
       },
       {
         source: "/affiliates",
-        destination: "https://mailpilot.lemonsqueezy.com/affiliates",
+        destination: "https://go.mailpilot.dev/affiliate",
         permanent: true,
       },
       {
@@ -168,12 +162,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/game",
-        destination: "https://email-blaster.vercel.app/",
+        destination: "https://go.mailpilot.dev/game",
         permanent: false,
       },
       {
         source: "/soc2",
-        destination: "https://security.mailpilot.dev/",
+        destination: "https://go.mailpilot.dev/soc2",
         permanent: true,
       },
     ];
@@ -187,6 +181,14 @@ const nextConfig: NextConfig = {
       {
         source: "/vendor/lemon/affiliate.js",
         destination: "https://lmsqueezy.com/affiliate.js",
+      },
+      {
+        source: "/_proxy/dub/track/:path",
+        destination: "https://api.dub.co/track/:path",
+      },
+      {
+        source: "/_proxy/dub/script.js",
+        destination: "https://www.dubcdn.com/analytics/script.js",
       },
     ];
   },
