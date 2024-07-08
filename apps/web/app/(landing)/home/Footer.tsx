@@ -2,6 +2,11 @@ import Link from "next/link";
 
 const navigation = {
   main: [
+    {
+      name: "Mail Pilot Tabs (Chrome Extension)",
+      href: "https://go.mailpilot.dev/extension",
+      target: "_blank",
+    },
     { name: "AI Email Assistant", href: "/ai-automation" },
     { name: "Reply Zero", href: "/reply-zero-ai" },
     { name: "Bulk Email Unsubscriber", href: "/bulk-email-unsubscriber" },
