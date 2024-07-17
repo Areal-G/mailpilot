@@ -93,7 +93,6 @@ export default function DigestEmail(props: DigestEmailProps) {
   const {
     baseUrl = "https://www.mailpilot.dev",
     unsubscribeToken,
-    date,
     ruleNames,
     ...digestData
   } = props;
