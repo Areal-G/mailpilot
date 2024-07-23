@@ -24,6 +24,20 @@ const logger = createScopedLogger("auth");
 
 export const auth = betterAuth({
   advanced: {
+    crossSubDomainCookies: {
+      domain: "mailpilot.dev",
+      enabled: true,
+    },
+    cookie: {
+      sameSite: "none",
+      secure: true,
+      domain: "mailpilot.dev",
+      path: "/",
+    },
+    defaultCookieAttributes: {
+      secure: true,
+      sameSite: "none",
+    },
     ipAddress: {
       disableIpTracking: true,
     },
