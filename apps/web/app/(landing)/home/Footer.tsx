@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { EXTENSION_URL } from "@/utils/config";
 
 const navigation = {
   main: [
     {
       name: "Mail Pilot Tabs (Chrome Extension)",
-      href: "https://go.mailpilot.dev/extension",
+      href: EXTENSION_URL,
       target: "_blank",
     },
     { name: "AI Email Assistant", href: "/ai-automation" },
