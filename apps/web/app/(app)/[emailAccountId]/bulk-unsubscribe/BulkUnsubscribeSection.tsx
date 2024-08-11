@@ -221,6 +221,7 @@ export function BulkUnsubscribe() {
               <TextLink
                 href="https://docs.mailpilot.dev/essentials/bulk-email-unsubscriber"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 help center
               </TextLink>
