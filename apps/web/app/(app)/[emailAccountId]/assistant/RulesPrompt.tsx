@@ -342,13 +342,6 @@ function RulesPromptForm({
                 </Button>
               </Tooltip>
             </div>
-
-            {/* {showClearWarning && (
-              <Notice>
-                <strong>Note:</strong> Deleting text will delete rules. Add new
-                rules at the end to keep your existing rules.
-              </Notice>
-            )} */}
           </div>
         </form>
 
