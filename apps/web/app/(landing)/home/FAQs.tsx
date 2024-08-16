@@ -1,8 +1,56 @@
 const faqs = [
   {
-    question: "Can I still use Mail Pilot alongside my current email client?",
+    question: "Which email providers does Mail Pilot support?",
     answer:
-      "Yes! Mail Pilot is intended to be used alongside your existing email client.",
+      "We support Gmail, Google Workspace, and Microsoft Outlook email accounts.",
+  },
+  {
+    question: "Will Mail Pilot replace my current email client?",
+    answer:
+      "No! Mail Pilot isn't an email client. It's used alongside your existing email client. You continue to use Google or Outlook.",
+  },
+  {
+    question: "Do you offer refunds?",
+    answer: (
+      <>
+        Yes, if you don{"'"}t think we provided you with value send us an{" "}
+        <a
+          href="mailto:elie@mailpilot.dev"
+          target="_blank"
+          className="font-semibold hover:underline"
+          rel="noreferrer"
+        >
+          email
+        </a>{" "}
+        within 14 days of upgrading and we{"'"}ll refund you.
+      </>
+    ),
+  },
+  {
+    question: "How can I request a feature?",
+    answer: (
+      <>
+        Yes! Email{" "}
+        <a
+          href="mailto:elie@mailpilot.dev"
+          target="_blank"
+          className="font-semibold hover:underline"
+          rel="noreferrer"
+        >
+          us
+        </a>{" "}
+        or post an issue on{" "}
+        <a
+          href="/github"
+          target="_blank"
+          className="font-semibold hover:underline"
+          rel="noreferrer"
+        >
+          GitHub
+        </a>
+        . We{"'"}re happy to hear how we can improve your email experience.
+      </>
+    ),
   },
   {
     question: "Is the code open-source?",
@@ -18,54 +66,6 @@ const faqs = [
           GitHub repo
         </a>
         .
-      </>
-    ),
-  },
-  {
-    question: "Do you take feature requests?",
-    answer: (
-      <>
-        Yes! Post an issue on{" "}
-        <a
-          href="/github"
-          target="_blank"
-          className="font-semibold hover:underline"
-          rel="noreferrer"
-        >
-          GitHub
-        </a>{" "}
-        or{" "}
-        <a
-          href="mailto:elie@mailpilot.dev"
-          target="_blank"
-          className="font-semibold hover:underline"
-          rel="noreferrer"
-        >
-          email
-        </a>{" "}
-        us. We{"'"}re happy to hear how we can improve your email experience.
-      </>
-    ),
-  },
-  {
-    question: "Which email providers does Mail Pilot support?",
-    answer:
-      "We support Gmail, Google Workspace, and Microsoft Outlook email accounts.",
-  },
-  {
-    question: "Do you offer refunds?",
-    answer: (
-      <>
-        If you don{"'"}t think we provided you with value send us an{" "}
-        <a
-          href="mailto:elie@mailpilot.dev"
-          target="_blank"
-          className="font-semibold hover:underline"
-          rel="noreferrer"
-        >
-          email
-        </a>{" "}
-        within 14 days of upgrading and we{"'"}ll refund you.
       </>
     ),
   },
