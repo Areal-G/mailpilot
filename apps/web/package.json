@@ -34,6 +34,7 @@
     "@mailpilot/resend": "workspace:*",
     "@mailpilot/tinybird": "workspace:*",
     "@mailpilot/tinybird-ai-analytics": "workspace:*",
+    "@mailpilot/mcp": "workspace:*",
     "@lemonsqueezy/lemonsqueezy.js": "4.0.0",
     "@mdx-js/loader": "3.1.1",
     "@mdx-js/react": "3.1.1",
