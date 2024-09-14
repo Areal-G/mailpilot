@@ -150,9 +150,6 @@ importers:
       '@mailpilot/loops':
         specifier: workspace:*
         version: link:../../packages/loops
-      '@mailpilot/mcp':
-        specifier: workspace:*
-        version: link:../../packages/mcp
       '@mailpilot/resend':
         specifier: workspace:*
         version: link:../../packages/resend
