@@ -1,7 +1,6 @@
 import { deleteContact as deleteLoopsContact } from "@mailpilot/loops";
 import { deleteContact as deleteResendContact } from "@mailpilot/resend";
 import prisma from "@/utils/prisma";
-import { deleteInboxZeroLabels, deleteUserLabels } from "@/utils/redis/label";
 import { deleteTinybirdAiCalls } from "@mailpilot/tinybird-ai-analytics";
 import { deletePosthogUser, trackUserDeleted } from "@/utils/posthog";
 import { captureException } from "@/utils/error";
@@ -104,8 +103,6 @@ async function deleteResources({
   subscriptionId: string | null;
 }) {
   const resourcesPromise = Promise.allSettled([
-    deleteUserLabels({ emailAccountId }),
-    deleteInboxZeroLabels({ emailAccountId }),
     deleteLoopsContact(emailAccountId),
     deletePosthogUser({ email }),
     deleteResendContact({ email }),
