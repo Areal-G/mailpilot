@@ -2,10 +2,10 @@
 
 import clsx from "clsx";
 import Image from "next/image";
-import { Section } from "@/app/(landing)/new-landing/Section";
-import { Card } from "@/app/(landing)/new-landing/Card";
 import { cva } from "class-variance-authority";
-import { Paragraph } from "@/app/(landing)/new-landing/Typography";
+import { Section } from "@/components/new-landing/Section";
+import { Card } from "@/components/new-landing/Card";
+import { Paragraph } from "@/components/new-landing/Typography";
 
 type Testimonial = {
   body: string;
