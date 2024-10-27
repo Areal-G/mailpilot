@@ -3,7 +3,6 @@
 import { sso } from "@better-auth/sso";
 import { createContact as createLoopsContact } from "@mailpilot/loops";
 import { createContact as createResendContact } from "@mailpilot/resend";
-import type { Prisma } from "@prisma/client";
 import type { Account, AuthContext, User } from "better-auth";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
