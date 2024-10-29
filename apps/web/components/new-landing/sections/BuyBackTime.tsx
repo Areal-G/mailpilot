@@ -15,10 +15,13 @@ export function BuyBackTime() {
       style={{ backgroundPosition: "center 44%" }}
     >
       <Section>
-        <SectionHeading>Boost your productivity.</SectionHeading>
-        <SectionHeading>Start using Mail Pilot today.</SectionHeading>
+        <SectionHeading>
+          Get back an hour a day.
+          <br />
+          Start using Mail Pilot.
+        </SectionHeading>
         <SectionSubtitle>
-          Stop wasting half your day on email. Start using Mail Pilot today.
+          Less time in your inbox. More time for what actually matters.
         </SectionSubtitle>
         <SectionContent>
           <CallToAction
