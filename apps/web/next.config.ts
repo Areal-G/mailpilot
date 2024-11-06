@@ -49,6 +49,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.mailpilot.dev",
       },
+      {
+        protocol: "https",
+        hostname: "t1.gstatic.com",
+      },
     ],
   },
   async redirects() {
