@@ -8,7 +8,7 @@ import Link from "next/link";
 import { type Dispatch, type SetStateAction, useId } from "react";
 import { ArrowUpRight } from "lucide-react";
 
-const tabSelectButtonVariants = cva("p-4 transition-colors duration-75", {
+const tabSelectButtonVariants = cva("p-3 transition-colors duration-75", {
   variants: {
     variant: {
       default:
@@ -22,7 +22,7 @@ const tabSelectButtonVariants = cva("p-4 transition-colors duration-75", {
   },
 });
 
-const tabSelectIndicatorVariants = cva("absolute bottom-0 w-full px-1.5", {
+const tabSelectIndicatorVariants = cva("absolute bottom-0 w-full", {
   variants: {
     variant: {
       default: "text-bg-inverted",
@@ -67,6 +67,7 @@ export function TabSelect<T extends string>({
                 className={cn(
                   tabSelectButtonVariants({ variant }),
                   target === "_blank" && "group flex items-center gap-1.5",
+                  isSelected ? "" : "text-gray-500 hover:text-gray-700",
                 )}
                 data-selected={isSelected}
               >
