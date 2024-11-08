@@ -18,7 +18,7 @@ Connect to your VPS and install Docker Engine by following the [the official gui
 
 ### 2. Setup Docker Compose
 
-Create a directory for your Mail Pilot installation:
+Create a directory for your Mail Pilot installation (optional, but recommended for organization):
 
 ```bash
 mkdir mailpilot
