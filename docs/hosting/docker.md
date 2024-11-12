@@ -23,7 +23,6 @@ Connect to your VPS and install Docker Engine by following the [the official gui
 ```bash
 git clone https://github.com/areal/mailpilot.git
 cd mailpilot
-cp apps/web/.env.example apps/web/.env
 ```
 
 This is simpler if you want to easily update your deployment later with `git pull`.
@@ -34,17 +33,34 @@ This is simpler if you want to easily update your deployment later with `git pul
 mkdir mailpilot
 cd mailpilot
 curl -O https://raw.githubusercontent.com/areal/mailpilot/main/docker-compose.yml
-mkdir -p apps/web
-curl -o apps/web/.env https://raw.githubusercontent.com/areal/mailpilot/main/apps/web/.env.example
+mkdir -p apps/web docker/scripts
+curl -o apps/web/.env.example https://raw.githubusercontent.com/areal/mailpilot/main/apps/web/.env.example
+curl -o docker/scripts/setup-env.sh https://raw.githubusercontent.com/areal/mailpilot/main/docker/scripts/setup-env.sh
+chmod +x docker/scripts/setup-env.sh
 ```
 
 ### 3. Configure
 
-Edit the environment file with your production settings:
+Run the setup script to create your environment file with auto-generated secrets:
+
+```bash
+./docker/scripts/setup-env.sh
+```
+
+This will:
+- Copy `.env.example` to `.env`
+- Auto-generate all required secrets (AUTH_SECRET, encryption keys, etc.)
+
+Then edit the file to add your credentials:
 
 ```bash
 nano apps/web/.env
 ```
+
+You'll need to configure:
+- **Google OAuth**: `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`
+- **LLM Provider**: Uncomment one provider block and add your API key
+- **Optional**: Microsoft OAuth, external Redis, etc.
 
 For detailed configuration instructions, see the [Environment Variables Reference](./environment-variables.md).
 
@@ -138,8 +154,8 @@ If you prefer to build the image yourself instead of using the pre-built one:
 git clone https://github.com/areal/mailpilot.git
 cd mailpilot
 
-# Configure environment
-cp apps/web/.env.example apps/web/.env
+# Configure environment (auto-generates secrets)
+./docker/scripts/setup-env.sh
 nano apps/web/.env
 
 # Build and start
