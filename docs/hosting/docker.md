@@ -18,25 +18,11 @@ Connect to your VPS and install Docker Engine by following the [the official gui
 
 ### 2. Setup Docker Compose
 
-**Option A: Clone the repository**
+Clone the repository:
 
 ```bash
 git clone https://github.com/areal/mailpilot.git
 cd mailpilot
-```
-
-This is simpler if you want to easily update your deployment later with `git pull`.
-
-**Option B: Download only the necessary files**
-
-```bash
-mkdir mailpilot
-cd mailpilot
-curl -O https://raw.githubusercontent.com/areal/mailpilot/main/docker-compose.yml
-mkdir -p apps/web docker/scripts
-curl -o apps/web/.env.example https://raw.githubusercontent.com/areal/mailpilot/main/apps/web/.env.example
-curl -o docker/scripts/setup-env.sh https://raw.githubusercontent.com/areal/mailpilot/main/docker/scripts/setup-env.sh
-chmod +x docker/scripts/setup-env.sh
 ```
 
 ### 3. Configure
