@@ -6,6 +6,8 @@ import { OnboardingContent } from "@/app/(app)/[emailAccountId]/onboarding/Onboa
 import { fetchUserAndStoreUtms } from "@/app/(landing)/welcome/utms";
 import { auth } from "@/utils/auth";
 
+export const maxDuration = 300;
+
 export const metadata: Metadata = {
   title: "Onboarding | Mail Pilot",
   description: "Learn how Mail Pilot works and get set up.",
