@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
         ? [{ url: `${customHost}/api/v1`, description: "Custom host" }]
         : []),
       {
-        url: "https://mailpilot.dev/api/v1",
+        url: "https://www.mailpilot.dev/api/v1",
         description: "Production server",
       },
       { url: "http://localhost:3000/api/v1", description: "Local development" },
