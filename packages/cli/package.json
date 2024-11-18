@@ -1,0 +1,44 @@
+{
+  "name": "@mailpilot/cli",
+  "version": "1.0.0",
+  "description": "CLI tool for setting up Mail Pilot",
+  "type": "module",
+  "bin": {
+    "mailpilot": "./dist/mailpilot.js"
+  },
+  "scripts": {
+    "build": "bun build src/main.ts --outfile dist/mailpilot.js --target node",
+    "build:binary": "bun build src/main.ts --compile --outfile dist/mailpilot",
+    "build:binary:all": "pnpm build:binary:macos-arm64 && pnpm build:binary:macos-x64 && pnpm build:binary:linux-x64",
+    "build:binary:macos-arm64": "bun build src/main.ts --compile --target=bun-darwin-arm64 --outfile dist/mailpilot-darwin-arm64",
+    "build:binary:macos-x64": "bun build src/main.ts --compile --target=bun-darwin-x64 --outfile dist/mailpilot-darwin-x64",
+    "build:binary:linux-x64": "bun build src/main.ts --compile --target=bun-linux-x64 --outfile dist/mailpilot-linux-x64",
+    "dev": "bun run src/main.ts"
+  },
+  "dependencies": {
+    "@clack/prompts": "0.11.0",
+    "commander": "14.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.18",
+    "typescript": "5.7.3"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/areal/mailpilot.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [
+    "mailpilot",
+    "email",
+    "cli",
+    "setup"
+  ],
+  
+}
