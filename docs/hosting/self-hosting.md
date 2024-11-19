@@ -27,9 +27,10 @@ cd mailpilot
 
 ### 3. Configure
 
-Run the setup CLI to create your environment file with auto-generated secrets:
+Install dependencies and run the setup CLI to create your environment file with auto-generated secrets:
 
 ```bash
+npm install
 npm run setup
 ```
 
@@ -133,7 +134,8 @@ If you prefer to build the image yourself instead of using the pre-built one:
 git clone https://github.com/areal/mailpilot.git
 cd mailpilot
 
-# Configure environment (auto-generates secrets)
+# Install dependencies and configure environment (auto-generates secrets)
+npm install
 npm run setup
 nano apps/web/.env
 
