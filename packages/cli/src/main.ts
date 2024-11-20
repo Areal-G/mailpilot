@@ -67,7 +67,7 @@ async function main() {
   program
     .name("mailpilot")
     .description("CLI tool for running Mail Pilot - AI email assistant")
-    .version("2.21.16");
+    .version("2.21.38");
 
   program
     .command("setup")
