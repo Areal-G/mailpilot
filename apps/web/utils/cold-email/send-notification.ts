@@ -1,6 +1,5 @@
 import { sendColdEmailNotification as sendColdEmailNotificationViaResend } from "@mailpilot/resend";
 import { env } from "@/env";
-import { getErrorMessage } from "@/utils/error";
 import type { Logger } from "@/utils/logger";
 import { formatReplySubject } from "@/utils/email/subject";
 
