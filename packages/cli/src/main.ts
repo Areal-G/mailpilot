@@ -995,7 +995,7 @@ const isMainModule =
   process.argv[1] &&
   (process.argv[1].endsWith("main.ts") ||
     process.argv[1].endsWith("mailpilot.js") ||
-    process.argv[1].endsWith("mailpilot"));
+    process.argv[1].includes("mailpilot"));
 
 if (isMainModule) {
   main().catch((error) => {
