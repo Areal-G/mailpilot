@@ -1,6 +1,8 @@
 name: CLI Release
 
 on:
+  push:
+    tags: ["v*"]
   workflow_dispatch:
 
 permissions:
@@ -64,8 +66,13 @@ jobs:
       - name: Get version
         id: version
         run: |
-          VERSION=$(cat version.txt | tr -d 'v' | tr -d '\n')
+          if [ "${GITHUB_REF_TYPE}" != "tag" ]; then
+            echo "This workflow must be run from a tag ref (got: ${GITHUB_REF_TYPE} '${GITHUB_REF_NAME}')" >&2
+            exit 1
+          fi
+          VERSION="${GITHUB_REF_NAME#v}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=$GITHUB_REF_NAME" >> $GITHUB_OUTPUT
 
       - name: Calculate SHA256
         id: sha
@@ -74,52 +81,14 @@ jobs:
           echo "darwin_x64=$(sha256sum artifacts/mailpilot-darwin-x64/mailpilot-darwin-x64.tar.gz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
           echo "linux_x64=$(sha256sum artifacts/mailpilot-linux-x64/mailpilot-linux-x64.tar.gz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
 
-      - name: Create Release
+      - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: cli-v${{ steps.version.outputs.version }}
-          name: CLI v${{ steps.version.outputs.version }}
-          draft: false
-          prerelease: false
+          tag_name: ${{ steps.version.outputs.tag }}
           files: |
             artifacts/mailpilot-darwin-arm64/mailpilot-darwin-arm64.tar.gz
             artifacts/mailpilot-darwin-x64/mailpilot-darwin-x64.tar.gz
             artifacts/mailpilot-linux-x64/mailpilot-linux-x64.tar.gz
-          body: |
-            ## Mail Pilot CLI v${{ steps.version.outputs.version }}
-
-            ### Installation
-
-            **Homebrew (macOS/Linux):**
-            ```bash
-            brew tap mailpilot/mailpilot https://github.com/areal/mailpilot.git
-            brew install mailpilot
-            ```
-
-            **Manual installation:**
-            ```bash
-            # macOS (Apple Silicon)
-            curl -L https://github.com/areal/mailpilot/releases/download/cli-v${{ steps.version.outputs.version }}/mailpilot-darwin-arm64.tar.gz | tar xz
-            chmod +x mailpilot-darwin-arm64
-            sudo mv mailpilot-darwin-arm64 /usr/local/bin/mailpilot
-
-            # macOS (Intel)
-            curl -L https://github.com/areal/mailpilot/releases/download/cli-v${{ steps.version.outputs.version }}/mailpilot-darwin-x64.tar.gz | tar xz
-            chmod +x mailpilot-darwin-x64
-            sudo mv mailpilot-darwin-x64 /usr/local/bin/mailpilot
-
-            # Linux
-            curl -L https://github.com/areal/mailpilot/releases/download/cli-v${{ steps.version.outputs.version }}/mailpilot-linux-x64.tar.gz | tar xz
-            chmod +x mailpilot-linux-x64
-            sudo mv mailpilot-linux-x64 /usr/local/bin/mailpilot
-            ```
-
-            ### SHA256 Checksums
-            ```
-            ${{ steps.sha.outputs.darwin_arm64 }}  mailpilot-darwin-arm64.tar.gz
-            ${{ steps.sha.outputs.darwin_x64 }}  mailpilot-darwin-x64.tar.gz
-            ${{ steps.sha.outputs.linux_x64 }}  mailpilot-linux-x64.tar.gz
-            ```
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -133,6 +102,9 @@ jobs:
           
           # Update version
           content = re.sub(r'version "[^"]*"', 'version "${{ steps.version.outputs.version }}"', content)
+          
+          # Update URLs to current version (handles both cli-v* and v* formats)
+          content = re.sub(r'releases/download/(?:cli-)?v[^/]+/', 'releases/download/${{ steps.version.outputs.tag }}/', content)
           
           # Update SHA256 for darwin-arm64 (first sha256 after "on_arm do")
           content = re.sub(
@@ -166,6 +138,6 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add Formula/mailpilot.rb
-          git diff --staged --quiet || git commit -m "chore: update Homebrew formula for CLI v${{ steps.version.outputs.version }}"
-          git push origin HEAD:${{ github.ref_name }}
+          git diff --staged --quiet || git commit -m "chore: update Homebrew formula for ${{ steps.version.outputs.tag }}"
+          git push origin HEAD:main
 
