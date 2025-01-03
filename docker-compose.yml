@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:16
     restart: always
-    container_name: mailpilot
+    # container_name: mailpilot
     environment:
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_DB=${POSTGRES_DB:-mailpilot}
