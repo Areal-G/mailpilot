@@ -55,6 +55,7 @@ services:
 
   web:
     image: ghcr.io/areal/mailpilot:latest
+    pull_policy: always
     env_file:
       - ./apps/web/.env
     depends_on:
