@@ -4,6 +4,8 @@ services:
     image: postgres:16
     restart: always
     # container_name: mailpilot
+    env_file:
+      - ./apps/web/.env
     environment:
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_DB=${POSTGRES_DB:-mailpilot}
