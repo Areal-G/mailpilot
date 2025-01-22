@@ -20,6 +20,8 @@ preconditions:
   - "Signed into Outlook test account in another tab"
   - "Signed into Gmail test account in another tab"
   - "Mail Pilot is connected to both Gmail and Outlook"
+cleanup:
+  - close all tabs used for the test
 tags:
   - rules
   - outlook
@@ -32,15 +34,16 @@ Verify that enabling the To Reply rule results in a Gmail label and a reply draf
 
 ## Steps
 
-1. In Mail Pilot, open the Assistant page.
-2. Find the "To Reply" rule and verify it is enabled; if not, toggle it on and save.
-3. In Outlook (outlook.com), compose a new email to the Gmail test account.
-4. Use a subject/body that clearly needs a reply (for example: "Quick question" and "Can you confirm availability for a call tomorrow?").
-5. Send the email.
-6. In Gmail, wait for the message to arrive in the inbox.
-7. Wait a bit longer for automation to run.
-8. Verify the message shows the "To Reply" label in Gmail.
-9. Open the message (or inspect the conversation list) and confirm a reply draft exists for the thread.
+1. In Mail Pilot, assign the Gmail test account in the upper-left user selector. 
+2. Open the Assistant page.
+3. Find the "To Reply" rule and verify it is enabled; if not, toggle it on and save.
+4. In Outlook (outlook.com), compose a new email to the Gmail test account (type the gmail address directly in the "To" field. Do not click the "TO" text).
+5. Use a subject/body that clearly needs a reply (for example: "Quick question" and "Movie preferences" - DO NOT use subject/body that request calendar availability).
+6. Send the email.
+7. In Gmail, wait for the message to arrive in the inbox.
+8. Wait a bit longer for automation to run.
+9. Verify the message shows the "To Reply" label in Gmail.
+10. Open the message (or inspect the conversation list) and confirm a reply draft exists for the thread.
 
 ## Expected results
 
@@ -57,4 +60,4 @@ Verify that enabling the To Reply rule results in a Gmail label and a reply draf
 
 ## Cleanup
 
-- None.
+- close all tabs used for the test.
