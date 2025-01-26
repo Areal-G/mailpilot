@@ -43,6 +43,7 @@
     "@hookform/resolvers": "3.9.1",
     "@mailpilot/loops": "workspace:*",
     "@mailpilot/resend": "workspace:*",
+    "@mailpilot/slack": "workspace:*",
     "@mailpilot/tinybird": "workspace:*",
     "@mailpilot/tinybird-ai-analytics": "workspace:*",
     "@lemonsqueezy/lemonsqueezy.js": "4.0.0",
