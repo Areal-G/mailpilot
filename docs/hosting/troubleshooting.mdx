@@ -3,14 +3,25 @@ title: 'Troubleshooting'
 description: 'Solutions for common issues when running Mail Pilot'
 ---
 
-## Container Won't Start
+## Viewing Logs
 
-**Check logs for errors:**
+If you installed via the CLI, use the built-in logs command:
+```bash
+mailpilot logs            # Show last 100 lines
+mailpilot logs -f         # Follow logs in real-time
+mailpilot logs -n 500     # Show last 500 lines
+```
+
+If you're running Docker directly, use:
 ```bash
 docker logs mailpilot-services-web-1
 docker logs mailpilot-services-db-1
 docker logs mailpilot-services-redis-1
 ```
+
+## Container Won't Start
+
+Check logs for errors using the commands above.
 
 **Common issues:**
 - **Port conflicts**: Another service is using port 3000, 5432, or 6379
