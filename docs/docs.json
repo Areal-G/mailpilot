@@ -1,0 +1,92 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Mail Pilot Documentation",
+  "colors": {
+    "primary": "#2563eb",
+    "light": "#60a5fa",
+    "dark": "#2563eb"
+  },
+  "favicon": "/favicon.png",
+  "navigation": {
+    "anchors": [
+      {
+        "anchor": "Documentation",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "development"
+            ]
+          },
+          {
+            "group": "Essentials",
+            "pages": [
+              "essentials/email-ai-personal-assistant",
+              "essentials/mailpilot-tabs-extension",
+              "essentials/bulk-email-unsubscriber",
+              "essentials/cold-email-blocker",
+              "essentials/email-analytics",
+              "essentials/calendar-integration",
+              "essentials/reply-zero",
+              "essentials/smart-categories",
+              "essentials/faq"
+            ]
+          },
+          {
+            "group": "API",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/endpoint/get-statsby-period",
+              "api-reference/endpoint/get-statsresponse-time",
+              "api-reference/endpoint/get-group-emails"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Community",
+          "href": "https://mailpilot.dev/discord",
+          "icon": "discord"
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://www.mailpilot.dev/blog",
+          "icon": "newspaper"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "api": {
+    "openapi": "openapi.json"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:elie@mailpilot.dev"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://www.mailpilot.dev/welcome"
+    }
+  },
+  "footer": {
+    "socials": {
+      "twitter": "https://www.mailpilot.dev/twitter",
+      "github": "https://www.mailpilot.dev/github",
+      "linkedin": "https://www.mailpilot.dev/linkedin"
+    }
+  }
+}
