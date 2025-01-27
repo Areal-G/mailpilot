@@ -1,6 +1,6 @@
 {
   "name": "@mailpilot/cli",
-  "version": "1.0.0",
+  "version": "2.28.0",
   "description": "CLI tool for setting up and managing Mail Pilot - AI email assistant",
   "type": "module",
   "bin": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "bun build src/main.ts --outfile bin/mailpilot.js --target node",
-    "prepublishOnly": "pnpm build",
+    "prepublishOnly": "bun run build",
     "build:binary": "bun build src/main.ts --compile --outfile dist/mailpilot",
     "build:binary:all": "pnpm build:binary:macos-arm64 && pnpm build:binary:macos-x64 && pnpm build:binary:linux-x64",
     "build:binary:macos-arm64": "bun build src/main.ts --compile --target=bun-darwin-arm64 --outfile dist/mailpilot-darwin-arm64",
