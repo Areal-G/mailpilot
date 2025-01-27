@@ -1,0 +1,88 @@
+---
+title: 'Quick Start'
+description: 'Self-host Mail Pilot in under 5 minutes'
+---
+
+The fastest way to self-host Mail Pilot is with two commands:
+
+```bash
+npx @mailpilot/cli setup      # One-time setup wizard
+npx @mailpilot/cli start      # Start containers
+```
+
+Then open [http://localhost:3000](http://localhost:3000) (or your domain).
+
+<Info>
+  **Prerequisites:** [Docker](https://docs.docker.com/engine/install/) and [Node.js](https://nodejs.org/) v22+ must be installed.
+</Info>
+
+## What the CLI Does
+
+- **`setup`** downloads the Docker Compose file, creates your `.env`, and walks you through configuring Google/Microsoft OAuth and your AI provider. For manual configuration, see the [Setup Guides](/hosting/setup-guides).
+- **`start`** pulls the latest pre-built Docker image from `ghcr.io/areal/mailpilot:latest` and starts all containers (app, Postgres, Redis).
+
+## Install Options
+
+You can also install the CLI globally instead of using `npx`:
+
+<CodeGroup>
+
+```bash npm
+npm install -g @mailpilot/cli
+mailpilot setup
+mailpilot start
+```
+
+```bash Homebrew
+brew install mailpilot/mailpilot/mailpilot
+mailpilot setup
+mailpilot start
+```
+
+</CodeGroup>
+
+## CLI Command Reference
+
+| Command | Description |
+|---------|-------------|
+| `mailpilot setup` | One-time setup wizard |
+| `mailpilot start` | Start containers |
+| `mailpilot stop` | Stop containers |
+| `mailpilot update` | Pull latest image and restart |
+| `mailpilot logs -f` | Follow container logs |
+| `mailpilot status` | Show container status |
+| `mailpilot config` | Interactive configuration editor |
+| `mailpilot config set <key> <value>` | Set a config value |
+| `mailpilot config get <key>` | Get a config value |
+
+## Updating
+
+To update to the latest version:
+
+```bash
+mailpilot update
+```
+
+Or manually with Docker Compose:
+
+```bash
+docker compose pull web
+NEXT_PUBLIC_BASE_URL=https://yourdomain.com docker compose --profile all up -d
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Setup Guides" icon="wrench" href="/hosting/setup-guides">
+    Manual configuration for Google OAuth, Microsoft OAuth, PubSub, and AI providers.
+  </Card>
+  <Card title="Self-Hosting Guide" icon="server" href="/hosting/self-hosting">
+    Production deployment, Docker profiles, and scheduled tasks.
+  </Card>
+  <Card title="AWS Deployment" icon="aws" href="/hosting/aws">
+    Deploy on AWS using EC2, Terraform, or AWS Copilot.
+  </Card>
+  <Card title="Troubleshooting" icon="life-ring" href="/hosting/troubleshooting">
+    Solutions for common issues like OAuth errors, rate limiting, and more.
+  </Card>
+</CardGroup>
