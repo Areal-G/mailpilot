@@ -11,6 +11,7 @@ import {
   generateEnvFile,
   isSensitiveKey,
   parseEnvFile,
+  parsePortConflict,
   updateEnvValue,
   redactValue,
   type EnvConfig,
@@ -132,25 +133,29 @@ async function main() {
 
   program
     .name("mailpilot")
-    .description("CLI tool for running Mail Pilot - AI email assistant")
-    .version(packageJson.version);
+    .description(
+      "CLI tool for self-hosting Mail Pilot — AI email assistant.\n\n" +
+        "Quick start:\n" +
+        "  mailpilot setup      Configure Google OAuth, AI provider, and Docker\n" +
+        "  mailpilot start      Start Mail Pilot\n" +
+        "  mailpilot config     View and update settings\n\n" +
+        "Docs: https://docs.mailpilot.dev/self-hosting",
+    )
+    .version(packageJson.version, "-v, --version");
 
   program
     .command("setup")
-    .description("Interactive setup for Mail Pilot")
+    .description("Interactive setup wizard")
     .option("-n, --name <name>", "Configuration name (creates .env.<name>)")
     .action(runSetup);
 
   program
     .command("start")
-    .description("Start Mail Pilot containers")
-    .option("--no-detach", "Run in foreground (default: runs in background)")
+    .description("Start Mail Pilot")
+    .option("--no-detach", "Run in foreground (default: background)")
     .action(runStart);
 
-  program
-    .command("stop")
-    .description("Stop Mail Pilot containers")
-    .action(runStop);
+  program.command("stop").description("Stop Mail Pilot").action(runStop);
 
   program
     .command("logs")
@@ -161,12 +166,12 @@ async function main() {
 
   program
     .command("status")
-    .description("Show status of Mail Pilot containers")
+    .description("Show container status")
     .action(runStatus);
 
   program
     .command("update")
-    .description("Pull latest Mail Pilot image")
+    .description("Update to the latest version")
     .action(runUpdate);
 
   const configCmd = program
@@ -323,15 +328,28 @@ async function runSetupQuick(options: { name?: string }) {
 
   p.note(
     "You need a Google OAuth app to connect your Gmail.\n\n" +
-      "1. Open: https://console.cloud.google.com/apis/credentials\n" +
-      `2. Click "Create Credentials" → "OAuth client ID"\n` +
-      `3. Select "Web application"\n` +
-      `4. Under "Authorized redirect URIs" add:\n` +
-      `   ${callbackUrl}\n` +
-      `   ${linkingCallbackUrl}\n` +
-      "5. Copy the Client ID and Client Secret\n\n" +
-      "Full guide: https://docs.mailpilot.dev/self-hosting/google-oauth",
-    "Step 1 of 3: Google OAuth",
+      "First, set up the OAuth consent screen:\n" +
+      "1. Open: https://console.cloud.google.com/apis/credentials/consent\n" +
+      "2. User type:\n" +
+      '   - "Internal" — Google Workspace only, all org members can sign in\n' +
+      '   - "External" — works with any Google account (including personal Gmail)\n' +
+      "     You'll need to add yourself as a test user (step 5)\n" +
+      "3. Fill in the app name and your email\n" +
+      '4. Click "Save and Continue" through the scopes section\n' +
+      "5. If External: add your email as a test user\n" +
+      "6. Complete the wizard\n\n" +
+      "Then, create OAuth credentials:\n" +
+      "7. Open: https://console.cloud.google.com/apis/credentials\n" +
+      `8. Click "Create Credentials" → "OAuth client ID"\n` +
+      `9. Select "Web application"\n` +
+      `10. Under "Authorized redirect URIs" add:\n` +
+      `    ${callbackUrl}\n` +
+      `    ${linkingCallbackUrl}\n` +
+      "11. Copy the Client ID and Client Secret\n\n" +
+      "If External: you'll see a \"This app isn't verified\" warning when\n" +
+      'signing in. Click "Advanced" then "Go to [app name]" to proceed.\n\n' +
+      "Full guide: https://docs.mailpilot.dev/hosting/setup-guides",
+    "Step 1 of 4: Google OAuth",
   );
 
   const googleClientId = await p.text({
@@ -356,7 +374,7 @@ async function runSetupQuick(options: { name?: string }) {
 
   p.note(
     "Choose which AI service will process your emails.",
-    "Step 2 of 3: AI Provider",
+    "Step 2 of 4: AI Provider",
   );
 
   const llmProvider = await p.select({
@@ -369,47 +387,52 @@ async function runSetupQuick(options: { name?: string }) {
   const llmEnv: EnvConfig = { DEFAULT_LLM_PROVIDER: llmProvider };
   await promptLlmCredentials(llmProvider, llmEnv);
 
+  // ── Step 3: Google Pub/Sub ──
+
+  // Generate token early so we can show it in the instructions
+  const pubsubVerificationToken = generateSecret(32);
+
+  p.note(
+    "Google Pub/Sub enables real-time email notifications.\n\n" +
+      "1. Go to: https://console.cloud.google.com/cloudpubsub/topic/list\n" +
+      '2. Create a topic (e.g., "mailpilot-emails")\n' +
+      "3. Grant Gmail publish access to your topic:\n" +
+      "   - Click your topic name to open it\n" +
+      '   - Go to the "Permissions" tab\n' +
+      '   - Click "Add Principal"\n' +
+      "   - Principal: gmail-api-push@system.gserviceaccount.com\n" +
+      '   - Role: "Pub/Sub Publisher"\n' +
+      '   - Click "Save"\n' +
+      "4. Create a push subscription:\n" +
+      '   - Click "Create Subscription"\n' +
+      '   - Delivery type: "Push"\n' +
+      "   - Endpoint URL:\n" +
+      `     https://yourdomain.com/api/google/webhook?token=${pubsubVerificationToken}\n` +
+      "     (replace yourdomain.com with your actual domain)\n\n" +
+      "Press Enter to skip — configure later with: mailpilot config",
+    "Step 3 of 4: Google Pub/Sub (optional)",
+  );
+
+  const pubsubTopic = await p.text({
+    message: "Google Pub/Sub Topic Name",
+    placeholder: "projects/your-project-id/topics/mailpilot-emails",
+    validate: (v) => {
+      if (!v) return undefined;
+      if (!v.startsWith("projects/") || !v.includes("/topics/")) {
+        return "Topic name must be in format: projects/PROJECT_ID/topics/TOPIC_NAME";
+      }
+      return undefined;
+    },
+  });
+
+  if (p.isCancel(pubsubTopic)) {
+    p.cancel("Setup cancelled.");
+    process.exit(0);
+  }
+
   // ── Generate config ──
 
-  const spinner = p.spinner();
-  spinner.start("Generating configuration...");
-
-  const redisToken = generateSecret(32);
-  const env: EnvConfig = {
-    NODE_ENV: "production",
-    // Database (Docker internal networking)
-    POSTGRES_USER: "postgres",
-    POSTGRES_PASSWORD: generateSecret(16),
-    POSTGRES_DB: "mailpilot",
-    DATABASE_URL: `postgresql://postgres:${generateSecret(16)}@db:5432/mailpilot`,
-    UPSTASH_REDIS_TOKEN: redisToken,
-    UPSTASH_REDIS_URL: "http://serverless-redis-http:80",
-    INTERNAL_API_URL: "http://web:3000",
-    // Secrets
-    AUTH_SECRET: generateSecret(32),
-    EMAIL_ENCRYPT_SECRET: generateSecret(32),
-    EMAIL_ENCRYPT_SALT: generateSecret(16),
-    INTERNAL_API_KEY: generateSecret(32),
-    API_KEY_SALT: generateSecret(32),
-    CRON_SECRET: generateSecret(32),
-    GOOGLE_PUBSUB_VERIFICATION_TOKEN: generateSecret(32),
-    // Google OAuth
-    GOOGLE_CLIENT_ID: googleClientId || "your-google-client-id",
-    GOOGLE_CLIENT_SECRET: googleClientSecret || "your-google-client-secret",
-    GOOGLE_PUBSUB_TOPIC_NAME:
-      "projects/your-project-id/topics/mailpilot-emails",
-    // LLM
-    ...llmEnv,
-    // App
-    NEXT_PUBLIC_BASE_URL: "http://localhost:3000",
-    NEXT_PUBLIC_BYPASS_PREMIUM_CHECKS: "true",
-  };
-
-  // Fix DATABASE_URL to use the actual password
-  env.DATABASE_URL = `postgresql://${env.POSTGRES_USER}:${env.POSTGRES_PASSWORD}@db:5432/${env.POSTGRES_DB}`;
-  env.DIRECT_URL = env.DATABASE_URL;
-
-  // Determine file paths
+  // Determine file paths first so we can read existing config
   const configDir = REPO_ROOT ?? STANDALONE_CONFIG_DIR;
   const envFileName = configName ? `.env.${configName}` : ".env";
   const envFile = REPO_ROOT
@@ -423,7 +446,6 @@ async function runSetupQuick(options: { name?: string }) {
 
   // Check if already configured
   if (existsSync(envFile)) {
-    spinner.stop("Paused");
     const overwrite = await p.confirm({
       message: "Existing configuration found. Overwrite it?",
       initialValue: false,
@@ -432,8 +454,47 @@ async function runSetupQuick(options: { name?: string }) {
       p.cancel("Setup cancelled. Existing configuration preserved.");
       process.exit(0);
     }
-    spinner.start("Generating configuration...");
   }
+
+  const spinner = p.spinner();
+  spinner.start("Generating configuration...");
+
+  // Reuse existing database password to avoid mismatch with Docker volume
+  const existingDbPassword = readExistingDbPassword(envFile);
+
+  const redisToken = generateSecret(32);
+  const dbPassword = existingDbPassword || generateSecret(16);
+  const env: EnvConfig = {
+    NODE_ENV: "production",
+    // Database (Docker internal networking)
+    POSTGRES_USER: "postgres",
+    POSTGRES_PASSWORD: dbPassword,
+    POSTGRES_DB: "mailpilot",
+    DATABASE_URL: `postgresql://postgres:${dbPassword}@db:5432/mailpilot`,
+    UPSTASH_REDIS_TOKEN: redisToken,
+    UPSTASH_REDIS_URL: "http://serverless-redis-http:80",
+    INTERNAL_API_URL: "http://web:3000",
+    // Secrets
+    AUTH_SECRET: generateSecret(32),
+    EMAIL_ENCRYPT_SECRET: generateSecret(32),
+    EMAIL_ENCRYPT_SALT: generateSecret(16),
+    INTERNAL_API_KEY: generateSecret(32),
+    API_KEY_SALT: generateSecret(32),
+    CRON_SECRET: generateSecret(32),
+    GOOGLE_PUBSUB_VERIFICATION_TOKEN: pubsubVerificationToken,
+    // Google OAuth
+    GOOGLE_CLIENT_ID: googleClientId || "your-google-client-id",
+    GOOGLE_CLIENT_SECRET: googleClientSecret || "your-google-client-secret",
+    GOOGLE_PUBSUB_TOPIC_NAME:
+      pubsubTopic || "projects/your-project-id/topics/mailpilot-emails",
+    // LLM
+    ...llmEnv,
+    // App
+    NEXT_PUBLIC_BASE_URL: "http://localhost:3000",
+    NEXT_PUBLIC_BYPASS_PREMIUM_CHECKS: "true",
+  };
+
+  env.DIRECT_URL = env.DATABASE_URL;
 
   // Fetch docker-compose.yml if not in the repo
   if (!REPO_ROOT) {
@@ -493,19 +554,37 @@ async function runSetupQuick(options: { name?: string }) {
     return;
   }
 
+  // Check if already running
+  const composeArgs = REPO_ROOT ? ["compose"] : ["compose", "-f", composeFile];
+
+  if (checkContainersRunning(composeArgs)) {
+    const restart = await p.confirm({
+      message: "Mail Pilot is already running. Restart?",
+      initialValue: true,
+    });
+    if (p.isCancel(restart) || !restart) {
+      p.note(
+        "Mail Pilot is still running at http://localhost:3000",
+        "Already running",
+      );
+      p.outro("Setup complete!");
+      return;
+    }
+    const stopSpinner = p.spinner();
+    stopSpinner.start("Stopping existing containers...");
+    await runDockerCommand([...composeArgs, "down"]);
+    stopSpinner.stop("Stopped");
+  }
+
   // Pull and start
   const pullSpinner = p.spinner();
   pullSpinner.start("Pulling Docker images (this may take a minute)...");
 
-  const composeArgs = REPO_ROOT ? ["compose"] : ["compose", "-f", composeFile];
-
-  const pullResult = spawnSync("docker", [...composeArgs, "pull"], {
-    stdio: "pipe",
-  });
+  const pullResult = await runDockerCommand([...composeArgs, "pull"]);
 
   if (pullResult.status !== 0) {
     pullSpinner.stop("Failed to pull images");
-    p.log.error(pullResult.stderr?.toString() || "Unknown error");
+    p.log.error(pullResult.stderr || "Unknown error");
     p.log.info("You can try again later with: mailpilot start");
     process.exit(1);
   }
@@ -515,15 +594,26 @@ async function runSetupQuick(options: { name?: string }) {
   const startSpinner = p.spinner();
   startSpinner.start("Starting Mail Pilot...");
 
-  const upResult = spawnSync(
-    "docker",
-    [...composeArgs, "--profile", "all", "up", "-d"],
-    { stdio: "pipe" },
-  );
+  const upResult = await runDockerCommand([
+    ...composeArgs,
+    "--profile",
+    "all",
+    "up",
+    "-d",
+  ]);
 
   if (upResult.status !== 0) {
+    const portError = parsePortConflict(upResult.stderr);
     startSpinner.stop("Failed to start");
-    p.log.error(upResult.stderr?.toString() || "Unknown error");
+    if (portError) {
+      p.log.error(portError);
+      p.log.info(
+        "Stop the conflicting process or update the port mapping\n" +
+          "in your .env file and docker-compose.yml, then retry.",
+      );
+    } else {
+      p.log.error(upResult.stderr || "Unknown error");
+    }
     p.log.info("You can try again with: mailpilot start");
     process.exit(1);
   }
@@ -855,7 +945,9 @@ Full guide: https://docs.mailpilot.dev/self-hosting/microsoft-oauth`,
   if (useDockerInfra) {
     // Using Docker Compose for Postgres/Redis
     env.POSTGRES_USER = "postgres";
-    env.POSTGRES_PASSWORD = isDevMode ? "password" : generateSecret(16);
+    env.POSTGRES_PASSWORD =
+      readExistingDbPassword(envFile) ||
+      (isDevMode ? "password" : generateSecret(16));
     env.POSTGRES_DB = "mailpilot";
     env.UPSTASH_REDIS_TOKEN = redisToken;
 
@@ -1041,18 +1133,31 @@ async function runStart(options: { detach: boolean }) {
 
   p.intro("🚀 Starting Mail Pilot");
 
+  const composeArgs = ["compose", "-f", STANDALONE_COMPOSE_FILE];
+
+  if (checkContainersRunning(composeArgs)) {
+    const restart = await p.confirm({
+      message: "Mail Pilot is already running. Restart?",
+      initialValue: true,
+    });
+    if (p.isCancel(restart) || !restart) {
+      p.outro("Mail Pilot is already running.");
+      return;
+    }
+    const stopSpinner = p.spinner();
+    stopSpinner.start("Stopping existing containers...");
+    await runDockerCommand([...composeArgs, "down"]);
+    stopSpinner.stop("Stopped");
+  }
+
   const spinner = p.spinner();
   spinner.start("Pulling latest image...");
 
-  const pullResult = spawnSync(
-    "docker",
-    ["compose", "-f", STANDALONE_COMPOSE_FILE, "pull"],
-    { stdio: "pipe" },
-  );
+  const pullResult = await runDockerCommand([...composeArgs, "pull"]);
 
   if (pullResult.status !== 0) {
     spinner.stop("Failed to pull image");
-    p.log.error(pullResult.stderr?.toString() || "Unknown error");
+    p.log.error(pullResult.stderr || "Unknown error");
     process.exit(1);
   }
 
@@ -1060,27 +1165,29 @@ async function runStart(options: { detach: boolean }) {
 
   if (options.detach) {
     spinner.start("Starting containers...");
-  } else {
-    spinner.stop("Starting containers in foreground...");
-  }
 
-  const args = ["compose", "-f", STANDALONE_COMPOSE_FILE, "up"];
-  if (options.detach) {
-    args.push("-d");
-  }
+    const upResult = await runDockerCommand([
+      ...composeArgs,
+      "--profile",
+      "all",
+      "up",
+      "-d",
+    ]);
 
-  const upResult = spawnSync("docker", args, {
-    stdio: options.detach ? "pipe" : "inherit",
-  });
-
-  if (options.detach) {
     if (upResult.status !== 0) {
+      const portError = parsePortConflict(upResult.stderr);
       spinner.stop("Failed to start");
-      p.log.error(
-        upResult.error?.message ||
-          upResult.stderr?.toString() ||
-          `Unknown error (status: ${upResult.status})`,
-      );
+      if (portError) {
+        p.log.error(portError);
+        p.log.info(
+          "Stop the conflicting process or change the port:\n" +
+            "  mailpilot config set WEB_PORT <port>\n" +
+            "  mailpilot config set POSTGRES_PORT <port>\n" +
+            "  mailpilot config set REDIS_PORT <port>",
+        );
+      } else {
+        p.log.error(upResult.stderr || "Unknown error");
+      }
       process.exit(1);
     }
 
@@ -1103,6 +1210,18 @@ async function runStart(options: { detach: boolean }) {
     );
 
     p.outro("Mail Pilot started! 🎉");
+  } else {
+    p.log.info("Starting containers in foreground...");
+
+    const child = spawn("docker", [...composeArgs, "--profile", "all", "up"], {
+      stdio: "inherit",
+    });
+    const code = await new Promise<number | null>((resolve) => {
+      child.on("close", (c) => resolve(c));
+    });
+    if (code !== 0) {
+      process.exit(code ?? 1);
+    }
   }
 }
 
@@ -1123,15 +1242,16 @@ async function runStop() {
   const spinner = p.spinner();
   spinner.start("Stopping containers...");
 
-  const result = spawnSync(
-    "docker",
-    ["compose", "-f", STANDALONE_COMPOSE_FILE, "down"],
-    { stdio: "pipe" },
-  );
+  const result = await runDockerCommand([
+    "compose",
+    "-f",
+    STANDALONE_COMPOSE_FILE,
+    "down",
+  ]);
 
   if (result.status !== 0) {
     spinner.stop("Failed to stop");
-    p.log.error(result.stderr?.toString() || "Unknown error");
+    p.log.error(result.stderr || "Unknown error");
     process.exit(1);
   }
 
@@ -1211,15 +1331,16 @@ async function runUpdate() {
   const spinner = p.spinner();
   spinner.start("Pulling latest image...");
 
-  const pullResult = spawnSync(
-    "docker",
-    ["compose", "-f", STANDALONE_COMPOSE_FILE, "pull"],
-    { stdio: "pipe" },
-  );
+  const pullResult = await runDockerCommand([
+    "compose",
+    "-f",
+    STANDALONE_COMPOSE_FILE,
+    "pull",
+  ]);
 
   if (pullResult.status !== 0) {
     spinner.stop("Failed to pull");
-    p.log.error(pullResult.stderr?.toString() || "Unknown error");
+    p.log.error(pullResult.stderr || "Unknown error");
     process.exit(1);
   }
 
@@ -1238,16 +1359,33 @@ async function runUpdate() {
   if (restart) {
     spinner.start("Restarting...");
 
-    spawnSync("docker", ["compose", "-f", STANDALONE_COMPOSE_FILE, "down"], {
-      stdio: "pipe",
-    });
-    spawnSync(
-      "docker",
-      ["compose", "-f", STANDALONE_COMPOSE_FILE, "up", "-d"],
-      {
-        stdio: "pipe",
-      },
-    );
+    await runDockerCommand(["compose", "-f", STANDALONE_COMPOSE_FILE, "down"]);
+    const upResult = await runDockerCommand([
+      "compose",
+      "-f",
+      STANDALONE_COMPOSE_FILE,
+      "--profile",
+      "all",
+      "up",
+      "-d",
+    ]);
+
+    if (upResult.status !== 0) {
+      const portError = parsePortConflict(upResult.stderr);
+      spinner.stop("Failed to restart");
+      if (portError) {
+        p.log.error(portError);
+        p.log.info(
+          "Stop the conflicting process or change the port:\n" +
+            "  mailpilot config set WEB_PORT <port>\n" +
+            "  mailpilot config set POSTGRES_PORT <port>\n" +
+            "  mailpilot config set REDIS_PORT <port>",
+        );
+      } else {
+        p.log.error(upResult.stderr || "Unknown error");
+      }
+      process.exit(1);
+    }
 
     spinner.stop("Restarted");
   }
@@ -1642,6 +1780,49 @@ async function fetchDockerCompose(): Promise<string> {
     );
   }
   return response.text();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Docker Command Helpers
+// ═══════════════════════════════════════════════════════════════════════════
+
+function runDockerCommand(
+  args: string[],
+): Promise<{ status: number; stdout: string; stderr: string }> {
+  return new Promise((resolve, reject) => {
+    const child = spawn("docker", args, { stdio: "pipe" });
+    const stdoutChunks: Buffer[] = [];
+    const stderrChunks: Buffer[] = [];
+
+    child.stdout.on("data", (chunk: Buffer) => stdoutChunks.push(chunk));
+    child.stderr.on("data", (chunk: Buffer) => stderrChunks.push(chunk));
+
+    child.on("close", (code) => {
+      resolve({
+        status: code ?? 1,
+        stdout: Buffer.concat(stdoutChunks).toString(),
+        stderr: Buffer.concat(stderrChunks).toString(),
+      });
+    });
+
+    child.on("error", (err) => {
+      resolve({ status: 1, stdout: "", stderr: err.message });
+    });
+  });
+}
+
+function readExistingDbPassword(envFile: string): string | undefined {
+  if (!existsSync(envFile)) return undefined;
+  const existing = parseEnvFile(readFileSync(envFile, "utf-8"));
+  return existing.POSTGRES_PASSWORD || undefined;
+}
+
+function checkContainersRunning(composeArgs: string[]): boolean {
+  const result = spawnSync("docker", [...composeArgs, "ps", "-q"], {
+    stdio: "pipe",
+  });
+  if (result.status !== 0) return false;
+  return (result.stdout?.toString().trim() ?? "") !== "";
 }
 
 // Only run main() when executed directly, not when imported for testing
