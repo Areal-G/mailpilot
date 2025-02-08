@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { TermsContent } from "@/app/(landing)/terms/content";
+import { getBrandTitle } from "@/utils/branding";
 
 export const metadata: Metadata = {
-  title: "Terms of Service - Mail Pilot",
-  description: "Terms of Service - Mail Pilot",
+  title: getBrandTitle("Terms of Service"),
+  description: getBrandTitle("Terms of Service"),
   alternates: { canonical: "/terms" },
 };
 

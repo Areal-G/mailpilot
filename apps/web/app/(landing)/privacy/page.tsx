@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { PrivacyContent } from "@/app/(landing)/privacy/content";
+import { getBrandTitle } from "@/utils/branding";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Mail Pilot",
-  description: "Privacy Policy - Mail Pilot",
+  title: getBrandTitle("Privacy Policy"),
+  description: getBrandTitle("Privacy Policy"),
   alternates: { canonical: "/privacy" },
 };
 
