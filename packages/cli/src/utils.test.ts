@@ -4,6 +4,7 @@ import {
   generateEnvFile,
   isSensitiveKey,
   parseEnvFile,
+  parsePortConflict,
   updateEnvValue,
   redactValue,
   type EnvConfig,
@@ -163,6 +164,37 @@ BEDROCK_REGION=
     expect(result).toContain("BEDROCK_ACCESS_KEY=AKIA-xxx");
     expect(result).toContain("BEDROCK_SECRET_KEY=secret-xxx");
     expect(result).toContain("BEDROCK_REGION=us-west-2");
+  });
+
+  it("should handle OpenAI-compatible provider settings", () => {
+    const openaiCompatibleEnv: EnvConfig = {
+      ...baseEnv,
+      DEFAULT_LLM_PROVIDER: "openai-compatible",
+      DEFAULT_LLM_MODEL: "llama-3.2-3b-instruct",
+      OPENAI_COMPATIBLE_BASE_URL: "http://localhost:1234/v1",
+      OPENAI_COMPATIBLE_MODEL: "llama-3.2-3b-instruct",
+      OPENAI_COMPATIBLE_API_KEY: "lm-studio-key",
+    };
+
+    const templateWithOpenAICompatible = `${baseTemplate}
+OPENAI_COMPATIBLE_BASE_URL=
+OPENAI_COMPATIBLE_MODEL=
+OPENAI_COMPATIBLE_API_KEY=
+`;
+
+    const result = generateEnvFile({
+      env: openaiCompatibleEnv,
+      useDockerInfra: false,
+      llmProvider: "openai-compatible",
+      template: templateWithOpenAICompatible,
+    });
+
+    expect(result).toContain(
+      "OPENAI_COMPATIBLE_BASE_URL=http://localhost:1234/v1",
+    );
+    expect(result).toContain("OPENAI_COMPATIBLE_MODEL=llama-3.2-3b-instruct");
+    expect(result).toContain("OPENAI_COMPATIBLE_API_KEY=lm-studio-key");
+    expect(result).toContain("DEFAULT_LLM_PROVIDER=openai-compatible");
   });
 
   it("should handle commented lines in template", () => {
@@ -555,5 +587,35 @@ describe("isSensitiveKey", () => {
   it("should not flag non-sensitive keys", () => {
     expect(isSensitiveKey("DEFAULT_LLM_PROVIDER")).toBe(false);
     expect(isSensitiveKey("NEXT_PUBLIC_BASE_URL")).toBe(false);
+  });
+});
+
+describe("parsePortConflict", () => {
+  it("should detect 'port is already allocated' errors", () => {
+    const stderr =
+      "Error response from daemon: failed to set up container networking: " +
+      "driver failed programming external connectivity on endpoint " +
+      "mailpilot-services-redis-1 (abc123): Bind for 0.0.0.0:6380 failed: port is already allocated";
+    expect(parsePortConflict(stderr)).toBe(
+      "Port 6380 is already in use by another process.",
+    );
+  });
+
+  it("should detect 'address already in use' errors", () => {
+    expect(
+      parsePortConflict("listen tcp 0.0.0.0:3000: address already in use"),
+    ).toBe("Port 3000 is already in use by another process.");
+    expect(
+      parsePortConflict("listen tcp 127.0.0.1:8080: address already in use"),
+    ).toBe("Port 8080 is already in use by another process.");
+    expect(parsePortConflict("listen tcp :5432: address already in use")).toBe(
+      "Port 5432 is already in use by another process.",
+    );
+  });
+
+  it("should return null for unrelated errors", () => {
+    expect(parsePortConflict("image not found")).toBeNull();
+    expect(parsePortConflict("network timeout")).toBeNull();
+    expect(parsePortConflict("")).toBeNull();
   });
 });
