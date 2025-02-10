@@ -144,6 +144,16 @@ const nextConfig: NextConfig = {
         permanent: false,
       },
       {
+        source: "/docs",
+        destination: "https://docs.mailpilot.dev",
+        permanent: true,
+      },
+      {
+        source: "/docs/:path*",
+        destination: "https://docs.mailpilot.dev/:path*",
+        permanent: true,
+      },
+      {
         source: "/request-access",
         destination: "/early-access",
         permanent: true,
