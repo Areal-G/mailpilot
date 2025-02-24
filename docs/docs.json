@@ -137,6 +137,11 @@
     "global": {
       "anchors": [
         {
+          "anchor": "Changelog",
+          "href": "/changelog",
+          "icon": "clock-rotate-left"
+        },
+        {
           "anchor": "Community",
           "href": "https://mailpilot.dev/discord",
           "icon": "discord"
