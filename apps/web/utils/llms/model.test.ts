@@ -453,6 +453,10 @@ describe("Models", () => {
       });
       expect(createGateway).toHaveBeenCalledWith({
         apiKey: "test-ai-gateway-key",
+        headers: {
+          "http-referer": "https://www.mailpilot.dev",
+          "x-title": "Mail Pilot",
+        },
       });
     });
 
