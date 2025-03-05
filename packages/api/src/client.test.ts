@@ -32,18 +32,18 @@ describe("buildApiUrl", () => {
     expect(
       buildApiUrl("https://www.mailpilot.dev", "/stats/by-period", {
         period: "week",
-        email: "user@example.com",
+        fromDate: "123",
       }),
     ).toBe(
-      "https://www.mailpilot.dev/api/v1/stats/by-period?period=week&email=user%40example.com",
+      "https://www.mailpilot.dev/api/v1/stats/by-period?period=week&fromDate=123",
     );
   });
 
   it("keeps empty-string query values", () => {
     expect(
       buildApiUrl("https://www.mailpilot.dev", "/stats/by-period", {
-        email: "",
+        fromDate: "",
       }),
-    ).toBe("https://www.mailpilot.dev/api/v1/stats/by-period?email=");
+    ).toBe("https://www.mailpilot.dev/api/v1/stats/by-period?fromDate=");
   });
 });
