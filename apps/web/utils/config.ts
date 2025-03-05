@@ -25,4 +25,6 @@ export const WELCOME_PATH = "/welcome-redirect";
 
 export const EXTENSION_URL = "https://go.mailpilot.dev/extension";
 
+export const TELEGRAM_BOT_URL = "https://t.me/getmailpilotbot";
+
 export const ONBOARDING_PROCESS_EMAILS_COUNT = 20;
