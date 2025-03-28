@@ -57,7 +57,7 @@
     "@googleapis/gmail": "16.1.1",
     "@googleapis/people": "7.0.1",
     "@headlessui/react": "2.2.9",
-    "@hookform/resolvers": "5.2.2",
+    "@hookform/resolvers": "4.1.0",
     "@mailpilot/image-proxy": "workspace:*",
     "@mailpilot/loops": "workspace:*",
     "@mailpilot/resend": "workspace:*",
