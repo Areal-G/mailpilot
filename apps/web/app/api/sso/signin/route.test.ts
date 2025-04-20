@@ -1,5 +1,18 @@
 // Mock server-only as per testing guidelines
 vi.mock("server-only", () => ({}));
+vi.mock("@mailpilot/loops", () => ({
+  createContact: vi.fn().mockResolvedValue(undefined),
+}));
+vi.mock("@mailpilot/resend", () => ({
+  createContact: vi.fn().mockResolvedValue(undefined),
+}));
+vi.mock("@mailpilot/tinybird", () => ({
+  publishArchive: vi.fn().mockResolvedValue(undefined),
+  publishDelete: vi.fn().mockResolvedValue(undefined),
+}));
+vi.mock("@mailpilot/tinybird-ai-analytics", () => ({
+  publishAiCall: vi.fn().mockResolvedValue(undefined),
+}));
 
 // Mock the auth config
 vi.mock("@/utils/auth", () => ({
@@ -112,6 +125,8 @@ describe("SSO Signin Route", () => {
         body: {
           providerId: "test-provider-id",
           callbackURL: "/accounts",
+          email: "user@example.com",
+          loginHint: "user@example.com",
         },
       });
 
@@ -281,6 +296,8 @@ describe("SSO Signin Route", () => {
         body: {
           providerId: "test-provider",
           callbackURL: "/accounts",
+          email: "user@example.com",
+          loginHint: "user@example.com",
         },
       });
     });
