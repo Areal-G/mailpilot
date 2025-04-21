@@ -243,6 +243,25 @@ describe("validateWebhookAccount", () => {
         expect(await result.response.json()).toEqual({ ok: true });
       }
     });
+
+    it("should succeed when filing is enabled with a prompt but no rules", async () => {
+      const emailAccount = createMockEmailAccount({
+        rules: [],
+        filingEnabled: true,
+        filingPrompt: "File newsletters under Newsletters",
+      });
+
+      vi.mocked(isPremiumRecord).mockReturnValue(true);
+      vi.mocked(hasAiAccess).mockReturnValue(true);
+
+      const result = await validateWebhookAccount(emailAccount, logger);
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.hasAutomationRules).toBe(false);
+        expect(result.data.emailAccount).toEqual(emailAccount);
+      }
+    });
   });
 
   describe("when access_token is missing", () => {
@@ -374,5 +393,36 @@ describe("getWebhookEmailAccount", () => {
         }),
       }),
     );
+  });
+
+  it("resolves the account when the subscription id only exists in watch history", async () => {
+    const historicalAccount = {
+      id: "resolved-account-id",
+      email: "user@example.com",
+      watchEmailsSubscriptionId: "new-subscription-id",
+    };
+    const historicalSubscriptionId = `old-sub-id' OR 1=1 --`;
+
+    vi.mocked(prisma.emailAccount.findFirst)
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(historicalAccount as any);
+
+    const result = await getWebhookEmailAccount(
+      { watchEmailsSubscriptionId: historicalSubscriptionId },
+      logger,
+    );
+
+    expect(result).toEqual(historicalAccount);
+    expect(prisma.emailAccount.findFirst).toHaveBeenNthCalledWith(2, {
+      where: {
+        watchEmailsSubscriptionHistory: {
+          array_contains: [{ subscriptionId: historicalSubscriptionId }],
+        },
+      },
+      select: expect.any(Object),
+    });
+    expect(prisma.$queryRaw).not.toHaveBeenCalled();
+    expect(prisma.emailAccount.findUnique).not.toHaveBeenCalled();
+    expect(logErrorWithDedupe).not.toHaveBeenCalled();
   });
 });
