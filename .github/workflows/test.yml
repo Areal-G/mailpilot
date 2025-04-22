@@ -60,6 +60,9 @@ jobs:
       - name: Check Prisma enum imports
         run: pnpm -F mailpilot-ai check-enums
 
+      - name: Check server action exports
+        run: pnpm -F mailpilot-ai check-server-actions
+
       - name: Run tests
         run: pnpm -F mailpilot-ai test
         env:
