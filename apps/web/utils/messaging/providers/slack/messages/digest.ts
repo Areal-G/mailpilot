@@ -26,7 +26,7 @@ export function buildDigestBlocks({
       type: "header",
       text: {
         type: "plain_text",
-        text: `Your Mail Pilot digest — ${formatDigestDate(date)}`,
+        text: `📋 Your Mail Pilot digest — ${formatDigestDate(date)}`,
         emoji: true,
       },
     },

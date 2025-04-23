@@ -274,7 +274,7 @@ function formatDigestText({
   itemsByRule: ItemsByRule;
 }): string {
   const sections: string[] = [
-    `Your Mail Pilot digest — ${formatDigestDate(date)}`,
+    `📋 Your Mail Pilot digest — ${formatDigestDate(date)}`,
   ];
 
   for (const [ruleKey, items] of Object.entries(itemsByRule)) {
