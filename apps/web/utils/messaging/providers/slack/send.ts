@@ -61,23 +61,25 @@ export async function sendChannelConfirmation({
   const client = createSlackClient(accessToken);
 
   await postMessageWithJoin(client, channelId, {
-    text: `✅ Mail Pilot connected! You can ${formatSlackAppMention(botUserId)} here to chat about your emails. If you enable meeting briefs or attachment filing notifications, I can send those in this channel too.`,
+    text: `✅ Mail Pilot connected! You can mention ${formatSlackAppMention(botUserId)} in this channel to chat about your emails. If you enable meeting briefs or attachment filing notifications, I can send those here too.`,
   });
 }
 
 export async function sendConnectionOnboardingDirectMessage({
   accessToken,
   userId,
+  botUserId,
 }: {
   accessToken: string;
   userId: string;
+  botUserId?: string | null;
 }): Promise<void> {
   const client = createSlackClient(accessToken);
 
   await client.chat.postMessage(
     disableSlackLinkUnfurls({
       channel: userId,
-      text: "✅ Mail Pilot connected. Next, choose a private channel in Mail Pilot Settings for meeting brief and attachment notifications, then invite @InboxZero there. You can also DM me anytime to chat about your emails.",
+      text: `✅ Mail Pilot connected. Next, choose a private channel in Mail Pilot Settings for meeting brief and attachment notifications, then invite ${formatSlackAppMention(botUserId)} there. You can also DM me anytime to chat about your emails.`,
     }),
   );
 }
