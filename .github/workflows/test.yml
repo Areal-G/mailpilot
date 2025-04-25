@@ -63,6 +63,9 @@ jobs:
       - name: Check server action exports
         run: pnpm -F mailpilot-ai check-server-actions
 
+      - name: Check client redirects
+        run: pnpm -F mailpilot-ai check-client-redirects
+
       - name: Run tests
         run: pnpm -F mailpilot-ai test
         env:
