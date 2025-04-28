@@ -1,5 +1,3 @@
-// Mock server-only as per testing guidelines
-vi.mock("server-only", () => ({}));
 vi.mock("@mailpilot/loops", () => ({
   createContact: vi.fn().mockResolvedValue(undefined),
 }));

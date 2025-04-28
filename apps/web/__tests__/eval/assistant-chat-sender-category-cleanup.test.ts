@@ -18,8 +18,6 @@ import {
 // pnpm --filter mailpilot-ai test-ai __tests__/eval/assistant-chat-sender-category-cleanup.test.ts
 // Multi-model: EVAL_MODELS=all pnpm --filter mailpilot-ai test-ai __tests__/eval/assistant-chat-sender-category-cleanup.test.ts
 
-vi.mock("server-only", () => ({}));
-
 const evalReporter = createEvalReporter();
 
 const hoisted = vi.hoisted(() => ({
