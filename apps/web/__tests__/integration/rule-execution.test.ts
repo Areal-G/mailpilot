@@ -30,11 +30,6 @@ vi.mock("@/utils/prisma", () => ({
   },
 }));
 
-// Mock next/server — label action uses after() for lazy updates
-vi.mock("next/server", () => ({
-  after: vi.fn((fn: () => void) => fn()),
-}));
-
 // Mock Tinybird — archiveThread publishes analytics
 vi.mock("@mailpilot/tinybird", () => ({
   publishArchive: vi.fn().mockResolvedValue(undefined),
