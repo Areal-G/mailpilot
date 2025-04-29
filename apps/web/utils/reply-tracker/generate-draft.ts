@@ -214,6 +214,7 @@ async function generateDraftContent(
 
   const messages = threadMessages.map((msg, index) => ({
     date: internalDateToDate(msg.internalDate),
+    threadId: msg.threadId,
     ...getEmailForLLM(msg, {
       // give more context for the message we're processing
       maxLength: index === threadMessages.length - 1 ? 2000 : 500,
@@ -272,6 +273,22 @@ async function generateDraftContent(
         selectedAttachments: [],
         attachmentContext: null,
       });
+  const activeBookingLinksPromise = prisma.bookingLink.findMany({
+    where: { emailAccountId: emailAccount.id, isActive: true },
+    orderBy: { createdAt: "desc" },
+    take: 1,
+    select: { slug: true },
+  });
+  const calendarAvailabilityPromise = activeBookingLinksPromise.then(
+    (activeBookingLinks) =>
+      aiGetCalendarAvailability({
+        emailAccount,
+        messages,
+        logger,
+        bookingLinkAvailable:
+          activeBookingLinks.length > 0 || !!emailAccount.calendarBookingLink,
+      }),
+  );
   const [
     knowledgeResult,
     replyMemorySelection,
@@ -283,6 +300,7 @@ async function generateDraftContent(
     upcomingMeetings,
     emailHistorySummary,
     attachmentSelection,
+    activeBookingLinks,
     senderReplyExamples,
   ] = await Promise.all([
     aiExtractRelevantKnowledge({
@@ -302,7 +320,7 @@ async function generateDraftContent(
       emailAccount,
       emailProvider,
     }),
-    aiGetCalendarAvailability({ emailAccount, messages, logger }),
+    calendarAvailabilityPromise,
     getWritingStyle({ emailAccountId: emailAccount.id }),
     prisma.emailAccount.findUnique({
       where: { id: emailAccount.id },
@@ -331,6 +349,7 @@ async function generateDraftContent(
         })
       : Promise.resolve(null),
     attachmentSelectionPromise,
+    activeBookingLinksPromise,
     collectSenderReplyExamples({
       emailAccount,
       emailProvider,
@@ -397,7 +416,7 @@ async function generateDraftContent(
   // 3. Draft reply
   const { reply, confidence, attribution } = await aiDraftReplyWithConfidence({
     messages,
-    emailAccount,
+    emailAccount: { ...emailAccount, bookingLinks: activeBookingLinks },
     knowledgeBaseContent: knowledgeResult?.relevantContent || null,
     replyMemoryContent,
     emailHistorySummary,
