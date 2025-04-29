@@ -184,6 +184,10 @@ const parsedEnv = createEnv({
       (value) => (value === "" ? undefined : value),
       z.coerce.number().int().nonnegative().optional(),
     ),
+    DRAFT_SENT_TEXT_RETENTION_DAYS: z.preprocess(
+      (value) => (value === "" ? undefined : value),
+      z.coerce.number().int().nonnegative().default(14),
+    ),
 
     // Lemon Squeezy
     LEMON_SQUEEZY_SIGNING_SECRET: z.string().optional(),
@@ -349,6 +353,7 @@ const parsedEnv = createEnv({
     NEXT_PUBLIC_INTEGRATIONS_ENABLED: booleanString.optional(),
     NEXT_PUBLIC_SMART_FILING_ENABLED: booleanString.optional(),
     NEXT_PUBLIC_CLEANER_ENABLED: booleanString.optional(),
+    NEXT_PUBLIC_BOOKING_LINKS_ENABLED: booleanString.optional(),
     NEXT_PUBLIC_EXTERNAL_API_ENABLED: booleanString.optional().default(false),
     NEXT_PUBLIC_AUTO_DRAFT_DISABLED: booleanString.optional(),
     // When true, the deployment default is enforced and account-level edits are disabled.
@@ -447,6 +452,8 @@ const parsedEnv = createEnv({
     NEXT_PUBLIC_SMART_FILING_ENABLED:
       process.env.NEXT_PUBLIC_SMART_FILING_ENABLED,
     NEXT_PUBLIC_CLEANER_ENABLED: process.env.NEXT_PUBLIC_CLEANER_ENABLED,
+    NEXT_PUBLIC_BOOKING_LINKS_ENABLED:
+      process.env.NEXT_PUBLIC_BOOKING_LINKS_ENABLED,
     NEXT_PUBLIC_EXTERNAL_API_ENABLED:
       process.env.NEXT_PUBLIC_EXTERNAL_API_ENABLED,
     NEXT_PUBLIC_AUTO_DRAFT_DISABLED:
