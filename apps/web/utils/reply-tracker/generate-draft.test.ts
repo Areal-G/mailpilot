@@ -28,6 +28,9 @@ vi.mock("@/utils/prisma", () => ({
     knowledge: {
       findMany: vi.fn().mockResolvedValue([]),
     },
+    bookingLink: {
+      findMany: vi.fn().mockResolvedValue([]),
+    },
   },
 }));
 
@@ -91,6 +94,7 @@ vi.mock("@/env", () => ({
 }));
 
 import { aiDraftReplyWithConfidence } from "@/utils/ai/reply/draft-reply";
+import { aiGetCalendarAvailability } from "@/utils/ai/calendar/availability";
 import { getReplyMemoriesForPrompt } from "@/utils/ai/reply/reply-memory";
 import { selectDraftAttachmentsForRule } from "@/utils/attachments/draft-attachments";
 import { aiExtractFromEmailHistory } from "@/utils/ai/knowledge/extract-from-email-history";
@@ -248,6 +252,38 @@ describe("fetchMessagesAndGenerateDraft - AI content escaping", () => {
           "1. [FACT | TOPIC:pricing] Mention that pricing depends on seat count.",
       }),
     );
+  });
+
+  it("preserves link URLs and image alt text in draft prompt messages", async () => {
+    vi.mocked(aiDraftReplyWithConfidence).mockResolvedValue({
+      reply: "I will fill that out.",
+      confidence: DraftReplyConfidence.HIGH_CONFIDENCE,
+      attribution: null,
+    });
+    vi.mocked(prisma.emailAccount.findUnique).mockResolvedValue(
+      createMockEmailAccountSettings(),
+    );
+
+    await fetchMessagesAndGenerateDraft(
+      createMockEmailAccount(),
+      "thread-1",
+      createMockClient(),
+      {
+        ...createMockMessage(),
+        textPlain: "Can you add your billing info here?",
+        textHtml:
+          '<p>Can you add your billing info <a href="https://example.com/billing">here</a>?</p><p><img src="https://tracker.example.com/pixel.png" alt="Billing form screenshot" /></p>',
+      },
+      logger,
+    );
+
+    const [draftArgs] = vi.mocked(aiDraftReplyWithConfidence).mock.calls[0]!;
+    const [message] = draftArgs.messages;
+
+    expect(message.content).toContain("billing info here");
+    expect(message.content).toContain("https://example.com/billing");
+    expect(message.content).toContain("[image: Billing form screenshot]");
+    expect(message.content).not.toContain("https://tracker.example.com");
   });
 
   it("escapes zero-size font attacks in AI content", async () => {
@@ -610,6 +646,39 @@ describe("fetchMessagesAndGenerateDraft - thread ordering", () => {
         senderHistory: expect.objectContaining({
           sameSenderReplyExamplesInjected: true,
           sameSenderReplyExampleCount: 1,
+        }),
+      }),
+    );
+  });
+
+  it("passes booking link availability into calendar availability analysis", async () => {
+    vi.mocked(aiDraftReplyWithConfidence).mockResolvedValue({
+      reply: "Draft reply",
+      confidence: DraftReplyConfidence.HIGH_CONFIDENCE,
+      attribution: null,
+    });
+    vi.mocked(prisma.bookingLink.findMany).mockResolvedValue([
+      { slug: "user-booking-link" },
+    ] as any);
+
+    await fetchMessagesAndGenerateDraftWithConfidenceThreshold(
+      createMockEmailAccount(),
+      "thread-1",
+      createMockClient(),
+      createMockMessage(),
+      logger,
+      DraftReplyConfidence.ALL_EMAILS,
+    );
+
+    expect(aiGetCalendarAvailability).toHaveBeenCalledWith(
+      expect.objectContaining({
+        bookingLinkAvailable: true,
+      }),
+    );
+    expect(aiDraftReplyWithConfidence).toHaveBeenCalledWith(
+      expect.objectContaining({
+        emailAccount: expect.objectContaining({
+          bookingLinks: [{ slug: "user-booking-link" }],
         }),
       }),
     );
