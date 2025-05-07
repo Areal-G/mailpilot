@@ -10,6 +10,7 @@ import { appendOllamaOnlySystemGuidance } from "@/utils/llms/ollama-guidance";
 import type { ReplyContextCollectorResult } from "@/utils/ai/reply/reply-context-collector";
 import type { CalendarAvailabilityContext } from "@/utils/ai/calendar/availability";
 import { DraftReplyConfidence } from "@/generated/prisma/enums";
+import { env } from "@/env";
 import { normalizeDraftReplyConfidence } from "@/utils/ai/reply/draft-confidence";
 import {
   createDraftAttributionTracker,
@@ -23,6 +24,7 @@ const DRAFT_OUTPUT_INSTRUCTION =
 const systemPrompt = `You are an expert assistant that drafts email replies.
 
 Use context from the previous emails and the provided knowledge base to make it relevant and accurate.
+Current thread facts override advisory context. Do not ask for details already present there.
 IMPORTANT: Do NOT simply repeat or mirror what the last email said. It doesn't add anything to the conversation to repeat back to them what they just said.
 Don't mention that you're an AI.
 Don't reply with a Subject. Only reply with the body of the email.
@@ -50,6 +52,10 @@ Don't be pushy.
 Write in a plainspoken, professional tone.
 Prefer short declarative sentences over polished or overly elaborate phrasing.`;
 
+type DraftEmailAccount = EmailAccountWithAI & {
+  bookingLinks?: { slug: string }[];
+};
+
 const getUserPrompt = ({
   messages,
   emailAccount,
@@ -67,7 +73,7 @@ const getUserPrompt = ({
   hasConfiguredSignature,
 }: {
   messages: (EmailForLLM & { to: string })[];
-  emailAccount: EmailAccountWithAI;
+  emailAccount: DraftEmailAccount;
   knowledgeBaseContent: string | null;
   replyMemoryContent: string | null;
   emailHistorySummary: string | null;
@@ -118,7 +124,7 @@ ${emailHistorySummary}
     : "";
 
   const precedentHistoryContext = emailHistoryContext?.relevantEmails.length
-    ? `Information from similar email threads that may be relevant to the current conversation to draft a reply.
+    ? `Advisory context from similar email threads that may help draft a reply.
 
 <email_history>
 ${emailHistoryContext.relevantEmails
@@ -164,7 +170,7 @@ ${learnedWritingStyle}
     : "";
 
   const schedulingContext = getSchedulingContext({
-    calendarBookingLink: emailAccount.calendarBookingLink,
+    calendarBookingLink: getCalendarBookingLinkForDraft(emailAccount),
     calendarAvailability,
     userTimezone: calendarAvailability?.timezone || emailAccount.timezone,
   });
@@ -264,7 +270,7 @@ export async function aiDraftReplyWithConfidence({
   hasConfiguredSignature = false,
 }: {
   messages: (EmailForLLM & { to: string })[];
-  emailAccount: EmailAccountWithAI;
+  emailAccount: DraftEmailAccount;
   knowledgeBaseContent: string | null;
   replyMemoryContent?: string | null;
   emailHistorySummary: string | null;
@@ -376,7 +382,7 @@ export async function aiDraftReply({
   hasConfiguredSignature = false,
 }: {
   messages: (EmailForLLM & { to: string })[];
-  emailAccount: EmailAccountWithAI;
+  emailAccount: DraftEmailAccount;
   knowledgeBaseContent: string | null;
   replyMemoryContent?: string | null;
   emailHistorySummary: string | null;
@@ -506,24 +512,37 @@ function getSchedulingContext({
 ${calendarBookingLink}
 </booking_link>
 
-Share this booking link when scheduling with the user is clearly needed, not as a default call-to-action.`);
+When scheduling with the user is clearly needed, prefer sharing this booking link over listing specific availability. Do not use it as a default call-to-action for non-scheduling emails.`);
   }
 
   if (calendarAvailability?.noAvailability) {
-    parts.push(`The user has no available time slots in the requested timeframe in ${timezone}.
+    const timezoneLabel = getTimezoneLabel(timezone);
+
+    parts.push(`The user has no available time slots in the requested timeframe in ${timezoneLabel}.
 Do not suggest specific times. Acknowledge the request and suggest alternatives (e.g., "I'm fully booked tomorrow, but let's find another day that works"${calendarBookingLink ? " or share the booking link" : ""}).`);
   } else if (calendarAvailability?.suggestedTimes.length) {
     const times = calendarAvailability.suggestedTimes
-      .map((slot) => formatAvailableSlotForPrompt(slot, timezone))
+      .map((slot) =>
+        formatAvailableSlotForPrompt(
+          slot,
+          timezone,
+          getTimezoneLabel(timezone, slot.start),
+        ),
+      )
       .join("\n");
+    const timezoneLabels = getTimezoneLabelsForSlots(
+      timezone,
+      calendarAvailability.suggestedTimes,
+    );
 
-    parts.push(`Available time slots are in ${timezone}.
+    parts.push(`Available time slots are in ${timezoneLabels}.
 If the sender requested or uses another timezone, express proposed times in that timezone after converting from the user's available slots.
+If you list specific times, include the user-facing timezone label shown for each slot and do not write raw timezone identifiers such as ${timezone}.
 
 Available time slots:
 ${times}
 
-${calendarBookingLink ? "If scheduling with the user is clearly needed, you may share the booking link and optionally suggest a few of these times as alternatives." : "When the sender is asking to schedule, respond concretely using these time slots. Treat supplied slots on or after today's date as valid; only ask for updated availability if every supplied slot is before today's date."} Format suggested times as a bulleted list.`);
+${calendarBookingLink ? "Because the user has a booking link, share the booking link instead of listing specific times unless the sender explicitly asks the user to provide times, asks about a specific proposed time/date, or the booking link would not answer the scheduling request." : "When the sender is asking to schedule, respond concretely using these time slots. Treat supplied slots on or after today's date as valid; only ask for updated availability if every supplied slot is before today's date."} Format suggested times as a bulleted list.`);
   }
 
   if (parts.length === 0) return "";
@@ -536,9 +555,20 @@ ${parts.join("\n\n")}
 `;
 }
 
+function getCalendarBookingLinkForDraft(emailAccount: DraftEmailAccount) {
+  const inboxZeroBookingLink = emailAccount.bookingLinks?.[0];
+
+  if (inboxZeroBookingLink) {
+    return `${env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, "")}/book/${inboxZeroBookingLink.slug}`;
+  }
+
+  return emailAccount.calendarBookingLink;
+}
+
 function formatAvailableSlotForPrompt(
   slot: { start: string; end: string },
   timezone: string,
+  timezoneLabel: string,
 ): string {
   const utcStart = formatLocalSlotTimeAsUtc(slot.start, timezone);
   const utcEnd = formatLocalSlotTimeAsUtc(slot.end, timezone);
@@ -547,7 +577,7 @@ function formatAvailableSlotForPrompt(
     return `- ${slot.start} to ${slot.end}`;
   }
 
-  return `- ${slot.start} to ${slot.end} (${timezone}; UTC ${utcStart} to ${utcEnd})`;
+  return `- ${slot.start} to ${slot.end} (${timezoneLabel}; UTC ${utcStart} to ${utcEnd})`;
 }
 
 function formatLocalSlotTimeAsUtc(
@@ -574,6 +604,68 @@ function formatLocalSlotTimeAsUtc(
   if (Number.isNaN(utcDate.getTime())) return null;
 
   return utcDate.toISOString().slice(0, 16).replace("T", " ");
+}
+
+function getTimezoneLabel(timezone: string, localTime?: string): string {
+  if (timezone === "UTC") return "UTC";
+
+  const date = localTime
+    ? createDateFromLocalTime(localTime, timezone)
+    : new Date();
+  const label =
+    getIntlTimezoneName(timezone, date, "short") ||
+    getIntlTimezoneName(timezone, date, "shortOffset");
+
+  return label && label !== timezone ? label : timezone;
+}
+
+function getTimezoneLabelsForSlots(
+  timezone: string,
+  slots: { start: string }[],
+): string {
+  const labels = [
+    ...new Set(slots.map((slot) => getTimezoneLabel(timezone, slot.start))),
+  ];
+
+  return labels.join("/");
+}
+
+function createDateFromLocalTime(localTime: string, timezone: string): Date {
+  const match = localTime.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})$/);
+
+  if (!match) return new Date();
+
+  const [, year, month, day, hour, minute] = match;
+
+  return new TZDate(
+    Number(year),
+    Number(month) - 1,
+    Number(day),
+    Number(hour),
+    Number(minute),
+    0,
+    0,
+    timezone,
+  );
+}
+
+function getIntlTimezoneName(
+  timezone: string,
+  date: Date,
+  timeZoneName: "short" | "shortOffset",
+): string | null {
+  try {
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: timezone,
+      timeZoneName,
+    }).formatToParts(date);
+
+    return (
+      parts.find((part) => part.type === "timeZoneName")?.value.trim() || null
+    );
+  } catch {
+    return null;
+  }
 }
 
 const OLLAMA_DRAFT_RESPONSE_GUIDANCE = [
