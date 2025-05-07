@@ -7,9 +7,11 @@ import {
 } from "@/generated/prisma/enums";
 import { createTestLogger } from "@/__tests__/helpers";
 import {
+  parseFollowUpNotificationDeliveries,
   sendFollowUpNotification,
   type FollowUpNotificationChannel,
 } from "./send-follow-up-notification";
+import { FOLLOW_UP_MARK_DONE_ACTION_ID } from "./follow-up-actions";
 import {
   resolveSlackRouteDestination,
   sendFollowUpReminderToSlack,
@@ -131,10 +133,12 @@ describe("sendFollowUpNotification", () => {
 
   it("delivers Telegram follow-ups with a thread link button instead of raw URL text", async () => {
     const threadLink = "https://outlook.live.com/mail/0/inbox/id/thread-1";
+    const trackerId = "tracker-telegram-1";
 
     await sendFollowUpNotification({
       channels: [telegramChannel],
       ...baseArgs,
+      trackerId,
       threadLink,
       threadLinkLabel: "Open in Outlook",
     });
@@ -148,6 +152,9 @@ describe("sendFollowUpNotification", () => {
     expect(serializedCard).toContain("Follow-up nudge");
     expect(serializedCard).toContain("Open in Outlook");
     expect(serializedCard).toContain(threadLink);
+    expect(serializedCard).toContain(FOLLOW_UP_MARK_DONE_ACTION_ID);
+    expect(serializedCard).toContain("Mark done");
+    expect(serializedCard).toContain(trackerId);
     expect(serializedCard).not.toContain(`Open: ${threadLink}`);
   });
 
@@ -235,5 +242,40 @@ describe("sendFollowUpNotification", () => {
       ...baseArgs,
     });
     expect(sendFollowUpReminderToSlack).not.toHaveBeenCalled();
+  });
+});
+
+describe("parseFollowUpNotificationDeliveries", () => {
+  it("keeps valid persisted delivery handles", () => {
+    const deliveries = [
+      {
+        messagingChannelId: "channel-1",
+        provider: MessagingProvider.SLACK,
+        providerThreadId: "C1",
+        providerMessageId: "1700000000.000100",
+      },
+      {
+        messagingChannelId: "channel-2",
+        provider: MessagingProvider.TELEGRAM,
+        providerThreadId: "telegram-thread-1",
+        providerMessageId: "telegram-message-1",
+      },
+    ];
+
+    expect(parseFollowUpNotificationDeliveries(deliveries)).toEqual(deliveries);
+  });
+
+  it("drops malformed persisted delivery handles", () => {
+    expect(
+      parseFollowUpNotificationDeliveries([
+        {
+          messagingChannelId: "channel-1",
+          provider: MessagingProvider.SLACK,
+          providerThreadId: "C1",
+        },
+      ]),
+    ).toEqual([]);
+    expect(parseFollowUpNotificationDeliveries({})).toEqual([]);
+    expect(parseFollowUpNotificationDeliveries(null)).toEqual([]);
   });
 });

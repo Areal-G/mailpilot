@@ -44,6 +44,7 @@ import {
 import { createScopedLogger, type Logger } from "@/utils/logger";
 import { consumeMessagingLinkCode } from "@/utils/messaging/chat-sdk/link-code-consume";
 import type { MessagingPlatform } from "@/utils/messaging/platforms";
+import { getSlackTeamId } from "@/utils/messaging/action-event-identifiers";
 import { buildPendingEmailPreview } from "@/utils/messaging/pending-email-preview";
 import { markdownToSlackMrkdwn } from "@/utils/messaging/providers/slack/format";
 import {
@@ -164,6 +165,14 @@ type ResolvedMessagingContext = {
   threadLogContext: Record<string, unknown>;
 };
 
+type MessagingUserMessagesInput = {
+  hasUnsupportedAttachments: boolean;
+  imageParts: ImagePart[];
+  messageId: string;
+  messageText: string;
+  provider: SupportedPlatform;
+};
+
 type LinkedProviderIdentity = {
   hasUnsupportedAttachments: boolean;
   messageText: string;
@@ -221,10 +230,6 @@ type PendingEmailActionResolution = {
 type ParsedPendingEmailActionValue =
   | { kind: "legacy"; payload: LegacyPendingEmailActionPayload }
   | { kind: "token"; token: string };
-
-type SlackActionRawPayload = {
-  team?: { id?: string };
-};
 
 declare global {
   var inboxZeroMessagingChatSdk: MessagingChatSdkContext | undefined;
@@ -642,30 +647,14 @@ async function processMessagingAssistantMessage({
         parts: chatMessage.parts as UIMessage["parts"],
       }));
 
-    const userMessageId = `${context.provider}-${message.id}`;
-    const userParts: UIMessage["parts"] = [
-      ...context.imageParts,
-      ...(context.messageText
-        ? [{ type: "text" as const, text: context.messageText }]
-        : []),
-    ];
-    const newUserMessage: UIMessage = {
-      id: userMessageId,
-      role: "user",
-      parts: userParts,
-    };
-    const modelUserMessage: UIMessage = context.hasUnsupportedAttachments
-      ? {
-          ...newUserMessage,
-          parts: [
-            {
-              type: "text" as const,
-              text: UNSUPPORTED_MESSAGING_ATTACHMENT_MODEL_CONTEXT,
-            },
-            ...newUserMessage.parts,
-          ],
-        }
-      : newUserMessage;
+    const { userMessageId, newUserMessage, modelUserMessage } =
+      buildMessagingUserMessages({
+        hasUnsupportedAttachments: context.hasUnsupportedAttachments,
+        imageParts: context.imageParts,
+        messageId: message.id,
+        messageText: context.messageText,
+        provider: context.provider,
+      });
 
     await prisma.chatMessage.upsert({
       where: { id: userMessageId },
@@ -1444,13 +1433,6 @@ function getMessagingCardText({
   return escapeTelegramMarkdown(text);
 }
 
-function getSlackTeamIdFromActionRaw(raw: unknown): string | null {
-  const teamId =
-    (raw as SlackActionRawPayload | null | undefined)?.team?.id ||
-    (raw as { team_id?: string } | null | undefined)?.team_id;
-  return teamId?.trim() || null;
-}
-
 async function postPendingEmailActionFeedback({
   event,
   provider,
@@ -1566,7 +1548,7 @@ function getTeamIdFromActionEvent({
   provider: SupportedPlatform;
   event: ActionEvent;
 }): string | null {
-  if (provider === "slack") return getSlackTeamIdFromActionRaw(event.raw);
+  if (provider === "slack") return getSlackTeamId(event.raw);
 
   if (provider === "teams") {
     const rawEvent = event.raw as TeamsRawActivity | null | undefined;
@@ -2739,6 +2721,40 @@ export function buildPendingEmailCardFallbackText(normalizedText: string) {
   }
 
   return `${normalizedText}\n\n${failureGuidance}`;
+}
+
+export function buildMessagingUserMessages({
+  hasUnsupportedAttachments,
+  imageParts,
+  messageId,
+  messageText,
+  provider,
+}: MessagingUserMessagesInput) {
+  const userMessageId = `${provider}-${messageId}`;
+  const userParts: UIMessage["parts"] = [
+    ...imageParts,
+    ...(messageText ? [{ type: "text" as const, text: messageText }] : []),
+  ];
+  const newUserMessage: UIMessage = {
+    id: userMessageId,
+    role: "user",
+    parts: userParts,
+  };
+
+  const modelUserMessage: UIMessage = hasUnsupportedAttachments
+    ? {
+        ...newUserMessage,
+        parts: [
+          {
+            type: "text" as const,
+            text: UNSUPPORTED_MESSAGING_ATTACHMENT_MODEL_CONTEXT,
+          },
+          ...newUserMessage.parts,
+        ],
+      }
+    : newUserMessage;
+
+  return { userMessageId, newUserMessage, modelUserMessage };
 }
 
 function isAffirmativeReactionEvent(event: ReactionEvent) {
