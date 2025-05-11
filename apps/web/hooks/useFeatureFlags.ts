@@ -28,6 +28,15 @@ export function useSmartFilingEnabled() {
   return env.NEXT_PUBLIC_SMART_FILING_ENABLED || posthogEnabled;
 }
 
+export function useBookingLinksEnabled() {
+  const posthogEnabled = useFeatureFlagEnabled("booking-links");
+  return env.NEXT_PUBLIC_BOOKING_LINKS_ENABLED || posthogEnabled;
+}
+
+export function useTeamsEnabled() {
+  return useFeatureFlagEnabled("microsoft-teams");
+}
+
 const HERO_FLAG_NAME = "hero-copy-7";
 
 export type HeroVariant = "control" | "clean-up-in-minutes";
