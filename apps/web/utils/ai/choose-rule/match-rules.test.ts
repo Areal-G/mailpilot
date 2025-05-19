@@ -122,6 +122,78 @@ describe("matchesStaticRule", () => {
     expect(matchesStaticRule(rule, message, logger)).toBe(false);
   });
 
+  it("does not match a full-address pattern against a spoofed suffix domain", () => {
+    const rule = getStaticRule({ from: "boss@company.com" });
+    const message = getMessage({
+      headers: getHeaders({ from: "boss@company.com.evil.com" }),
+    });
+
+    expect(matchesStaticRule(rule, message, logger)).toBe(false);
+  });
+
+  it("does not match a full-address pattern against a prefixed local part", () => {
+    const rule = getStaticRule({ from: "boss@company.com" });
+    const message = getMessage({
+      headers: getHeaders({ from: "xboss@company.com" }),
+    });
+
+    expect(matchesStaticRule(rule, message, logger)).toBe(false);
+  });
+
+  it("does not match a domain pattern against a spoofed suffix domain", () => {
+    const rule = getStaticRule({ from: "@company.com" });
+    const message = getMessage({
+      headers: getHeaders({ from: "user@company.com.evil.com" }),
+    });
+
+    expect(matchesStaticRule(rule, message, logger)).toBe(false);
+  });
+
+  it("does not match a wildcard-local pattern against a spoofed suffix domain", () => {
+    const rule = getStaticRule({ from: "*@gmail.com" });
+    const message = getMessage({
+      headers: getHeaders({ from: "test@gmail.com.evil.com" }),
+    });
+
+    expect(matchesStaticRule(rule, message, logger)).toBe(false);
+  });
+
+  it("does not match a bare-domain pattern against a lookalike domain", () => {
+    const rule = getStaticRule({ from: "example.com" });
+    const message = getMessage({
+      headers: getHeaders({ from: "user@myexample.com" }),
+    });
+
+    expect(matchesStaticRule(rule, message, logger)).toBe(false);
+  });
+
+  it("still matches a bare-domain pattern against an address at that domain", () => {
+    const rule = getStaticRule({ from: "example.com" });
+    const message = getMessage({
+      headers: getHeaders({ from: "user@example.com" }),
+    });
+
+    expect(matchesStaticRule(rule, message, logger)).toBe(true);
+  });
+
+  it("still matches a bare-domain pattern against a subdomain of that domain", () => {
+    const rule = getStaticRule({ from: "example.com" });
+    const message = getMessage({
+      headers: getHeaders({ from: "user@mail.example.com" }),
+    });
+
+    expect(matchesStaticRule(rule, message, logger)).toBe(true);
+  });
+
+  it("treats the @domain form as an exact domain (no subdomain match)", () => {
+    const rule = getStaticRule({ from: "@example.com" });
+    const message = getMessage({
+      headers: getHeaders({ from: "user@mail.example.com" }),
+    });
+
+    expect(matchesStaticRule(rule, message, logger)).toBe(false);
+  });
+
   it("matches from against the sender address, not the display name", () => {
     const rule = getStaticRule({ from: "@trusted.com" });
     const message = getMessage({
@@ -1977,7 +2049,61 @@ describe("findMatchingRules - Integration Tests", () => {
     });
 
     expect(result.matches[0]?.rule.id).toBe("cold-email-rule");
+    expect(result.matches[0]?.matchReasons).toEqual([
+      { type: ConditionType.AI },
+    ]);
     expect(result.reasoning).toBe("ai");
+  });
+
+  it("returns learned pattern match reasons for cold email pattern hits", async () => {
+    const coldEmailRule = getRule({
+      id: "cold-email-rule",
+      systemType: SystemType.COLD_EMAIL,
+    });
+    const group = { id: "cold-email-group", name: "Cold Email" };
+    const groupItem = {
+      id: "cold-email-sender",
+      type: GroupItemType.FROM,
+      value: "coldemailer@example.com",
+      exclude: false,
+    };
+
+    vi.mocked(getColdEmailRule).mockResolvedValue(coldEmailRule);
+    vi.mocked(isColdEmailRuleEnabled).mockReturnValue(true);
+    vi.mocked(isColdEmail).mockResolvedValue({
+      isColdEmail: true,
+      reason: "ai-already-labeled",
+      patternMatch: {
+        group,
+        groupItem,
+      },
+    });
+    vi.mocked(prisma.rule.findUniqueOrThrow).mockResolvedValue(coldEmailRule);
+
+    const result = await findMatchingRules({
+      rules: [coldEmailRule],
+      message: getMessage({
+        headers: getHeaders({ from: "coldemailer@example.com" }),
+      }),
+      emailAccount: getEmailAccount(),
+      provider,
+      modelType: "default",
+      logger,
+    });
+
+    expect(result.matches).toEqual([
+      {
+        rule: coldEmailRule,
+        matchReasons: [
+          {
+            type: ConditionType.LEARNED_PATTERN,
+            group,
+            groupItem,
+          },
+        ],
+      },
+    ]);
+    expect(result.reasoning).toBe("ai-already-labeled");
   });
 
   it("should skip cold email detection when rule is not enabled", async () => {
