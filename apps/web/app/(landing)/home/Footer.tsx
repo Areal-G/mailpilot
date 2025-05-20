@@ -12,6 +12,7 @@ export const footerNavigation = {
       target: "_blank",
     },
     { name: "AI Email Assistant", href: "/ai-automation" },
+    { name: "Mobile App", href: "/mobile-app" },
     { name: "AI Chat for Slack & Telegram", href: "/ai-assistant-chat" },
     { name: "Slack AI Assistant", href: "/slack-integration" },
     { name: "Telegram AI Assistant", href: "/telegram-integration" },
@@ -41,7 +42,13 @@ export const footerNavigation = {
     { name: "Accounting Firms", href: "/accounting-firms" },
   ],
   compare: [
+    {
+      name: "Best AI Email Assistants",
+      href: "/blog/post/best-ai-email-assistants",
+    },
     { name: "vs Fyxer.ai", href: "/best-fyxer-alternative" },
+    { name: "vs Superhuman", href: "/best-superhuman-alternative" },
+    { name: "vs Shortwave", href: "/best-shortwave-alternative" },
     {
       name: "vs Perplexity Email Assistant",
       href: "/best-perplexity-email-assistant-alternative",
