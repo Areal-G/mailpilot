@@ -277,7 +277,6 @@ const parsedEnv = createEnv({
       .optional()
       .default("Mail Pilot <updates@transactional.mailpilot.dev>"),
     CRON_SECRET: z.string().optional(),
-    BLOG_SYNC_API_KEY: z.string().min(1).optional(),
     BLOG_SYNC_WEBHOOK_SECRET: z.string().min(1).optional(),
     BLOG_SYNC_SANITY_AUTHOR_ID: z.string().min(1).optional(),
     BLOG_SYNC_IMAGE_ALLOWED_HOSTS: z.string().optional(),
