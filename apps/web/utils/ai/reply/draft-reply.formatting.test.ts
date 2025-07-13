@@ -257,6 +257,74 @@ describe("aiDraftReply formatting", () => {
     expect(callArgs.prompt).not.toContain("<reply_memories>");
   });
 
+  it("uses the active Mail Pilot booking link ahead of the external calendar link", async () => {
+    mockGenerateObject.mockResolvedValueOnce({
+      object: {
+        reply: "Please use my booking link.",
+        confidence: DraftReplyConfidence.STANDARD,
+      },
+    });
+
+    const params = getDraftParams();
+
+    await aiDraftReplyWithConfidence({
+      ...params,
+      emailAccount: {
+        ...params.emailAccount,
+        calendarBookingLink: "https://cal.com/user",
+        bookingLinks: [{ slug: "user-booking-link" }],
+      },
+      calendarAvailability: {
+        noAvailability: true,
+        suggestedTimes: [],
+        timezone: "UTC",
+      },
+    });
+
+    const [callArgs] = mockGenerateObject.mock.calls.at(-1)!;
+
+    expect(callArgs.prompt).toContain(
+      "http://localhost:3000/book/user-booking-link",
+    );
+    expect(callArgs.prompt).not.toContain("https://cal.com/user");
+  });
+
+  it("formats each available slot with its own timezone label", async () => {
+    mockGenerateObject.mockResolvedValueOnce({
+      object: {
+        reply: "Here are a couple of times.",
+        confidence: DraftReplyConfidence.STANDARD,
+      },
+    });
+
+    const params = getDraftParams();
+
+    await aiDraftReplyWithConfidence({
+      ...params,
+      emailAccount: {
+        ...params.emailAccount,
+        timezone: "America/New_York",
+      },
+      calendarAvailability: {
+        suggestedTimes: [
+          { start: "2026-01-15 10:00", end: "2026-01-15 10:30" },
+          { start: "2026-07-15 10:00", end: "2026-07-15 10:30" },
+        ],
+        timezone: "America/New_York",
+      },
+    });
+
+    const [callArgs] = mockGenerateObject.mock.calls.at(-1)!;
+
+    expect(callArgs.prompt).toContain(
+      "2026-01-15 10:00 to 2026-01-15 10:30 (EST;",
+    );
+    expect(callArgs.prompt).toContain(
+      "2026-07-15 10:00 to 2026-07-15 10:30 (EDT;",
+    );
+    expect(callArgs.prompt).toContain("Available time slots are in EST/EDT");
+  });
+
   it("uses learned writing style as the primary style block when explicit style is absent", async () => {
     mockGenerateObject.mockResolvedValueOnce({
       object: {
@@ -278,6 +346,49 @@ Representative edits:
     expect(callArgs.prompt).toContain("<writing_style>");
     expect(callArgs.prompt).toContain("Keep replies terse and low ceremony.");
     expect(callArgs.prompt).not.toContain("<learned_writing_style>");
+  });
+
+  /**
+   * Length guidance used to live only in the default style, which a user's own
+   * style replaces outright. In production that is 97.5% of accounts receiving
+   * drafts, so almost none of them got it, and their drafts ran roughly four
+   * times longer than ones where the default applied.
+   */
+  it("keeps length discipline when an explicit writing style replaces the default", async () => {
+    mockGenerateObject.mockResolvedValueOnce({
+      object: {
+        reply: "Thanks for your message.",
+        confidence: DraftReplyConfidence.STANDARD,
+      },
+    });
+
+    await aiDraftReplyWithConfidence({
+      ...getDraftParams(),
+      writingStyle: "Be warm and expansive. Explain your reasoning at length.",
+    });
+
+    const [callArgs] = mockGenerateObject.mock.calls.at(-1)!;
+
+    expect(callArgs.prompt).toContain("Be warm and expansive.");
+    expect(callArgs.prompt).toContain("Match the length of the reply");
+  });
+
+  it("keeps length discipline when only a learned writing style is present", async () => {
+    mockGenerateObject.mockResolvedValueOnce({
+      object: {
+        reply: "Thanks for your message.",
+        confidence: DraftReplyConfidence.STANDARD,
+      },
+    });
+
+    await aiDraftReplyWithConfidence({
+      ...getDraftParams(),
+      learnedWritingStyle: "Observed patterns:\n- Keep replies terse.",
+    });
+
+    const [callArgs] = mockGenerateObject.mock.calls.at(-1)!;
+
+    expect(callArgs.prompt).toContain("Match the length of the reply");
   });
 
   it("treats whitespace-only explicit writing style as absent", async () => {
