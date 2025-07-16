@@ -6,6 +6,7 @@
     "dev": "turbo dev --filter=./apps/web",
     "worker": "pnpm --filter @mailpilot/worker start",
     "test": "turbo run test --filter=./apps/web -- --run",
+    "test-db": "pnpm --filter mailpilot-ai test-db",
     "test-integration": "pnpm --filter mailpilot-ai test-integration",
     "test:packages": "pnpm -r --filter @mailpilot/api --filter @mailpilot/cli --filter @mailpilot/image-proxy --filter @mailpilot/image-proxy-aws test",
     "lint": "turbo lint",
