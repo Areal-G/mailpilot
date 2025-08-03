@@ -39,3 +39,6 @@ nsis:
   oneClick: true
   perMachine: false
   allowToChangeInstallationDirectory: false
+publish:
+  provider: generic
+  url: https://github.com/areal/mailpilot/releases/download/desktop-updates
