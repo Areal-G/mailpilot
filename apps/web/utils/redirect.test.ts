@@ -125,4 +125,26 @@ describe("getSafeRedirectUrl", () => {
       }),
     ).toBe("/login");
   });
+
+  it("opens the Mail Pilot app callback only when explicitly allowed", () => {
+    expect(
+      getSafeRedirectUrl(
+        "mailpilot://auth-callback?state=ADUZf5bSBOBSBzj58yThh17uiqgEg1PmsNzu-s4cMMA&code=xz5IkObSXqOpdCvBARrwRnqhOrxRQNX9qPeoT9G-jws",
+      ),
+    ).toBe("/");
+    expect(
+      getSafeRedirectUrl(
+        "mailpilot://auth-callback?state=ADUZf5bSBOBSBzj58yThh17uiqgEg1PmsNzu-s4cMMA&code=xz5IkObSXqOpdCvBARrwRnqhOrxRQNX9qPeoT9G-jws",
+        { allowAppCallback: true },
+      ),
+    ).toBe(
+      "mailpilot://auth-callback?state=ADUZf5bSBOBSBzj58yThh17uiqgEg1PmsNzu-s4cMMA&code=xz5IkObSXqOpdCvBARrwRnqhOrxRQNX9qPeoT9G-jws",
+    );
+    expect(
+      getSafeRedirectUrl("mailpilot://settings", {
+        allowAppCallback: true,
+        fallbackUrl: "/login",
+      }),
+    ).toBe("/login");
+  });
 });
