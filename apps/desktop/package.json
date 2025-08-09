@@ -1,5 +1,6 @@
 {
   "name": "@mailpilot/desktop",
+  "productName": "Mail Pilot",
   "private": true,
   "version": "0.1.0",
   "description": "Electron shell for the Mail Pilot web app",
