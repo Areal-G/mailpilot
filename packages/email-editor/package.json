@@ -1,8 +1,25 @@
 {
   "name": "@mailpilot/email-editor",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "private": true,
   "description": "Portable email HTML contracts and a Tiptap web editor for Mail Pilot",
   
+  "keywords": [
+    "email",
+    "editor",
+    "html",
+    "react",
+    "tiptap"
+  ],
+  "homepage": "https://github.com/areal/mailpilot/tree/main/packages/email-editor#readme",
+  "bugs": {
+    "url": "https://github.com/areal/mailpilot/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/areal/mailpilot.git",
+    "directory": "packages/email-editor"
+  },
   "type": "module",
   "sideEffects": [
     "**/*.css"
@@ -13,6 +30,8 @@
     "./web": "./src/web/EmailEditor.tsx"
   },
   "scripts": {
+    "build": "node scripts/clean-package.mjs && tsc -p tsconfig.build.json && node scripts/prepare-package.mjs",
+    "pack:check": "pnpm run build && cd dist && pnpm pack --dry-run",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
@@ -60,5 +79,8 @@
     "@types/react-dom": "19.2.4",
     "typescript": "6.0.3",
     "vitest": "4.1.10"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
