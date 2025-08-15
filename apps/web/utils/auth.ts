@@ -4,7 +4,7 @@ import { genericOAuth } from "better-auth/plugins/generic-oauth";
 import type { GenericOAuthConfig } from "better-auth/plugins/generic-oauth";
 import { oAuthProxy } from "better-auth/plugins";
 import { createContact as createLoopsContact } from "@mailpilot/loops";
-import { createContact as createResendContact } from "@mailpilot/resend";
+import { createContact as createResendContact } from "@mailpilot/transactional-email";
 import type { Account, AuthContext } from "better-auth";
 import { APIError, betterAuth } from "better-auth";
 import { createAuthMiddleware } from "better-auth/api";

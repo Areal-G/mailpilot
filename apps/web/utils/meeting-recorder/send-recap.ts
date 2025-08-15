@@ -1,9 +1,9 @@
 import { render } from "@react-email/render";
-import { sendMeetingRecapEmail as sendViaResend } from "@mailpilot/resend";
+import { sendMeetingRecapEmail as sendViaResend } from "@mailpilot/transactional-email";
 import MeetingRecapEmail, {
   generateMeetingRecapSubject,
   type MeetingRecapEmailProps,
-} from "@mailpilot/resend/emails/meeting-recap";
+} from "@mailpilot/transactional-email/emails/meeting-recap";
 import { env } from "@/env";
 import type { MeetingSummary } from "@/utils/ai/meeting-recorder/summarize-meeting";
 import { formatDateTimeInUserTimezone } from "@/utils/date";

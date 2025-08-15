@@ -20,7 +20,7 @@ vi.mock("@/utils/oauth/login-providers", () => ({
 vi.mock("@mailpilot/loops", () => ({
   createContact: vi.fn().mockResolvedValue(undefined),
 }));
-vi.mock("@mailpilot/resend", () => ({
+vi.mock("@mailpilot/transactional-email", () => ({
   createContact: vi.fn().mockResolvedValue(undefined),
 }));
 vi.mock("@mailpilot/tinybird", () => ({

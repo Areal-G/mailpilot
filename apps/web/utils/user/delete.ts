@@ -1,5 +1,5 @@
 import { deleteContact as deleteLoopsContact } from "@mailpilot/loops";
-import { deleteContact as deleteResendContact } from "@mailpilot/resend";
+import { deleteContact as deleteResendContact } from "@mailpilot/transactional-email";
 import prisma from "@/utils/prisma";
 import { deleteTinybirdAiCalls } from "@mailpilot/tinybird-ai-analytics";
 import {

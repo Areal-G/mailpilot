@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import { sendDigestEmail } from "@mailpilot/resend";
+import { sendDigestEmail } from "@mailpilot/transactional-email";
 import {
   MessagingProvider,
   MessagingRoutePurpose,

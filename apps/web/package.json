@@ -73,7 +73,7 @@
     "@mailpilot/email-editor": "workspace:*",
     "@mailpilot/image-proxy": "workspace:*",
     "@mailpilot/loops": "workspace:*",
-    "@mailpilot/resend": "workspace:*",
+    "@mailpilot/transactional-email": "workspace:*",
     "@mailpilot/scheduling": "workspace:*",
     "@mailpilot/tinybird": "workspace:*",
     "@mailpilot/tinybird-ai-analytics": "workspace:*",

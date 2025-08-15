@@ -23,7 +23,7 @@ vi.mock("@/ee/billing/stripe", () => ({
     invoices: { retrieve: mockRetrieveInvoice },
   }),
 }));
-vi.mock("@mailpilot/resend", () => ({
+vi.mock("@mailpilot/transactional-email", () => ({
   sendInvoiceEmail: mockSendInvoiceEmail,
 }));
 vi.mock("@/env", () => ({

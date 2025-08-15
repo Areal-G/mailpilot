@@ -12,7 +12,7 @@ import {
   sendDigestToSlack,
 } from "@/utils/messaging/providers/slack/send";
 import { sendAutomationMessage } from "@/utils/automation-jobs/messaging";
-import { sendDigestEmail } from "@mailpilot/resend";
+import { sendDigestEmail } from "@mailpilot/transactional-email";
 
 vi.mock("@/utils/prisma");
 vi.mock("@/utils/messaging/providers/slack/send", () => ({
@@ -22,7 +22,7 @@ vi.mock("@/utils/messaging/providers/slack/send", () => ({
 vi.mock("@/utils/automation-jobs/messaging", () => ({
   sendAutomationMessage: vi.fn(),
 }));
-vi.mock("@mailpilot/resend", () => ({
+vi.mock("@mailpilot/transactional-email", () => ({
   sendDigestEmail: vi.fn(),
 }));
 

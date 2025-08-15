@@ -26,10 +26,10 @@ vi.mock("@/utils/email/provider", () => ({
 vi.mock("@react-email/render", () => ({
   render: vi.fn().mockResolvedValue("<p>recap</p>"),
 }));
-vi.mock("@mailpilot/resend", () => ({
+vi.mock("@mailpilot/transactional-email", () => ({
   sendMeetingRecapEmail: vi.fn(),
 }));
-vi.mock("@mailpilot/resend/emails/meeting-recap", () => ({
+vi.mock("@mailpilot/transactional-email/emails/meeting-recap", () => ({
   default: vi.fn(() => null),
   generateMeetingRecapSubject: vi.fn(() => "Meeting recap"),
 }));

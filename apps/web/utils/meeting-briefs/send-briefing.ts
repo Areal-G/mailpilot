@@ -1,13 +1,13 @@
 import { render } from "@react-email/render";
 import { env } from "@/env";
 import { sendNotificationEmail } from "@/utils/email/send-notification-email";
-import { sendMeetingBriefingEmail } from "@mailpilot/resend";
+import { sendMeetingBriefingEmail } from "@mailpilot/transactional-email";
 import MeetingBriefingEmail, {
   generateMeetingBriefingSubject,
   type MeetingBriefingEmailProps,
   type BriefingContent,
   type InternalTeamMember,
-} from "@mailpilot/resend/emails/meeting-briefing";
+} from "@mailpilot/transactional-email/emails/meeting-briefing";
 import {
   MessagingProvider,
   MessagingRoutePurpose,

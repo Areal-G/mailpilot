@@ -1,4 +1,4 @@
-import { sendInvoiceEmail } from "@mailpilot/resend";
+import { sendInvoiceEmail } from "@mailpilot/transactional-email";
 import type Stripe from "stripe";
 import { z } from "zod";
 import { getStripe } from "@/ee/billing/stripe";

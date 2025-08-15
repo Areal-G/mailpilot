@@ -1,4 +1,4 @@
-import { sendInvitationEmail } from "@mailpilot/resend";
+import { sendInvitationEmail } from "@mailpilot/transactional-email";
 import { generateSecureToken } from "@/utils/api-key";
 import { env } from "@/env";
 

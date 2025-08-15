@@ -8,7 +8,7 @@ vi.mock("@/utils/prisma");
 vi.mock("@mailpilot/loops", () => ({
   deleteContact: vi.fn(),
 }));
-vi.mock("@mailpilot/resend", () => ({
+vi.mock("@mailpilot/transactional-email", () => ({
   deleteContact: vi.fn(),
 }));
 vi.mock("@mailpilot/tinybird-ai-analytics", () => ({

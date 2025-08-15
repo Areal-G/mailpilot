@@ -4,7 +4,7 @@ import { createScopedLogger, type Logger } from "@/utils/logger";
 import prisma from "@/utils/prisma";
 import { SafeError } from "@/utils/error";
 import { redis } from "@/utils/redis";
-import { sendActionRequiredEmail } from "@mailpilot/resend";
+import { sendActionRequiredEmail } from "@mailpilot/transactional-email";
 import { createUnsubscribeToken } from "@/utils/unsubscribe";
 
 const logger = createScopedLogger("llms/model-usage-guard");

@@ -10,7 +10,7 @@ import { env } from "@/env";
 import prisma from "@/utils/__mocks__/prisma";
 import { SafeError } from "@/utils/error";
 import { redis } from "@/utils/redis";
-import { sendActionRequiredEmail } from "@mailpilot/resend";
+import { sendActionRequiredEmail } from "@mailpilot/transactional-email";
 import { createUnsubscribeToken } from "@/utils/unsubscribe";
 
 vi.mock("@/utils/redis/usage", () => ({
@@ -26,7 +26,7 @@ vi.mock("@/utils/redis", () => ({
 
 vi.mock("@/utils/prisma");
 
-vi.mock("@mailpilot/resend", () => ({
+vi.mock("@mailpilot/transactional-email", () => ({
   sendActionRequiredEmail: vi.fn(),
 }));
 

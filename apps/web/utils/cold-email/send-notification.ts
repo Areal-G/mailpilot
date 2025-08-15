@@ -1,4 +1,4 @@
-import { sendColdEmailNotification as sendColdEmailNotificationViaResend } from "@mailpilot/resend";
+import { sendColdEmailNotification as sendColdEmailNotificationViaResend } from "@mailpilot/transactional-email";
 import { env } from "@/env";
 import type { Logger } from "@/utils/logger";
 import { formatReplySubject } from "@/utils/email/subject";

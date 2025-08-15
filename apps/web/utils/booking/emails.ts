@@ -4,7 +4,7 @@ import {
   sendHostBookingCancellationEmail,
   sendHostBookingConfirmationEmail,
   sendHostBookingRescheduledEmail,
-} from "@mailpilot/resend";
+} from "@mailpilot/transactional-email";
 import { env } from "@/env";
 import type { Logger } from "@/utils/logger";
 import { BookingLinkLocationType } from "@/generated/prisma/enums";
