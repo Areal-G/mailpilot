@@ -487,3 +487,21 @@ On Mon, Jan 1, 2024 wrote:
     });
   });
 });
+
+describe("branding footer normalization", () => {
+  it.each([
+    "Drafted by Mail Pilot.",
+    "Sent with Mail Pilot",
+    'Drafted by <a href="https://example.com/?ref=test">Mail Pilot</a>.',
+    "Sent with Mail Pilot [https://example.com/?ref=test]",
+    "Drafted by Mail Pilot [https://example.com/?ref=test].",
+    "Drafted by Mail Pilot.\n\nSent with Mail Pilot",
+  ])("ignores adding or deleting %s", (footer) => {
+    const body = "Thanks for the update.";
+    expect(calculateSimilarity(`${body}\n\n${footer}`, body)).toBe(1);
+    expect(calculateSimilarity(body, `${body}\n\n${footer}`)).toBe(1);
+    expect(
+      calculateSimilarity(`${body}\n\n${footer}`, "A different reply."),
+    ).toBeLessThan(1);
+  });
+});

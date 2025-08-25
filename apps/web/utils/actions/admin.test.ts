@@ -20,6 +20,7 @@ vi.mock("@/utils/auth", () => ({
 }));
 vi.mock("@/env", () => ({
   env: {
+    NEXT_PUBLIC_BRAND_NAME: "Mail Pilot",
     ADMINS: ["admin@example.com"],
     NODE_ENV: "test",
   },
