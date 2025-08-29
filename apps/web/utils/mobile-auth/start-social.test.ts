@@ -101,10 +101,10 @@ describe("startMobileSocialAuth", () => {
     );
     const [signInRequest] = handlerMock.mock.calls[0] as [Request];
     expect(signInRequest.url).toBe(
-      "https://www.mailpilot.dev/api/auth/sign-in/oauth2",
+      "https://www.mailpilot.dev/api/auth/sign-in/social",
     );
     await expect(signInRequest.json()).resolves.toMatchObject({
-      providerId: "google",
+      provider: "google",
       disableRedirect: true,
     });
   });
