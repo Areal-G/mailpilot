@@ -3,6 +3,7 @@ const ACCOUNT_PATH = "/api/user/email-accounts";
 export const OFFLINE_MAIL_CACHE_PREFIX = "mailpilot:offline-mail:";
 export const CLEAR_OFFLINE_MAIL = "mailpilot:clear-offline-mail";
 export const SAVE_OFFLINE_MAIL = "mailpilot:save-offline-mail";
+export const SKIP_WAITING = "SKIP_WAITING";
 
 type WaitUntil = (promise: Promise<unknown>) => void;
 
