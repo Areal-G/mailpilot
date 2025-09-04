@@ -82,11 +82,15 @@ const jsonLd: WithContext<WebApplication> = {
       "https://x.com/mailpilot_ai",
       "https://github.com/areal/mailpilot",
     ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      email: SUPPORT_EMAIL,
-      contactType: "customer support",
-    },
+    ...(SUPPORT_EMAIL
+      ? {
+          contactPoint: {
+            "@type": "ContactPoint" as const,
+            email: SUPPORT_EMAIL,
+            contactType: "customer support",
+          },
+        }
+      : {}),
     address: {
       "@type": "PostalAddress",
       streetAddress: "131 Continental Dr, Suite 305",
