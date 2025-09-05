@@ -40,9 +40,13 @@ describe("desktop shell helpers", () => {
 
   it("builds the system-browser OAuth start URL", () => {
     expect(
-      getDesktopBrowserStartUrl("https://www.mailpilot.dev", "google"),
+      getDesktopBrowserStartUrl(
+        "https://www.mailpilot.dev",
+        "google",
+        "challenge",
+      ),
     ).toBe(
-      "https://www.mailpilot.dev/api/mobile-auth/browser-start?provider=google",
+      "https://www.mailpilot.dev/api/mobile-auth/browser-start?provider=google&codeChallenge=challenge",
     );
   });
 
