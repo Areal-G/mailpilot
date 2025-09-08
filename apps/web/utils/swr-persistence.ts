@@ -5,7 +5,6 @@ const STORAGE_PREFIX = "mailpilot:swr:v2:";
 // emailAccountId instead.
 export const PERSISTED_SWR_KEYS = [
   "/api/labels",
-  "/api/labels/counts",
   "/api/user/folders",
   "/api/mail/settings",
 ] as const;

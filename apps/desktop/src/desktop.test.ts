@@ -4,6 +4,7 @@ import {
   getDesktopAppOrigin,
   getDesktopBrowserStartUrl,
   getDesktopHomeUrl,
+  getDesktopLocalMailUrl,
   getDesktopLoginUrl,
   DESKTOP_WINDOW_DRAG_CSS,
   getDesktopPostAuthUrl,
@@ -14,9 +15,13 @@ import {
   isAllowedDesktopNavigation,
   isAllowedExternalUrl,
   isDesktopAuthProvider,
+  isDesktopLocalMailUrl,
   normalizeDesktopCallbackPath,
   parseDesktopAuthCallback,
+  resolveDesktopStartUrl,
   shouldPersistDesktopUrl,
+  shouldSmokeLocalMail,
+  shouldUseLocalMailRenderer,
 } from "./desktop";
 
 describe("desktop shell helpers", () => {
@@ -35,6 +40,51 @@ describe("desktop shell helpers", () => {
   it("rejects non-http app URLs", () => {
     expect(() => getDesktopAppOrigin("mailpilot://")).toThrow(
       "MAILPILOT_APP_URL must be an http(s) URL",
+    );
+  });
+
+  it("treats MAILPILOT_APP_URL as the only allowed origin", () => {
+    const origin = "http://mail.internal.example:8080";
+    expect(getDesktopAppOrigin(`${origin}/welcome`)).toBe(origin);
+    expect(getDesktopLoginUrl(origin)).toBe(`${origin}/login`);
+    expect(getDesktopHomeUrl(origin)).toBe(
+      `${origin}/welcome-redirect?mode=mail`,
+    );
+    expect(getDesktopBrowserStartUrl(origin, "google", "challenge")).toBe(
+      `${origin}/api/mobile-auth/browser-start?provider=google&codeChallenge=challenge`,
+    );
+    expect(isAllowedDesktopNavigation(`${origin}/acc-1/mail`, origin)).toBe(
+      true,
+    );
+    expect(
+      isAllowedDesktopNavigation(
+        "https://www.mailpilot.dev/acc-1/mail",
+        origin,
+      ),
+    ).toBe(false);
+    expect(isAllowedDesktopNavigation("https://evil.test/mail", origin)).toBe(
+      false,
+    );
+    expect(
+      getDesktopSessionRestoreUrl(origin, `${origin}/acc-1/mail?type=inbox`),
+    ).toBe(`${origin}/acc-1/mail?type=inbox`);
+    expect(
+      getDesktopSessionRestoreUrl(
+        origin,
+        "https://www.mailpilot.dev/acc-1/mail",
+      ),
+    ).toBeNull();
+    expect(getDesktopMailAccountId(`${origin}/acc-1/mail`, origin)).toBe(
+      "acc-1",
+    );
+    expect(
+      getDesktopMailAccountId(
+        "https://www.mailpilot.dev/acc-1/mail",
+        origin,
+      ),
+    ).toBeNull();
+    expect(getDesktopPostAuthUrl(origin, "/connect-mailbox")).toBe(
+      `${origin}/connect-mailbox`,
     );
   });
 
@@ -107,6 +157,52 @@ describe("desktop shell helpers", () => {
     expect(
       isAllowedDesktopNavigation("about:blank", "https://www.mailpilot.dev"),
     ).toBe(true);
+  });
+
+  it("allows the bundled local mail renderer over file URLs", () => {
+    const rendererFile = "/tmp/mailpilot-desktop/renderer/index.html";
+    const url = getDesktopLocalMailUrl(rendererFile, ["acc-1"]);
+    expect(url.startsWith("file:")).toBe(true);
+    expect(url).toContain("accountId=acc-1");
+    expect(isDesktopLocalMailUrl(url, rendererFile)).toBe(true);
+    expect(
+      isAllowedDesktopNavigation(
+        url,
+        "https://www.mailpilot.dev",
+        rendererFile,
+      ),
+    ).toBe(true);
+    expect(
+      isAllowedDesktopNavigation(
+        "file:///etc/passwd",
+        "https://www.mailpilot.dev",
+        rendererFile,
+      ),
+    ).toBe(false);
+    expect(shouldUseLocalMailRenderer({ MAILPILOT_LOCAL_MAIL: "1" })).toBe(
+      true,
+    );
+    expect(shouldUseLocalMailRenderer({})).toBe(false);
+    expect(shouldSmokeLocalMail({ MAILPILOT_LOCAL_MAIL_SMOKE: "1" })).toBe(
+      true,
+    );
+    expect(shouldSmokeLocalMail({})).toBe(false);
+    expect(
+      resolveDesktopStartUrl({
+        requestedUrl: "https://www.mailpilot.dev/account-1/mail",
+        localMailUrl: url,
+        homeUrl: "https://www.mailpilot.dev/welcome-redirect?mode=mail",
+        rendererFile,
+      }),
+    ).toBe(url);
+    expect(
+      resolveDesktopStartUrl({
+        requestedUrl: "https://www.mailpilot.dev/account-1/mail",
+        localMailUrl: null,
+        homeUrl: "https://www.mailpilot.dev/welcome-redirect?mode=mail",
+        rendererFile,
+      }),
+    ).toBe("https://www.mailpilot.dev/account-1/mail");
   });
 
   it("finds the protocol URL in process arguments", () => {
