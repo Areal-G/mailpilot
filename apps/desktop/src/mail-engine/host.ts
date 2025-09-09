@@ -6,8 +6,9 @@ import {
 import type { AssistantStateSource } from "@mailpilot/mail-core/ports/assistant-source";
 import type { MailboxSource } from "@mailpilot/mail-core/ports/mailbox-source";
 import type { OperationExecutor } from "@mailpilot/mail-core/ports/operation-executor";
-import { createDesktopMailStore } from "./sqlite";
+import { createDesktopMailStore, nodeMailCrypto } from "./sqlite";
 import { desktopStoragePressure } from "./storage-pressure";
+import { createFileBlobStore } from "@mailpilot/mail-sqlite/blob-store";
 
 export async function createDesktopMailEngine(input: {
   databasePath: string;
@@ -22,8 +23,10 @@ export async function createDesktopMailEngine(input: {
     executor: input.executor,
     assistant: input.assistant,
     runtime: createHostRuntime({
+      ...nodeMailCrypto(),
       storagePressure: () => desktopStoragePressure(input.databasePath),
     }),
+    blobStore: createFileBlobStore(`${input.databasePath}.blobs`),
     ownerId: "desktop-owner",
   });
 }

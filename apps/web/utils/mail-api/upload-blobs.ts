@@ -1,6 +1,7 @@
 import { tmpdir } from "node:os";
 import { join, resolve, sep } from "node:path";
 import { rm } from "node:fs/promises";
+import { env } from "@/env";
 import { blobIdSchema } from "@mailpilot/mail-core/identities";
 import {
   createFileBlobStore,
@@ -12,8 +13,14 @@ import {
   writeBlobMetadata,
 } from "@mailpilot/mail-sqlite/blob-store";
 
+export function mailUploadRoot() {
+  return resolve(
+    env.MAIL_UPLOAD_DIR ?? join(tmpdir(), "mailpilot-mail-uploads"),
+  );
+}
+
 export function accountMailUploadDirectory(accountId: string) {
-  return join(tmpdir(), "mailpilot-mail-uploads", accountId);
+  return join(mailUploadRoot(), accountId);
 }
 
 export async function deleteAccountUploadDirectory(accountId: string) {
@@ -154,7 +161,7 @@ function isDiskFullError(error: unknown) {
 
 function resolvedAccountUploadDirectory(accountId: string) {
   if (!accountId) return null;
-  const root = resolve(join(tmpdir(), "mailpilot-mail-uploads"));
+  const root = mailUploadRoot();
   const directory = resolve(accountMailUploadDirectory(accountId));
   if (directory === root || !directory.startsWith(`${root}${sep}`)) {
     return null;
