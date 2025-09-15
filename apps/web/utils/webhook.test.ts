@@ -30,7 +30,7 @@ vi.mock("node:https", () => ({
   request: httpsRequestMock,
 }));
 
-vi.mock("@/utils/network/safe-http-url", () => ({
+vi.mock("@mailpilot/network/safe-url", () => ({
   resolveSafeExternalHttpUrl: (...args: unknown[]) =>
     resolveSafeExternalHttpUrlMock(...args),
 }));

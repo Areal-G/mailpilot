@@ -10,7 +10,7 @@ import type { ResolvedMcpIntegration } from "@/utils/mcp/resolve-integration";
 import {
   isSafeExternalHttpUrl,
   resolveSafeExternalHttpUrl,
-} from "@/utils/network/safe-http-url";
+} from "@mailpilot/network/safe-url";
 
 type LookupCallback = (
   error: NodeJS.ErrnoException | null,

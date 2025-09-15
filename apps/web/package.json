@@ -83,6 +83,7 @@
     "@mailpilot/mail-sqlite": "workspace:*",
     "@mailpilot/mail-ui": "workspace:*",
     "@mailpilot/image-proxy": "workspace:*",
+    "@mailpilot/network": "workspace:*",
     "@mailpilot/loops": "workspace:*",
     "@mailpilot/scheduling": "workspace:*",
     "@mailpilot/tinybird": "workspace:*",
