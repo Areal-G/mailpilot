@@ -9,7 +9,7 @@ import {
 import {
   fetchGoogleOpenIdProfile,
   isGoogleOauthEmulationEnabled,
-} from "@/utils/google/oauth";
+} from "@/utils/gmail/oauth";
 import type { CalendarOAuthProvider, CalendarTokens } from "../oauth-types";
 import { autoPopulateTimezone } from "../timezone-helpers";
 
@@ -82,6 +82,7 @@ export function createGoogleCalendarProvider(
               name: googleCalendar.summary || "Untitled Calendar",
               description: googleCalendar.description,
               timezone: googleCalendar.timeZone,
+              primary: googleCalendar.primary ?? false,
             },
             create: {
               connectionId,
@@ -89,6 +90,7 @@ export function createGoogleCalendarProvider(
               name: googleCalendar.summary || "Untitled Calendar",
               description: googleCalendar.description,
               timezone: googleCalendar.timeZone,
+              primary: googleCalendar.primary ?? false,
               isEnabled: true,
             },
           });
