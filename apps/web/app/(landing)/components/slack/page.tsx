@@ -59,7 +59,7 @@ const slackPreviews: SlackPreview[] = [
   },
   {
     title: "Connection onboarding DM",
-    text: "✅ Mail Pilot connected. Next, choose a private channel in Mail Pilot Settings for meeting brief and attachment notifications, then invite <@UAPP123> there. You can also DM me anytime to chat about your emails.",
+    text: "✅ Mail Pilot connected. Next, open Channels in Mail Pilot to choose where messages go. To use a private channel, invite <@UAPP123> there. You can also DM me anytime to chat about your emails.",
   },
   {
     title: "Automation channel message",

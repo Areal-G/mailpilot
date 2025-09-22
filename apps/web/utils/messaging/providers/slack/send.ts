@@ -79,7 +79,7 @@ export async function sendConnectionOnboardingDirectMessage({
   await client.chat.postMessage(
     disableSlackLinkUnfurls({
       channel: userId,
-      text: `✅ Mail Pilot connected. Next, choose a private channel in Mail Pilot Settings for meeting brief and attachment notifications, then invite ${formatSlackAppMention(botUserId)} there. You can also DM me anytime to chat about your emails.`,
+      text: `✅ Mail Pilot connected. Next, open Channels in Mail Pilot to choose where messages go. To use a private channel, invite ${formatSlackAppMention(botUserId)} there. You can also DM me anytime to chat about your emails.`,
     }),
   );
 }
