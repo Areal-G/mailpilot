@@ -163,9 +163,7 @@ export function Pricing() {
               </div>
               <Button variant="secondary-two" size="lg" asChild>
                 <Link
-                  href="https://go.mailpilot.dev/sales"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="https://www.mailpilot.dev/sales"
                   onClick={() =>
                     landingPageAnalytics.pricingCtaClicked(posthog, {
                       tier: "Enterprise",

@@ -68,7 +68,7 @@ const pricingFaqs: {
     question: "Need a custom plan for your enterprise?",
     answer: (
       <span>
-        <Anchor href="https://go.mailpilot.dev/sales" newTab>
+        <Anchor href="https://www.mailpilot.dev/sales">
           Contact our sales team
         </Anchor>{" "}
         for custom pricing, SSO, SCIM, on-premise deployment, and dedicated

@@ -416,7 +416,7 @@ const enterpriseTier: Tier = {
     },
   ],
   cta: "Speak to sales",
-  ctaLink: "https://go.mailpilot.dev/sales",
+  ctaLink: "https://www.mailpilot.dev/sales",
   mostPopular: false,
 };
 
