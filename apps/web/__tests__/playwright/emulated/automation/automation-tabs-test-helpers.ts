@@ -78,7 +78,7 @@ export async function expectVisibleAfterTransientFetch(
       return;
     } catch (error) {
       const hasTransientFetchError = await page
-        .getByText("Failed to fetch")
+        .getByText("Couldn't connect to Mail Pilot")
         .first()
         .isVisible()
         .catch(() => false);
