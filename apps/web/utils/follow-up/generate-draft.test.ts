@@ -315,7 +315,7 @@ describe("generateFollowUpDraft", () => {
       userMessage,
       expect.objectContaining({
         content:
-          'What do you think about it?\n\nCheers!<br>Barbara\n\nDrafted by <a href="https://mailpilot.dev/?ref=TEST123">Mail Pilot</a>.',
+          'What do you think about it?\n\n<div class="gmail_signature" data-smartmail="gmail_signature">Cheers!<br>Barbara</div>\n\nDrafted by <a href="https://mailpilot.dev/?ref=TEST123">Mail Pilot</a>.',
       }),
       "user@example.com",
       undefined,
