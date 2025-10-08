@@ -22,7 +22,7 @@ import {
   normalizeContentId,
   rewriteInlineImageSources,
 } from "@mailpilot/mail-ui/inline-images";
-import { linkifyPlainText } from "@/utils/email/linkify-plain-text";
+import { linkifyPlainText } from "@mailpilot/mail-ui/linkify";
 import { splitEmailContent } from "@/utils/email/split-email-content.client";
 import {
   fetchAttachment,
