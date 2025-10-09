@@ -24,8 +24,8 @@ import { getMockMessage } from "@/__tests__/helpers";
 import { trimStaleToolResults } from "@/utils/ai/assistant/trim-stale-tool-results";
 import { createScopedLogger } from "@/utils/logger";
 
-// pnpm --filter mailpilot-ai test-ai __tests__/eval/assistant-chat-long-context-trimming.test.ts
-// Multi-model: EVAL_MODELS=all pnpm --filter mailpilot-ai test-ai __tests__/eval/assistant-chat-long-context-trimming.test.ts
+// pnpm --filter mailpilot-web test-ai __tests__/eval/assistant-chat-long-context-trimming.test.ts
+// Multi-model: EVAL_MODELS=all pnpm --filter mailpilot-web test-ai __tests__/eval/assistant-chat-long-context-trimming.test.ts
 
 const TIMEOUT = 300_000;
 const logger = createScopedLogger("eval-assistant-chat-long-context");

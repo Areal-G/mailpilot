@@ -3,8 +3,8 @@
 //
 // Run with TINYBIRD_DELETE_TOKEN set to a token that can also read the datasources
 // (for example the workspace admin token).
-// Dry run (counts only): `pnpm --filter mailpilot-ai exec tsx scripts/purge-orphaned-tinybird-data.ts`
-// Delete: `pnpm --filter mailpilot-ai exec tsx scripts/purge-orphaned-tinybird-data.ts --apply`
+// Dry run (counts only): `pnpm --filter mailpilot-web exec tsx scripts/purge-orphaned-tinybird-data.ts`
+// Delete: `pnpm --filter mailpilot-web exec tsx scripts/purge-orphaned-tinybird-data.ts --apply`
 
 import "dotenv/config";
 import chunk from "lodash/chunk";

@@ -157,14 +157,13 @@ export default function GuestBookingConfirmationEmail({
 }
 
 GuestBookingConfirmationEmail.PreviewProps = {
-  cancelUrl:
-    "https://www.mailpilot.dev/book/cancel/example?token=test-token",
+  cancelUrl: "https://www.mailpilot.app/book/cancel/example?token=test-token",
   rescheduleUrl:
-    "https://www.mailpilot.dev/book/reschedule/example?token=test-token",
+    "https://www.mailpilot.app/book/reschedule/example?token=test-token",
   eventTitle: "15 min intro",
   formattedTime: "Thu, Nov 12, 2026 · 10:00 AM",
   guestName: "Sarah Chen",
-  hostName: "Elie",
+  hostName: "Alex",
   location: "Google Meet",
   dateMonth: "NOV",
   dateDay: "12",
@@ -172,6 +171,6 @@ GuestBookingConfirmationEmail.PreviewProps = {
   timeRange: "10:00 AM – 10:15 AM",
   timezoneLabel: "Asia/Jerusalem",
   guestNote:
-    "Hey Elie, building a B2B email tool, would love to chat about your AI rules approach.",
+    "Hey Alex, building a B2B email tool, would love to chat about your AI rules approach.",
   meetingLink: "https://meet.google.com/abc-defg-hij",
 } satisfies GuestBookingConfirmationEmailProps;

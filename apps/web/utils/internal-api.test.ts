@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 async function loadInternalApiModule({
   nextPublicBaseUrl = "https://mail.example.com",
-  internalApiUrl = "https://www.mailpilot.dev",
+  internalApiUrl = "https://www.mailpilot.app",
   internalApiKey = "expected-internal-key",
 }: {
   nextPublicBaseUrl?: string;
@@ -46,19 +46,19 @@ describe("internal-api", () => {
   it("includes a compact caller identity for self-hosted callers", async () => {
     const { getInternalApiHeaders } = await loadInternalApiModule({
       nextPublicBaseUrl: "https://mail.example.com",
-      internalApiUrl: "https://www.mailpilot.dev",
+      internalApiUrl: "https://www.mailpilot.app",
     });
 
     const headers = getInternalApiHeaders();
 
     expect(headers).toMatchObject({
       "x-api-key": "expected-internal-key",
-      "x-mailpilot-caller-id": "mail.example.com",
-      "x-mailpilot-caller-app": "mailpilot-web",
-      "x-mailpilot-caller-runtime": "self-hosted",
-      "x-mailpilot-caller-base-url-host": "mail.example.com",
+      "x-mail-pilot-caller-id": "mail.example.com",
+      "x-mail-pilot-caller-app": "mail-pilot-web",
+      "x-mail-pilot-caller-runtime": "self-hosted",
+      "x-mail-pilot-caller-base-url-host": "mail.example.com",
     });
-    expect(headers).not.toHaveProperty("x-mailpilot-caller-fingerprint");
+    expect(headers).not.toHaveProperty("x-mail-pilot-caller-fingerprint");
   });
 
   it("logs a hashed invalid key together with caller metadata", async () => {
@@ -67,7 +67,7 @@ describe("internal-api", () => {
     vi.stubEnv("VERCEL_GIT_COMMIT_SHA", "commit_123");
     vi.stubEnv("VERCEL_GIT_PROVIDER", "github");
     vi.stubEnv("VERCEL_GIT_REPO_OWNER", "acme");
-    vi.stubEnv("VERCEL_GIT_REPO_SLUG", "mailpilot-fork");
+    vi.stubEnv("VERCEL_GIT_REPO_SLUG", "mail-pilot-fork");
 
     const {
       createScopedLogger,
@@ -94,7 +94,7 @@ describe("internal-api", () => {
     expect(logLine).not.toContain("wrong-internal-key");
     expect(logLine).toContain('"callerId": "mail.example.com"');
     expect(logLine).toContain('"callerRuntime": "vercel"');
-    expect(logLine).toContain('"callerRepo": "github:acme/mailpilot-fork"');
+    expect(logLine).toContain('"callerRepo": "github:acme/mail-pilot-fork"');
     expect(logLine).toContain(
       '"callerDeploymentUrl": "self-hosted-preview.example.com"',
     );

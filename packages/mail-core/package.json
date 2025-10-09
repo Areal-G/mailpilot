@@ -4,15 +4,6 @@
   "private": true,
   "description": "Portable mailbox schemas, query semantics, command state, and engine API",
   
-  "homepage": "https://github.com/areal/mailpilot/tree/main/packages/mail-core#readme",
-  "bugs": {
-    "url": "https://github.com/areal/mailpilot/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/areal/mailpilot.git",
-    "directory": "packages/mail-core"
-  },
   "type": "module",
   "sideEffects": false,
   "exports": {

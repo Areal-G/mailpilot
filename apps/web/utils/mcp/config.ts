@@ -6,8 +6,8 @@ export const MCP_SCOPES = [
   "mcp:send",
   "offline_access",
 ] as const;
-export const MCP_DOCS_URL = "https://docs.mailpilot.dev/api-reference/mcp";
-export const MCP_GUIDE_URL = "https://docs.mailpilot.dev/essentials/mcp";
+export const MCP_DOCS_URL = "https://docs.mailpilot.app/api-reference/mcp";
+export const MCP_GUIDE_URL = "https://docs.mailpilot.app/essentials/mcp";
 
 export function isMcpServerAvailable() {
   if (!env.MCP_SERVER_ENABLED || !env.NEXT_PUBLIC_EXTERNAL_API_ENABLED)

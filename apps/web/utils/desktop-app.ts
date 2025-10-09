@@ -2,7 +2,7 @@ import type { MailIpcSnapshotEvent } from "@mailpilot/mail-core/protocol/mail-ip
 export type DesktopAuthProvider = "apple" | "google" | "microsoft";
 
 export const DESKTOP_WEB_UPDATE_CHECK_INTERVAL_MS = 15 * 60 * 1000;
-export type InboxZeroDesktopApi = {
+export type MailPilotDesktopApi = {
   /** Tells the shell this page hydrated; without it the shell reloads the page. */
   signalReady?: () => void;
   setUnreadCount?: (count: number) => void;
@@ -58,13 +58,13 @@ export type DesktopHealth = {
 
 declare global {
   interface Window {
-    inboxZeroDesktop?: InboxZeroDesktopApi;
+    mailPilotDesktop?: MailPilotDesktopApi;
   }
 }
 
-export function getInboxZeroDesktopApp(): InboxZeroDesktopApi | undefined {
+export function getMailPilotDesktopApp(): MailPilotDesktopApi | undefined {
   if (typeof window === "undefined") return;
-  return window.inboxZeroDesktop;
+  return window.mailPilotDesktop;
 }
 
 export function shouldCheckForDesktopWebUpdate({

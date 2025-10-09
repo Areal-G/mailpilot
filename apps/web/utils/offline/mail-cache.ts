@@ -1,11 +1,11 @@
 const MAIL_PATH = /^\/[^/]+\/mail\/?$/u;
 export const ACCOUNT_PATH = "/api/user/email-accounts";
-export const OFFLINE_MAIL_CACHE_PREFIX = "mailpilot:offline-mail:";
-export const MAIL_ENGINE_STATIC_CACHE = "mailpilot:mail-engine-static";
-export const CLEAR_OFFLINE_MAIL = "mailpilot:clear-offline-mail";
+export const OFFLINE_MAIL_CACHE_PREFIX = "mail-pilot:offline-mail:";
+export const MAIL_ENGINE_STATIC_CACHE = "mail-pilot:mail-engine-static";
+export const CLEAR_OFFLINE_MAIL = "mail-pilot:clear-offline-mail";
 export const CLEAR_OFFLINE_MAIL_ACCOUNT =
-  "mailpilot:clear-offline-mail-account";
-export const SAVE_OFFLINE_MAIL = "mailpilot:save-offline-mail";
+  "mail-pilot:clear-offline-mail-account";
+export const SAVE_OFFLINE_MAIL = "mail-pilot:save-offline-mail";
 export const SKIP_WAITING = "SKIP_WAITING";
 
 type WaitUntil = (promise: Promise<unknown>) => void;

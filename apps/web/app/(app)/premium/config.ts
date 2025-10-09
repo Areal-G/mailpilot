@@ -125,8 +125,8 @@ const APPLE_PRODUCT_ID_CONFIG: Partial<Record<PremiumTier, string>> = {
  * business prices and Lemon's business variants map to).
  */
 const APPLE_STARTER_PRODUCT_IDS: Record<string, PremiumTier> = {
-  "com.getmailpilot.starter.monthly.v2": "STARTER_MONTHLY",
-  "com.getmailpilot.starter.annual.v2": "STARTER_ANNUALLY",
+  "app.mailpilot.starter.monthly.v2": "STARTER_MONTHLY",
+  "app.mailpilot.starter.annual.v2": "STARTER_ANNUALLY",
 };
 
 export function getStripeSubscriptionTier({
@@ -416,7 +416,7 @@ const enterpriseTier: Tier = {
     },
   ],
   cta: "Speak to sales",
-  ctaLink: "https://www.mailpilot.dev/sales",
+  ctaLink: "https://www.mailpilot.app/sales",
   mostPopular: false,
 };
 

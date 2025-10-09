@@ -20,8 +20,8 @@ import type { getEmailAccount } from "@/__tests__/helpers";
 import prisma from "@/utils/__mocks__/prisma";
 import { createScopedLogger } from "@/utils/logger";
 
-// pnpm --filter mailpilot-ai test-ai __tests__/eval/assistant-chat-rule-diagnosis.test.ts
-// Multi-model: EVAL_MODELS=all pnpm --filter mailpilot-ai test-ai __tests__/eval/assistant-chat-rule-diagnosis.test.ts
+// pnpm --filter mailpilot-web test-ai __tests__/eval/assistant-chat-rule-diagnosis.test.ts
+// Multi-model: EVAL_MODELS=all pnpm --filter mailpilot-web test-ai __tests__/eval/assistant-chat-rule-diagnosis.test.ts
 
 const shouldRunEval = shouldRunEvalTests();
 const TIMEOUT = 120_000;

@@ -31,7 +31,7 @@ test("chooses which accounts appear in All Accounts", async ({
 
     await page.addInitScript(() => {
       Object.assign(window, {
-        inboxZeroDesktop: { startAuth: async () => {} },
+        mailPilotDesktop: { startAuth: async () => {} },
       });
     });
     for (const { userAgent, modifier, checkpoint } of [

@@ -5,7 +5,7 @@ import { createTestLogger } from "@/__tests__/helpers";
 const { envMock } = vi.hoisted(() => ({
   envMock: {
     FCM_TRANSPORT: "fake" as string | undefined,
-    FCM_PROJECT_ID: "mailpilot-test" as string | undefined,
+    FCM_PROJECT_ID: "mail-pilot-test" as string | undefined,
     FCM_SERVICE_ACCOUNT_JSON: undefined as string | undefined,
   },
 }));
@@ -24,7 +24,7 @@ const token = "fcm-token:APA91b".padEnd(152, "x");
 describe("deliverFcmNotifications", () => {
   beforeEach(() => {
     envMock.FCM_TRANSPORT = "fake";
-    envMock.FCM_PROJECT_ID = "mailpilot-test";
+    envMock.FCM_PROJECT_ID = "mail-pilot-test";
     envMock.FCM_SERVICE_ACCOUNT_JSON = undefined;
     takeRecordedFcmSends();
   });
@@ -64,7 +64,7 @@ describe("deliverFcmNotifications", () => {
     expect(takeRecordedFcmSends()).toEqual([
       {
         token,
-        projectId: "mailpilot-test",
+        projectId: "mail-pilot-test",
         message: {
           token,
           data: { emailAccountId: "account-1", hint: "mailbox" },
@@ -88,7 +88,7 @@ describe("deliverFcmNotifications", () => {
     expect(takeRecordedFcmSends()).toEqual([
       {
         token,
-        projectId: "mailpilot-test",
+        projectId: "mail-pilot-test",
         message: {
           token,
           notification: { title: "Alice", body: "Quarterly plan" },
@@ -168,7 +168,7 @@ describe("deliverFcmNotifications", () => {
           { status: 503 },
         );
       }
-      return Response.json({ name: "projects/mailpilot-test/messages/1" });
+      return Response.json({ name: "projects/mail-pilot-test/messages/1" });
     });
 
     const result = await deliverFcmNotifications({
@@ -183,7 +183,7 @@ describe("deliverFcmNotifications", () => {
     });
     expect(new Set(sent.map(({ url }) => url))).toEqual(
       new Set([
-        "https://fcm.googleapis.com/v1/projects/mailpilot-test/messages:send",
+        "https://fcm.googleapis.com/v1/projects/mail-pilot-test/messages:send",
       ]),
     );
     expect(sent).toHaveLength(4);
@@ -211,8 +211,8 @@ function useRealTransport() {
   envMock.FCM_TRANSPORT = undefined;
   envMock.FCM_PROJECT_ID = undefined;
   envMock.FCM_SERVICE_ACCOUNT_JSON = JSON.stringify({
-    client_email: "push@mailpilot-test.iam.gserviceaccount.com",
+    client_email: "push@mail-pilot-test.iam.gserviceaccount.com",
     private_key: privateKey.export({ type: "pkcs8", format: "pem" }),
-    project_id: "mailpilot-test",
+    project_id: "mail-pilot-test",
   });
 }

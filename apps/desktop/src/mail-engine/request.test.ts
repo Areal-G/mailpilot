@@ -90,7 +90,7 @@ describe("createOriginMailRequest", () => {
     expect(url).toBe(
       "http://mail.internal.example:8080/api/mail/v1/accounts/acc-1/capabilities",
     );
-    expect(url).not.toContain("mailpilot.dev");
+    expect(url).not.toContain("mailpilot.app");
   });
 
   it("returns attachment bytes without parsing them as JSON", async () => {

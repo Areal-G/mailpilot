@@ -33,11 +33,11 @@ type ProgramOptions = {
 
 async function main() {
   program
-    .name("mailpilot-api")
+    .name("mail-pilot-api")
     .description(
       "CLI tool for managing Mail Pilot through the external API.\n\n" +
         "This binary is intended for bots, automation, and API-driven workflows.\n" +
-        "For self-hosting and Docker setup, use `mailpilot` instead.",
+        "For self-hosting and Docker setup, use `mail-pilot` instead.",
     )
     .version(packageJson.version, "-v, --version")
     .option("-k, --api-key <key>", "Mail Pilot API key")
@@ -356,7 +356,7 @@ function resolveBaseUrl(options: ProgramOptions) {
 
   return (
     options.baseUrl ||
-    process.env.MAILPILOT_BASE_URL ||
+    process.env.MAIL_PILOT_BASE_URL ||
     storedConfig.baseUrl ||
     DEFAULT_BASE_URL
   );

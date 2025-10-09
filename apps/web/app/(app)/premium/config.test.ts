@@ -175,12 +175,12 @@ describe("getAppleSubscriptionTier", () => {
   it("maps the native App Store starter products to the Starter tier", () => {
     expect(
       getAppleSubscriptionTier({
-        productId: "com.getmailpilot.starter.monthly.v2",
+        productId: "app.mailpilot.starter.monthly.v2",
       }),
     ).toBe("STARTER_MONTHLY");
     expect(
       getAppleSubscriptionTier({
-        productId: "com.getmailpilot.starter.annual.v2",
+        productId: "app.mailpilot.starter.annual.v2",
       }),
     ).toBe("STARTER_ANNUALLY");
   });

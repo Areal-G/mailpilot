@@ -249,7 +249,7 @@ function setUpDesktopUpdate({ desktop = true } = {}) {
   });
   const reload = vi.fn();
 
-  if (desktop) vi.stubGlobal("inboxZeroDesktop", { startAuth: vi.fn() });
+  if (desktop) vi.stubGlobal("mailPilotDesktop", { startAuth: vi.fn() });
   vi.stubGlobal("navigator", { onLine: true, serviceWorker });
   vi.stubGlobal("location", { ...window.location, reload });
   serwistState.serwist = {

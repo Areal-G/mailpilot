@@ -10,7 +10,7 @@ import { createEvalReporter } from "@/__tests__/eval/reporter";
 import { judgeEvalOutput } from "@/__tests__/eval/semantic-judge";
 import { createScopedLogger } from "@/utils/logger";
 
-// pnpm --filter mailpilot-ai test-ai eval/assistant-chat-email-card-capability
+// pnpm --filter mailpilot-web test-ai eval/assistant-chat-email-card-capability
 
 const reporter = createEvalReporter({
   evalName: "assistant-chat-email-card-capability",

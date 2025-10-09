@@ -1,7 +1,7 @@
 # Mail Pilot Slack App Manifest
 #
 # Use this to create a Slack app via: Create New App > From a manifest
-# Replace YOUR_DOMAIN with your actual domain (e.g. app.mailpilot.com or your-ngrok-domain.ngrok-free.app)
+# Replace YOUR_DOMAIN with your actual domain (e.g. app.mailpilot.app or your-ngrok-domain.ngrok-free.app)
 
 display_information:
   name: Mail Pilot

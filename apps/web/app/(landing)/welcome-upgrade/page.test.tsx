@@ -15,9 +15,6 @@ vi.mock("@/app/(landing)/home/Footer", () => ({ Footer: () => null }));
 vi.mock("@/app/(landing)/welcome-upgrade/WelcomeUpgradeNav", () => ({
   WelcomeUpgradeNav: () => null,
 }));
-vi.mock("@/app/(landing)/welcome-upgrade/Testimonial", () => ({
-  Testimonial: () => null,
-}));
 vi.mock("@/app/(landing)/welcome-upgrade/ContinueWithEmailClient", () => ({
   ContinueWithEmailClient: () => null,
 }));

@@ -176,7 +176,7 @@ jobs:
 
       - name: Build browser app once
         if: steps.targets.outputs.batches != '[]'
-        run: pnpm -F mailpilot-ai build:ci
+        run: pnpm -F mailpilot-web build:ci
         env:
           NODE_ENV: production
           NODE_OPTIONS: --max_old_space_size=16384
@@ -275,10 +275,10 @@ jobs:
             ${{ runner.os }}-playwright-
 
       - name: Apply database migrations
-        run: pnpm -F mailpilot-ai exec prisma migrate deploy
+        run: pnpm -F mailpilot-web exec prisma migrate deploy
 
       - name: Install Playwright browser
-        run: pnpm -F mailpilot-ai exec playwright install --with-deps chromium
+        run: pnpm -F mailpilot-web exec playwright install --with-deps chromium
 
       - name: Download browser app
         uses: actions/download-artifact@v4
@@ -295,7 +295,7 @@ jobs:
         shell: bash
         run: |
           mapfile -t targets < <(jq -r '.[]' <<< "$TEST_TARGETS")
-          xvfb-run -a pnpm -F mailpilot-ai test:playwright:emulated "${targets[@]}"
+          xvfb-run -a pnpm -F mailpilot-web test:playwright:emulated "${targets[@]}"
         env:
           TEST_TARGETS: ${{ toJSON(matrix.batch.paths) }}
 
@@ -359,7 +359,7 @@ jobs:
         shell: bash
         run: |
           if compgen -G 'apps/web/.tmp/playwright/blob-report/*.zip' > /dev/null; then
-            pnpm -F mailpilot-ai exec playwright merge-reports --reporter=html .tmp/playwright/blob-report
+            pnpm -F mailpilot-web exec playwright merge-reports --reporter=html .tmp/playwright/blob-report
           else
             echo "No browser targets were selected."
           fi

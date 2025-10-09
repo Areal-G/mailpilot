@@ -28,7 +28,7 @@ export default function NotFound() {
               <Link href="/">Return Home</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="https://docs.mailpilot.dev">Documentation</Link>
+              <Link href="https://docs.mailpilot.app">Documentation</Link>
             </Button>
           </div>
         }

@@ -1,4 +1,4 @@
-const STORAGE_PREFIX = "mailpilot:swr:v2:";
+const STORAGE_PREFIX = "mail-pilot:swr:v2:";
 
 // These hooks use plain-string SWR keys that are not account-scoped (the
 // account travels in a request header), so the snapshot is namespaced by
@@ -129,7 +129,7 @@ function persistedStorageKeys(): string[] {
   const keys: string[] = [];
   for (let index = 0; index < window.localStorage.length; index++) {
     const key = window.localStorage.key(index);
-    if (key?.startsWith("mailpilot:swr:")) keys.push(key);
+    if (key?.startsWith("mail-pilot:swr:")) keys.push(key);
   }
   return keys;
 }

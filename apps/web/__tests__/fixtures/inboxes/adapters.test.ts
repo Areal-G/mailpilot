@@ -80,7 +80,7 @@ describe("demo inbox fixture adapters", () => {
     });
     const deployment = searchFixtureMessages({
       fixture: saasFounderMixedInbox,
-      query: "mailpilot-ai -security",
+      query: "mailpilot-web -security",
       maxResults: 10,
     });
 

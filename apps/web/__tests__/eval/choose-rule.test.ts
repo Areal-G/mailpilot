@@ -472,7 +472,7 @@ const testCases = [
       from: "noreply@vercel.com",
       subject: "Payment successful — Vercel Pro",
       content:
-        "Your payment for Vercel Pro has been processed.\n\nTeam: mailpilot\nPlan: Pro\nAmount: $20.00\nCard: Visa ending in 4242\nBilling period: Mar 1 — Mar 31, 2026\n\nView invoice: https://vercel.com/billing",
+        "Your payment for Vercel Pro has been processed.\n\nTeam: mail-pilot\nPlan: Pro\nAmount: $20.00\nCard: Visa ending in 4242\nBilling period: Mar 1 — Mar 31, 2026\n\nView invoice: https://vercel.com/billing",
     }),
     expectedRule: "Receipt",
   },
@@ -520,7 +520,7 @@ const testCases = [
       from: "jason@sequoiacap.com",
       subject: "Quick question about your Series A metrics",
       content:
-        "Hi Elie,\n\nI was reviewing the deck you sent over and had a question about your retention numbers. The 85% monthly retention you mentioned — is that for all cohorts or just the most recent one? Also, do you have the data broken out by plan tier?\n\nWould be helpful before our partner meeting on Thursday.\n\nBest,\nJason",
+        "Hi Alex,\n\nI was reviewing the deck you sent over and had a question about your retention numbers. The 85% monthly retention you mentioned — is that for all cohorts or just the most recent one? Also, do you have the data broken out by plan tier?\n\nWould be helpful before our partner meeting on Thursday.\n\nBest,\nJason",
     }),
     expectedRule: "Conversations",
   },
@@ -529,7 +529,7 @@ const testCases = [
       from: "guillermo@vercel.com",
       subject: "Re: Next.js Conf speaker slot",
       content:
-        "Hey Elie,\n\nWe'd love to have you speak at Next.js Conf this October. We're thinking a 20-min talk on how you built the AI email assistant — the architecture decisions, what worked, what didn't.\n\nWould you be interested? We can cover travel and hotel.\n\nBest,\nGuillermo",
+        "Hey Alex,\n\nWe'd love to have you speak at Next.js Conf this October. We're thinking a 20-min talk on how you built the AI email assistant — the architecture decisions, what worked, what didn't.\n\nWould you be interested? We can cover travel and hotel.\n\nBest,\nGuillermo",
     }),
     expectedRule: "Conversations",
   },
@@ -558,7 +558,7 @@ const testCases = [
       from: "lisa@techcrunch.com",
       subject: "Interview request — Mail Pilot feature for TechCrunch",
       content:
-        "Hi Elie,\n\nI'm writing a piece about the new wave of AI email tools for TechCrunch and would love to include Mail Pilot. Could we schedule a 20-minute call this week or early next week? I'm flexible on timing.\n\nAlternatively, I can send over questions via email if that's easier.\n\nThanks,\nLisa Chen\nSenior Reporter, TechCrunch",
+        "Hi Alex,\n\nI'm writing a piece about the new wave of AI email tools for TechCrunch and would love to include Mail Pilot. Could we schedule a 20-minute call this week or early next week? I'm flexible on timing.\n\nAlternatively, I can send over questions via email if that's easier.\n\nThanks,\nLisa Chen\nSenior Reporter, TechCrunch",
     }),
     expectedRule: ["Calendar", "Conversations"],
   },

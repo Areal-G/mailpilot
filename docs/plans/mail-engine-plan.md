@@ -520,7 +520,7 @@ Required behavioral suites during implementation:
 
 The implementing agent owns running, inspecting, and repairing its tests. Writing tests, completing implementation, or reporting a green mocked unit suite is not completion. Each milestone must leave reproducible commands and evidence for the behavior it claims.
 
-Reuse the existing `@mailpilot/emulate` Google/Microsoft services, integration helpers, emulated Playwright runner, and quota/latency simulation infrastructure. Do not create a competing fake Gmail/Graph implementation inside the mail engine. Keep the small deterministic provider fixture for model tests; use real HTTP provider emulators for integration acceptance.
+Reuse the existing `emulate` package Google/Microsoft services, integration helpers, emulated Playwright runner, and quota/latency simulation infrastructure. Do not create a competing fake Gmail/Graph implementation inside the mail engine. Keep the small deterministic provider fixture for model tests; use real HTTP provider emulators for integration acceptance.
 
 Existing infrastructure verified while preparing this plan:
 
@@ -566,9 +566,9 @@ Current commands to reuse where applicable:
 ```sh
 pnpm install
 pnpm test-integration
-pnpm -F mailpilot-ai test:playwright:emulated mail
-pnpm -F mailpilot-ai test:playwright:emulated automation
-pnpm -F mailpilot-ai test:mail-loading
+pnpm -F mailpilot-web test:playwright:emulated mail
+pnpm -F mailpilot-web test:playwright:emulated automation
+pnpm -F mailpilot-web test:mail-loading
 ```
 
 Focused spec paths are preferred while iterating. The implementing agent must add documented provider selection and desktop engine/UI runs to the harness before claiming dual-provider/desktop coverage; the commands above do not currently prove every matrix cell. Use synthetic accounts and disposable local infrastructure. Follow repository requirements for build/dev authorization and bounded harness execution; do not start tests during plan-only work.
@@ -1514,7 +1514,7 @@ These work packages refine architecture Stages 0–6; they do not create a secon
 
 For each package retain: exact command, provider/runtime, seed, pass/fail/skip counts, artifact locations, and unresolved limitations in the implementation task’s external work log. Keep agent progress logs outside the product repository. Record proposed decisions separately from verified behavior. Do not mark blocked/skipped/platform-unavailable cells passed.
 
-Before implementation writes tests, read `.local/skills/testing/SKILL.md` and relevant integration guidance. Extend existing emulator and Playwright harnesses. Proposed new spec locations include `integration/mail-engine/replication.test.ts`, `integration/mail-engine/operations.test.ts`, `playwright/emulated/mail/engine-consistency.spec.ts`, and desktop `__tests__/mail-engine/recovery.test.ts`. These are future files, not claims of existing commands/coverage. Choose focused existing script entry points and document any new script when adding it.
+Before implementation writes tests, read the relevant integration test guidance. Extend existing emulator and Playwright harnesses. Proposed new spec locations include `integration/mail-engine/replication.test.ts`, `integration/mail-engine/operations.test.ts`, `playwright/emulated/mail/engine-consistency.spec.ts`, and desktop `__tests__/mail-engine/recovery.test.ts`. These are future files, not claims of existing commands/coverage. Choose focused existing script entry points and document any new script when adding it.
 
 Use a test-only fault proxy for before-dispatch failure, response loss after application, delayed/reordered reads, throttling and notification suppression. Use actual process termination/reopen for durability cases. Do not prove crash recovery with only a thrown exception in the same still-open connection. Test inspection is read-only and unavailable through production renderer/HTTP surfaces.
 

@@ -237,7 +237,7 @@ function selectModel(
       const openrouter = createOpenRouter({
         apiKey: resolveApiKey(aiApiKey, env.OPENROUTER_API_KEY),
         headers: {
-          "HTTP-Referer": "https://www.mailpilot.dev",
+          "HTTP-Referer": "https://www.mailpilot.app",
           "X-Title": "Mail Pilot",
         },
       });
@@ -260,7 +260,7 @@ function selectModel(
       const gateway = createGateway({
         apiKey: aiGatewayApiKey,
         headers: {
-          "http-referer": "https://www.mailpilot.dev",
+          "http-referer": "https://www.mailpilot.app",
           "x-title": "Mail Pilot",
         },
       });

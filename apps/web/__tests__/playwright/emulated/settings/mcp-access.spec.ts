@@ -170,7 +170,7 @@ test("requires client consent, enforces read-only access, and disconnects existi
   ).toBeVisible();
   await expect(
     connectDialog.getByRole("link", { name: "Full setup guide" }),
-  ).toHaveAttribute("href", "https://docs.mailpilot.dev/essentials/mcp");
+  ).toHaveAttribute("href", "https://docs.mailpilot.app/essentials/mcp");
   await capturePlaywrightCheckpoint(connectDialog, testInfo, "mcp-connect-url");
   await page.keyboard.press("Escape");
   await page.getByRole("button", { name: /^MCP apps/ }).click();

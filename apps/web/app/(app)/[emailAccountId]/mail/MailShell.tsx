@@ -32,7 +32,7 @@ import type { MailboxItem } from "@/app/(app)/[emailAccountId]/mail/MailboxItemC
 import { ListSenderCommands } from "@/app/(app)/[emailAccountId]/mail/ListSenderCommands";
 import { extractEmailAddress, isSameEmailAddress } from "@/utils/email";
 import { LabelPickerDialog } from "@/app/(app)/[emailAccountId]/mail/LabelPickerDialog";
-import { InboxZeroCelebration } from "@/app/(app)/[emailAccountId]/mail/InboxZeroCelebration";
+import { EmptyInboxCelebration } from "@/app/(app)/[emailAccountId]/mail/EmptyInboxCelebration";
 import { ThreadList } from "@/app/(app)/[emailAccountId]/mail/ThreadList";
 import { useStableCallback } from "@/app/(app)/[emailAccountId]/mail/use-stable-callback";
 import { useTranslateThread } from "@/app/(app)/[emailAccountId]/mail/use-thread-translation";
@@ -115,7 +115,7 @@ import { getActionErrorMessage } from "@/utils/error";
 import { prefixPath } from "@/utils/path";
 import { getMailAccountUrl } from "@/app/(app)/[emailAccountId]/mail/mail-account-url";
 import { redirectToSafeUrl } from "@/utils/redirect";
-import { getInboxZeroDesktopApp } from "@/utils/desktop-app";
+import { getMailPilotDesktopApp } from "@/utils/desktop-app";
 import { LoadingMiniSpinner } from "@/components/Loading";
 import { LoadingContent } from "@/components/LoadingContent";
 import { useTeamCommentsAvailable } from "@/components/team-comments/use-team-comments-available";
@@ -171,6 +171,7 @@ export function MailShell() {
   const [isDesktopApp, setIsDesktopApp] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMailNavOpen, setIsMailNavOpen] = useState(false);
+  const [isListScrolled, setIsListScrolled] = useState(false);
   const [labelPicker, setLabelPicker] = useState<{
     mode: "label" | "move";
     targets: ThreadSelection[];
@@ -185,7 +186,7 @@ export function MailShell() {
   const pendingSearchFocusRef = useRef(false);
 
   useEffect(() => {
-    setIsDesktopApp(Boolean(getInboxZeroDesktopApp()));
+    setIsDesktopApp(Boolean(getMailPilotDesktopApp()));
   }, []);
 
   const isAllAccounts = accountScope === "all";
@@ -466,7 +467,7 @@ export function MailShell() {
     emptyListMessage = "No emails found";
   } else if (!scopeQuery) {
     emptyListMessage = (
-      <InboxZeroCelebration
+      <EmptyInboxCelebration
         splitName={activeSplit?.id === "all" ? undefined : activeSplit?.name}
       />
     );
@@ -1150,6 +1151,9 @@ export function MailShell() {
     senderCommandContext?.threadId === singleActionTarget?.selection.threadId
       ? senderCommandContext
       : null;
+  const onToggleAssistant = useStableCallback(() =>
+    toggleSidebar(["chat-sidebar"]),
+  );
   // `useShortcuts` keeps handlers in a ref, so these need no memoization.
   const handlers: ShortcutHandlers = (() => {
     if (sidePanelThreadId || labelPicker) return {};
@@ -1250,6 +1254,7 @@ export function MailShell() {
       },
       toggleLayout,
       togglePreview,
+      toggleAssistant: onToggleAssistant,
       help: () => setIsHelpOpen(true),
       search: isMailOverlayOpen
         ? undefined
@@ -1392,9 +1397,6 @@ export function MailShell() {
         threadId: sentThreadId,
       });
     },
-  );
-  const onToggleAssistant = useStableCallback(() =>
-    toggleSidebar(["chat-sidebar"]),
   );
   const searchFolders = useMemo(
     () =>
@@ -1540,6 +1542,7 @@ export function MailShell() {
                     isAllAccounts ? combinedLabelSplits : undefined
                   }
                   labelsByAccount={isAllAccounts ? labelsByAccount : undefined}
+                  showDivider={isListScrolled}
                 />
               )}
               {isAllAccounts && combinedThreadState.failedAccountIds.length ? (
@@ -1585,6 +1588,7 @@ export function MailShell() {
                       showSentOpenStatus={
                         scopeType === "sent" && !isAllAccounts
                       }
+                      onScrolledChange={setIsListScrolled}
                       listKey={
                         isAllAccounts
                           ? `all-accounts:${searchQuery ?? displayedActiveSplitId}`

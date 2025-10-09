@@ -19,6 +19,7 @@ import {
   cancelHeldEngineSend,
   createEmailProviderOperationExecutor,
 } from "@/utils/mail-api/operations";
+import { DEMO_BLOCKED_MESSAGE, isDemoUserEmail } from "@/utils/demo";
 
 export const PUT = withEmailProvider(
   "mail/v1/operations",
@@ -63,6 +64,21 @@ export const PUT = withEmailProvider(
       return NextResponse.json(
         mailHttpErrorResponse({ requestId, code: "invalid", retryable: false }),
         { status: 400 },
+      );
+    }
+    if (
+      parsed.data.operation.intent.kind === "send" &&
+      isDemoUserEmail(request.auth.email)
+    ) {
+      return NextResponse.json(
+        operationAdmitResultSchema.parse({
+          status: "rejected",
+          // The composer shows a rejected send's code as its error toast.
+          code: DEMO_BLOCKED_MESSAGE,
+          targets: [],
+          protocolVersion: parsed.data.protocolVersion,
+          requestId,
+        }),
       );
     }
     const executor = createEmailProviderOperationExecutor({

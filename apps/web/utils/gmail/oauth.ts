@@ -117,7 +117,7 @@ function getGoogleOauthUserInfoUrl() {
   return baseUrl ? `${baseUrl}/oauth2/v2/userinfo` : GOOGLE_USERINFO_URL;
 }
 
-function getGoogleOauthBaseUrl() {
+export function getGoogleOauthBaseUrl() {
   return env.GOOGLE_BASE_URL?.replace(/\/+$/, "") || null;
 }
 

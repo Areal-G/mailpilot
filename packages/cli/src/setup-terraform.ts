@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import * as p from "@clack/prompts";
 import { getDefaultLlmModels } from "./llm";
 
-const DEFAULT_APP_NAME = "mailpilot";
+const DEFAULT_APP_NAME = "mail-pilot";
 const DEFAULT_ENVIRONMENT = "production";
 const DEFAULT_REGION = "us-east-1";
 const DEFAULT_OUTPUT_DIR_NAME = "terraform";
@@ -268,7 +268,7 @@ export async function runTerraformSetup(options: TerraformSetupOptions) {
       ? ""
       : await promptRequiredText({
           message: "Google Pub/Sub topic name:",
-          placeholder: "projects/your-project/topics/mailpilot-emails",
+          placeholder: "projects/your-project/topics/mail-pilot-emails",
         }));
 
   if (nonInteractive) {
@@ -1433,7 +1433,7 @@ resource "aws_ecs_service" "app" {
 
 const TERRAFORM_VARIABLES_TF = `variable "app_name" {
   type    = string
-  default = "mailpilot"
+  default = "mail-pilot"
 }
 
 variable "environment" {
@@ -1472,7 +1472,7 @@ variable "acm_certificate_arn" {
 
 variable "container_image" {
   type    = string
-  default = "ghcr.io/areal/mailpilot:latest"
+  default = "ghcr.io/arealgizaw/mail-pilot:latest"
 }
 
 variable "container_port" {

@@ -20,12 +20,12 @@ RUN npm install -g pnpm@10
 
 # Create directories with correct ownership BEFORE volumes are mounted
 # Docker preserves ownership when mounting empty named volumes to pre-existing directories
-RUN mkdir -p /workspaces/mailpilot/node_modules \
+RUN mkdir -p /workspaces/mail-pilot/node_modules \
     && mkdir -p /pnpm/store \
     && chown -R node:node /workspaces \
     && chown -R node:node /pnpm
 
-WORKDIR /workspaces/mailpilot
+WORKDIR /workspaces/mail-pilot
 
 # Switch to non-root user
 USER node

@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   buildReplyAllRecipients,
+  canReplyAll,
   formatCcList,
   mergeAndDedupeRecipients,
 } from "./reply-all";
@@ -509,5 +510,41 @@ describe("mergeAndDedupeRecipients", () => {
       '"Doe, Jane" <jane@example.com>',
       '"Smith, Bob" <bob@example.com>',
     ]);
+  });
+});
+
+describe("canReplyAll", () => {
+  const message = (to: string, labelIds = ["INBOX"]) => ({
+    headers: {
+      from: "Sender <sender@example.com>",
+      to,
+      subject: "Subject",
+      date: "2026-01-01",
+    } as ParsedMessageHeaders,
+    labelIds,
+  });
+
+  it("is false when the user is the only other recipient", () => {
+    expect(canReplyAll(message("user@example.com"), "user@example.com")).toBe(
+      false,
+    );
+  });
+
+  it("is true when someone else is also on To", () => {
+    expect(
+      canReplyAll(
+        message("User <user@example.com>, teammate@example.com"),
+        "user@example.com",
+      ),
+    ).toBe(true);
+  });
+
+  it("is false for the user's own sent mail", () => {
+    expect(
+      canReplyAll(
+        message("a@example.com, b@example.com", ["SENT"]),
+        "user@example.com",
+      ),
+    ).toBe(false);
   });
 });

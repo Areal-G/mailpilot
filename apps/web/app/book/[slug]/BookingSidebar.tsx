@@ -38,7 +38,7 @@ import {
   type Slot,
 } from "./booking-helpers";
 
-const BRAND_HOMEPAGE_URL = "https://www.mailpilot.dev";
+const BRAND_HOMEPAGE_URL = "https://www.mailpilot.app";
 
 type BookingLink = Omit<GetPublicBookingLinkResponse, "locationValue"> & {
   locationValue: string | null;

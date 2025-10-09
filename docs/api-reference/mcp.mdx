@@ -24,10 +24,10 @@ The server is disabled by default. Configure `NEXT_PUBLIC_BASE_URL` to your depl
 Add a remote Streamable HTTP MCP connection:
 
 ```text
-https://www.mailpilot.dev/mcp
+https://www.mailpilot.app/mcp
 ```
 
-Self-hosted deployments use `https://your-mailpilot-host/mcp`. `/api/mcp-server` still accepts MCP `POST` requests as an alias; the OAuth resource identifier is always `/mcp`.
+Self-hosted deployments use `https://your-mail-pilot-host/mcp`. `/api/mcp-server` still accepts MCP `POST` requests as an alias; the OAuth resource identifier is always `/mcp`.
 
 The client must support OAuth authorization-code flow with S256 PKCE, dynamic client registration, and resource indicators. Use the MCP endpoint URL as the `resource` when authorizing, exchanging an authorization code, and refreshing a token. Opaque tokens and API keys are not accepted.
 
@@ -43,7 +43,7 @@ Refresh tokens stay valid after you log out of Mail Pilot in the browser. Discon
     In Claude, open **Customize → Connectors**, choose **Add custom connector**, and paste the MCP URL. Leave OAuth client ID and secret empty unless you registered a client yourself. Connect, choose **Allow**, then enable Mail Pilot from **+ → Connectors** in a chat.
 
     ```bash
-    claude mcp add --transport http mailpilot https://www.mailpilot.dev/mcp
+    claude mcp add --transport http mail-pilot https://www.mailpilot.app/mcp
     ```
 
     Claude Code then runs OAuth against that URL.
@@ -55,14 +55,14 @@ Refresh tokens stay valid after you log out of Mail Pilot in the browser. Discon
     ```json
     {
       "mcpServers": {
-        "mailpilot": {
-          "url": "https://www.mailpilot.dev/mcp"
+        "mail-pilot": {
+          "url": "https://www.mailpilot.app/mcp"
         }
       }
     }
     ```
 
-    Cursor then runs OAuth. Self-hosted deployments use their own origin in place of `www.mailpilot.dev`.
+    Cursor then runs OAuth. Self-hosted deployments use their own origin in place of `www.mailpilot.app`.
   </Accordion>
 
 See [Connect MCP](/essentials/mcp) for ChatGPT, Claude, and Cursor steps plus the in-app toggle and per-app disconnect UI.
@@ -106,6 +106,6 @@ Dynamic client registration, token exchange, and MCP `POST` requests are rate-li
 
 ## Authentication dependency
 
-The server uses Better Auth 1.7.4, which includes the OAuth resource-binding security fix. It permits exactly its MCP endpoint, requires that resource during token issuance, and rejects access tokens with additional audiences. Existing deployments must follow the [Better Auth upgrade checklist](https://github.com/areal/mailpilot/blob/main/docs/better-auth-1.7-upgrade.md) before applying the authentication migration.
+The server uses Better Auth 1.7.4, which includes the OAuth resource-binding security fix. It permits exactly its MCP endpoint, requires that resource during token issuance, and rejects access tokens with additional audiences. Existing deployments must follow the [Better Auth upgrade checklist](https://github.com/arealgizaw/mail-pilot/blob/main/docs/better-auth-1.7-upgrade.md) before applying the authentication migration.
 
 MCP accepts HTTPS base URLs, with HTTP allowed only for local loopback development. Turning off the server flag suspends access; users can still revoke previously enabled access from Settings while the external API settings remain available.

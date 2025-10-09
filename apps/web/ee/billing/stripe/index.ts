@@ -13,7 +13,7 @@ export const getStripe = () => {
       appInfo: {
         name: "Mail Pilot",
         version: "1.0.0",
-        url: "https://www.mailpilot.dev",
+        url: "https://www.mailpilot.app",
       },
       typescript: true,
       ...(apiBaseUrl && {

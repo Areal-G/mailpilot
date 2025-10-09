@@ -73,7 +73,7 @@ function renderInternalTeamNote(internalTeamMembers: InternalTeamMember[]) {
 }
 
 export default function MeetingBriefingEmail({
-  baseUrl = "https://www.mailpilot.dev",
+  baseUrl = "https://www.mailpilot.app",
   emailAccountId,
   meetingTitle,
   formattedTime,
@@ -172,7 +172,7 @@ export default function MeetingBriefingEmail({
 }
 
 MeetingBriefingEmail.PreviewProps = {
-  baseUrl: "https://www.mailpilot.dev",
+  baseUrl: "https://www.mailpilot.app",
   unsubscribeToken: "test-token",
   emailAccountId: "test-account",
   meetingTitle: "Product Strategy Review with Acme Corp",

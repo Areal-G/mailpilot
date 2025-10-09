@@ -58,7 +58,7 @@ const RUN_INTEGRATION_TESTS = process.env.RUN_INTEGRATION_TESTS;
 const TEST_EMAIL = "learned-exclusions@example.com";
 const TEST_PORT = 4107;
 const TEST_MESSAGE_ID = "msg_learned_exclusion";
-const TEST_SENDER = "updates@transactional.mailpilot.dev";
+const TEST_SENDER = "updates@transactional.mailpilot.app";
 
 describe.skipIf(!RUN_INTEGRATION_TESTS)(
   "runRules learned exclusions",

@@ -1,9 +1,9 @@
 #!/bin/bash
-# publish-ghcr.sh - Publish mailpilot to GitHub Container Registry
+# publish-ghcr.sh - Publish mail-pilot to GitHub Container Registry
 #
 # Builds and pushes a Docker image (amd64) to your personal GHCR.
-# Useful for running your own mailpilot fork in Docker/Kubernetes without
-# depending on the upstream areal/mailpilot image.
+# Useful for running your own mail-pilot fork in Docker/Kubernetes without
+# depending on the upstream arealgizaw/mail-pilot image.
 #
 # Prerequisites:
 #   - gh CLI authenticated: gh auth login
@@ -25,12 +25,12 @@
 #   CI=1 or NONINTERACTIVE=1                      # auto-enables --force mode
 #
 # After first publish, make package public:
-#   GitHub → Profile → Packages → mailpilot → Settings → Change visibility → Public
+#   GitHub → Profile → Packages → mail-pilot → Settings → Change visibility → Public
 #
 set -euo pipefail
 
 # Configuration
-IMAGE_NAME="mailpilot"
+IMAGE_NAME="mail-pilot"
 REGISTRY="ghcr.io"
 DOCKERFILE="docker/Dockerfile.local"
 MIN_MEMORY_GB=3

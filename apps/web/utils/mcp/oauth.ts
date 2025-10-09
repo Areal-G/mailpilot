@@ -541,8 +541,8 @@ async function getOAuthClient(
     // Omit rather than send an empty string: some servers reject `scope: ""`
     // with invalid_scope instead of falling back to their defaults
     ...(scope && { scope }),
-    logo_uri: "https://mailpilot.dev/icon.png",
-    tos_uri: "https://mailpilot.dev/terms",
+    logo_uri: "https://mailpilot.app/icon.png",
+    tos_uri: "https://mailpilot.app/terms",
   };
 
   const registered = await registerClient(metadata.registration_endpoint, {

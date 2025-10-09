@@ -17,7 +17,7 @@ describe("renderTerraformTfvars", () => {
       redisInstanceClass: "cache.t4g.micro",
       googleClientId: "google-$id",
       googleClientSecret: "google-secret",
-      googlePubsubTopicName: "projects/demo/topics/mailpilot",
+      googlePubsubTopicName: "projects/demo/topics/mail-pilot",
       defaultLlms: "openai:model-100%",
     });
 

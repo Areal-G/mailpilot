@@ -16,7 +16,7 @@ const packagedBin = join(
   desktopRoot,
   "release/linux-unpacked/@mailpilotdesktop",
 );
-const hostedMailUrl = "https://www.mailpilot.dev/account-1/mail?type=inbox";
+const hostedMailUrl = "https://www.mailpilot.app/account-1/mail?type=inbox";
 
 describe.skipIf(!hasElectronBinary())(
   "desktop packaged local mail renderer",
@@ -39,7 +39,7 @@ describe.skipIf(!hasElectronBinary())(
       ]);
       expect(payload.url).toContain("file:");
       expect(payload.url).toContain("renderer/index.html");
-      expect(payload.url).not.toContain("mailpilot.dev");
+      expect(payload.url).not.toContain("mailpilot.app");
       expect(payload.ready).toBe(true);
       expect(payload.engine).toBe(true);
     }, 90_000);
@@ -52,7 +52,7 @@ describe.skipIf(!hasElectronBinary())(
         ]);
         expect(payload.url).toContain("file:");
         expect(payload.url).toContain("renderer/index.html");
-        expect(payload.url).not.toContain("mailpilot.dev");
+        expect(payload.url).not.toContain("mailpilot.app");
         expect(payload.ready).toBe(true);
       },
       90_000,
@@ -96,8 +96,8 @@ function runElectron(binary: string, extraArgs: string[], userData: string) {
         env: {
           ...process.env,
           ELECTRON_ENABLE_LOGGING: "1",
-          MAILPILOT_LOCAL_MAIL: "1",
-          MAILPILOT_LOCAL_MAIL_SMOKE: "1",
+          MAIL_PILOT_LOCAL_MAIL: "1",
+          MAIL_PILOT_LOCAL_MAIL_SMOKE: "1",
         },
       },
     );

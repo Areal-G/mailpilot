@@ -72,7 +72,7 @@ test("captures queued reply and reconnect", async ({ page }, testInfo) => {
         configurable: true,
         get: () => true,
       });
-      await window.__inboxZeroMailInspect?.requestSync?.();
+      await window.__mailPilotMailInspect?.requestSync?.();
       window.dispatchEvent(new Event("online"));
     })
     .catch((error) => {
@@ -84,7 +84,7 @@ test("captures queued reply and reconnect", async ({ page }, testInfo) => {
   ).toBeVisible({ timeout: 60_000 });
   await page
     .evaluate(async () => {
-      await window.__inboxZeroMailInspect?.requestSync?.();
+      await window.__mailPilotMailInspect?.requestSync?.();
     })
     .catch((error) => {
       if (!String(error).includes("Execution context was destroyed"))

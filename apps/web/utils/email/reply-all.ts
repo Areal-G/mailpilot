@@ -1,9 +1,11 @@
-import type { ParsedMessageHeaders } from "@/utils/types";
+import type { ParsedMessage, ParsedMessageHeaders } from "@/utils/types";
 import {
   extractEmailAddress,
   extractEmailAddresses,
+  isSameEmailAddress,
   splitRecipientList,
 } from "@/utils/email";
+import { GmailLabel } from "@/utils/gmail/label";
 
 export interface ReplyAllRecipients {
   cc: string[];
@@ -126,4 +128,20 @@ function addHeaderRecipientsToCcSet({
       ccSet.add(email);
     }
   }
+}
+
+/**
+ * A reply already keeps the CC list, so reply all only adds the other To
+ * recipients. Replies to the user's own mail already go to everyone.
+ */
+export function canReplyAll(
+  message: Pick<ParsedMessage, "headers" | "labelIds">,
+  userEmail: string,
+) {
+  if (message.labelIds?.includes(GmailLabel.SENT)) return false;
+  return splitRecipientList(message.headers.to ?? "").some(
+    (recipient) =>
+      !isSameEmailAddress(recipient, userEmail) &&
+      !isSameEmailAddress(recipient, message.headers.from),
+  );
 }

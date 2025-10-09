@@ -37,7 +37,7 @@ export function buildAppHomeBlocks(): AppHomeView {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "*1.* Connect your email at <https://www.mailpilot.dev|mailpilot.dev>\n*2.* Connect Slack on the Channels page\n*3.* Choose where notifications go (email alerts, drafted replies, meeting briefs)\n*4.* DM me or @mention me in any channel to chat about your emails",
+          text: "*1.* Connect your email at <https://www.mailpilot.app|mailpilot.app>\n*2.* Connect Slack on the Channels page\n*3.* Choose where notifications go (email alerts, drafted replies, meeting briefs)\n*4.* DM me or @mention me in any channel to chat about your emails",
         },
       },
       { type: "divider" },
@@ -91,7 +91,7 @@ export function buildAppHomeBlocks(): AppHomeView {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "*Meeting Briefs* — Get a briefing on attendees before your meetings, delivered to your chosen Slack channel.\n\n*Attachment Filing* — Mail Pilot can auto-file attachments to Google Drive and notify you here.\n\n*AI Automation* — Set up rules to auto-label, archive, or draft replies. Configure at <https://www.mailpilot.dev|mailpilot.dev>.",
+          text: "*Meeting Briefs* — Get a briefing on attendees before your meetings, delivered to your chosen Slack channel.\n\n*Attachment Filing* — Mail Pilot can auto-file attachments to Google Drive and notify you here.\n\n*AI Automation* — Set up rules to auto-label, archive, or draft replies. Configure at <https://www.mailpilot.app|mailpilot.app>.",
         },
       },
       { type: "divider" },
@@ -100,7 +100,7 @@ export function buildAppHomeBlocks(): AppHomeView {
         elements: [
           {
             type: "mrkdwn",
-            text: "<https://www.mailpilot.dev|Settings> · <https://www.mailpilot.dev/support|Support> · <https://www.mailpilot.dev/privacy|Privacy Policy>",
+            text: "<https://www.mailpilot.app|Settings> · <https://www.mailpilot.app/support|Support> · <https://www.mailpilot.app/privacy|Privacy Policy>",
           },
         ],
       },

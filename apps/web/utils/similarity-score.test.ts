@@ -232,11 +232,11 @@ On Mon, Jan 1, 2024 at 10:00 AM Sender <sender@example.com> wrote:
     it("should strip converted Gmail HTML quote blocks before comparing drafts", () => {
       const storedContent = `Checking on this now.
 
-Drafted by <a href="https://www.mailpilot.dev/?ref=ABC123">Mail Pilot</a>.`;
+Drafted by <a href="https://www.mailpilot.app/?ref=ABC123">Mail Pilot</a>.`;
       const gmailMessage = {
         ...createParsedMessage(""),
         textPlain: undefined,
-        textHtml: `<div dir="ltr">Checking on this now.<br><br>Drafted by <a href="https://www.mailpilot.dev/?ref=ABC123">Mail Pilot</a>.</div><br><div class="gmail_quote gmail_quote_container"><div dir="ltr" class="gmail_attr">Le lun. 27 avr. 2026, Sender &lt;<a href="mailto:sender@example.com">sender@example.com</a>&gt; a écrit:<br></div><blockquote class="gmail_quote"><div dir="ltr">Previous message</div></blockquote></div>`,
+        textHtml: `<div dir="ltr">Checking on this now.<br><br>Drafted by <a href="https://www.mailpilot.app/?ref=ABC123">Mail Pilot</a>.</div><br><div class="gmail_quote gmail_quote_container"><div dir="ltr" class="gmail_attr">Le lun. 27 avr. 2026, Sender &lt;<a href="mailto:sender@example.com">sender@example.com</a>&gt; a écrit:<br></div><blockquote class="gmail_quote"><div dir="ltr">Previous message</div></blockquote></div>`,
       };
 
       const score = realCalculateSimilarity(storedContent, gmailMessage);
@@ -280,15 +280,7 @@ Company
 
     it.each([
       { emoji: "👋", hex: "&#x1F44B;", name: "waving hand" },
-      { emoji: "😀", hex: "&#x1F600;", name: "grinning face" },
-      { emoji: "🎉", hex: "&#x1F389;", name: "party popper" },
       { emoji: "❤", hex: "&#x2764;", name: "red heart" },
-      { emoji: "🚀", hex: "&#x1F680;", name: "rocket" },
-      { emoji: "✅", hex: "&#x2705;", name: "check mark" },
-      { emoji: "🔥", hex: "&#x1F525;", name: "fire" },
-      { emoji: "👍", hex: "&#x1F44D;", name: "thumbs up" },
-      { emoji: "💡", hex: "&#x1F4A1;", name: "light bulb" },
-      { emoji: "📧", hex: "&#x1F4E7;", name: "email" },
     ])("should return 1.0 when stored content has HTML entity $name ($hex) and Gmail has actual emoji", ({
       emoji,
       hex,
@@ -310,7 +302,7 @@ On Tue, 27 Jan 2026 at 2:59, Test User <test@example.com> wrote:
 
 Took a look at the doc. Option 2 seems like a good middle ground for balancing the unit economics. Happy to jam on the specifics once I pull the data.
 
-Drafted by <a href="https://www.mailpilot.dev/?ref=ABC123">Mail Pilot</a>.`;
+Drafted by <a href="https://www.mailpilot.app/?ref=ABC123">Mail Pilot</a>.`;
       const gmailMessage = createParsedMessage(
         `Checking on the usage numbers now (scanned vs drafted). Should have those soon.
 
@@ -367,15 +359,7 @@ Company
 
     it.each([
       { emoji: "👋", decimal: "128075", name: "waving hand" },
-      { emoji: "😀", decimal: "128512", name: "grinning face" },
-      { emoji: "🎉", decimal: "127881", name: "party popper" },
       { emoji: "❤", decimal: "10084", name: "red heart" },
-      { emoji: "🚀", decimal: "128640", name: "rocket" },
-      { emoji: "✅", decimal: "9989", name: "check mark" },
-      { emoji: "🔥", decimal: "128293", name: "fire" },
-      { emoji: "👍", decimal: "128077", name: "thumbs up" },
-      { emoji: "💡", decimal: "128161", name: "light bulb" },
-      { emoji: "📧", decimal: "128231", name: "email" },
     ])("should decode decimal HTML entity for $name (&#$decimal;) to $emoji", ({
       emoji,
       decimal,

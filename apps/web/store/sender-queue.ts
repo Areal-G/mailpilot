@@ -378,7 +378,7 @@ function normalizeSender(sender: string) {
   return sender.trim().toLowerCase();
 }
 
-const SENDER_QUEUE_STORAGE_PREFIX = "mailpilot:sender-queue:";
+const SENDER_QUEUE_STORAGE_PREFIX = "mail-pilot:sender-queue:";
 let persistStoredQueues = true;
 
 function senderQueueStorageKey(payload: ThreadMutationPayload) {

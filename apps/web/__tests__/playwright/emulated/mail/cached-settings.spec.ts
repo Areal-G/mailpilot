@@ -10,7 +10,7 @@ test("opens mail with settings cached before the split condition upgrade", async
   const emailAccountId = await getEmailAccountId(page);
   await page.addInitScript((accountId) => {
     localStorage.setItem(
-      `mailpilot:swr:v2:${accountId}`,
+      `mail-pilot:swr:v2:${accountId}`,
       JSON.stringify({
         "/api/mail/settings": {
           layout: "LIST",

@@ -3,7 +3,7 @@ import {
   isPrereleaseDesktopVersion,
 } from "./desktop-version";
 
-export const DESKTOP_GITHUB_REPO = "areal/mailpilot";
+export const DESKTOP_GITHUB_REPO = "arealgizaw/mail-pilot";
 export const DESKTOP_TAG_PREFIX = "desktop-v";
 
 export type GitHubReleaseAsset = {

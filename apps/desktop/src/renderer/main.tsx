@@ -3,15 +3,15 @@ import { MailEngineProvider } from "@mailpilot/mail-react/MailEngineProvider";
 import { MailApp } from "@mailpilot/mail-ui/MailApp";
 import { createMailIpcClient } from "@mailpilot/mail-core/protocol/mail-ipc-client";
 import type { MailClient } from "@mailpilot/mail-core/engine";
-import type { InboxZeroDesktopApi } from "./desktop-api";
+import type { MailPilotDesktopApi } from "./desktop-api";
 
 declare global {
   interface Window {
-    inboxZeroDesktop?: InboxZeroDesktopApi;
+    mailPilotDesktop?: MailPilotDesktopApi;
   }
 }
 
-const ipc = window.inboxZeroDesktop;
+const ipc = window.mailPilotDesktop;
 if (!ipc?.mailEngine) {
   throw new Error("Desktop mail engine IPC is unavailable");
 }

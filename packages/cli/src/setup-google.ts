@@ -240,8 +240,8 @@ The console will open in your browser.`,
   }
 
   // Step 8: Pub/Sub setup (automated)
-  const topicName = "mailpilot-emails";
-  const subscriptionName = "mailpilot-subscription";
+  const topicName = "mail-pilot-emails";
+  const subscriptionName = "mail-pilot-subscription";
   const verificationToken = generateSecret(32);
   let topicFullName = "";
   let pubsubSuccess = false;

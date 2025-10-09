@@ -2,7 +2,7 @@ import type { MailPredicate } from "@mailpilot/mail-core/queries";
 import type { LocalMailSyncRequest } from "@/utils/actions/local-mail-sync.validation";
 import type { LocalMailSyncResponse } from "@/utils/email/local-mail-sync-types";
 import type { ParsedMessage } from "@/utils/types";
-import type { InboxZeroLabel } from "@/utils/label";
+import type { MailPilotLabel } from "@/utils/label";
 import type { ThreadsQuery } from "@/utils/threads/validation";
 import type {
   OutlookFolder,
@@ -348,7 +348,7 @@ export interface EmailProvider {
     nextPageToken?: string;
   }>;
   getOrCreateFolderIdByName(folderName: string): Promise<string>;
-  getOrCreateInboxZeroLabel(key: InboxZeroLabel): Promise<EmailLabel>;
+  getOrCreateMailPilotLabel(key: MailPilotLabel): Promise<EmailLabel>;
   getOriginalMessage(
     originalMessageId: string | undefined,
   ): Promise<ParsedMessage | null>;

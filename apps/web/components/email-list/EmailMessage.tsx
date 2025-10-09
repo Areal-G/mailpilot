@@ -1,6 +1,13 @@
 import { CalendarInvitation } from "@/components/email-list/CalendarInvitation";
 import { isCalendarInvitationMessage } from "@/utils/calendar/invitations/detection";
-import { useCallback, useMemo, useState, useRef, useEffect } from "react";
+import {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useAction } from "next-safe-action/hooks";
 import {
   ForwardIcon,
@@ -39,7 +46,11 @@ import { EmailAttachments } from "@/components/email-list/EmailAttachments";
 import { useAccount } from "@/providers/EmailAccountProvider";
 import { useComposeModal } from "@/providers/ComposeModalProvider";
 import { formatReplySubject } from "@/utils/email/subject";
-import { buildReplyAllRecipients, formatCcList } from "@/utils/email/reply-all";
+import {
+  buildReplyAllRecipients,
+  canReplyAll as canReplyAllToMessage,
+  formatCcList,
+} from "@/utils/email/reply-all";
 import { isTypingTarget } from "@/lib/shortcuts/registry";
 import { useContactPhoto } from "@/hooks/useContactPhoto";
 import { toastError } from "@/components/Toast";
@@ -61,6 +72,12 @@ import {
 } from "@/app/(app)/[emailAccountId]/mail/use-thread-translation";
 
 type ComposeSession = { id: number; mode: ReplyDraftMode };
+
+export type MessageReplyActions = {
+  reply: () => void;
+  replyAll: () => void;
+  forward: () => void;
+};
 
 export function EmailMessage({
   message,
@@ -92,6 +109,8 @@ export function EmailMessage({
   awaitSentReply,
   sendOperationId,
   concealed,
+  replyActionsRef,
+  onComposerOpenChange,
 }: {
   message: ThreadMessage;
   bodyAvailable?: boolean;
@@ -141,6 +160,10 @@ export function EmailMessage({
   sendOperationId?: string;
   /** Laid out but invisible, so its body loads before it replaces the composer that sent it. */
   concealed?: boolean;
+  /** Lets the thread's reply buttons open this message's composers. */
+  replyActionsRef?: React.Ref<MessageReplyActions>;
+  /** Tells the thread while this message shows a reply, forward or draft. */
+  onComposerOpenChange?: (messageId: string, open: boolean) => void;
 }) {
   const { emailAccountId } = useAccount();
   const { poppedOutDraftSessionId } = useComposeModal();
@@ -255,6 +278,16 @@ export function EmailMessage({
     onExpand?.();
   }, [onExpand, onStartCompose]);
 
+  useImperativeHandle(
+    replyActionsRef,
+    () => ({
+      reply: () => onReply(),
+      replyAll: onReplyAll,
+      forward: onForward,
+    }),
+    [onForward, onReply, onReplyAll],
+  );
+
   const onCloseCompose = useCallback(() => {
     setComposeOverride("closed");
     setPendingQuote(undefined);
@@ -298,6 +331,12 @@ export function EmailMessage({
     setComposerKey((key) => key + 1);
     setComposeOverride(session.mode);
   }, []);
+
+  useEffect(() => {
+    if (!hasOpenComposer || !onComposerOpenChange) return;
+    onComposerOpenChange(message.id, true);
+    return () => onComposerOpenChange(message.id, false);
+  }, [hasOpenComposer, message.id, onComposerOpenChange]);
 
   const toggleDetails = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -383,8 +422,6 @@ export function EmailMessage({
       {expanded && (
         // Aligns the body with the sender's name rather than the avatar.
         <div className="min-w-0 pt-3 sm:pl-9">
-          {showDetails && <EmailDetails message={message} />}
-
           {isCalendarInvitationMessage(message) && (
             <CalendarInvitation key={message.id} messageId={message.id} />
           )}
@@ -421,6 +458,7 @@ export function EmailMessage({
                 emailAccountId={emailAccountId}
                 html={message.textHtml}
                 inlineAttachments={message.inline}
+                sendOperationId={sendOperationId}
                 messageId={message.id}
               />
             ) : (
@@ -547,20 +585,19 @@ function MessageHeader({
     emailAccountId,
   });
   const senderImage = isSent ? emailAccount?.image : contactPhoto;
+  const recipients = formatRecipientNames(
+    [
+      ...splitRecipientList(message.headers.to ?? ""),
+      ...splitRecipientList(message.headers.cc ?? ""),
+    ],
+    userEmail,
+  );
   const canResearchSender =
     Boolean(onOpenSenderContext) &&
     !isSent &&
     Boolean(senderEmail) &&
     !isSameEmailAddress(senderEmail, userEmail);
-  // A reply already keeps the CC list, so reply all only adds the other To
-  // recipients. Replies to the user's own mail already go to everyone.
-  const canReplyAll =
-    !isSent &&
-    splitRecipientList(message.headers.to ?? "").some(
-      (recipient) =>
-        !isSameEmailAddress(recipient, userEmail) &&
-        !isSameEmailAddress(recipient, message.headers.from),
-    );
+  const canReplyAll = canReplyAllToMessage(message, userEmail);
 
   // Collapsing is the thread's call, so a row is only interactive once it has
   // been handed a toggle.
@@ -597,7 +634,7 @@ function MessageHeader({
   const senderNameClassName = cn(
     "truncate text-sm",
     expanded
-      ? "min-w-0 font-semibold text-foreground"
+      ? "min-w-0 font-medium text-foreground"
       : "w-24 shrink-0 font-medium text-secondary-foreground sm:w-28",
   );
 
@@ -605,36 +642,60 @@ function MessageHeader({
     <div
       {...toggleProps}
       className={cn(
-        "flex min-w-0 items-center gap-2 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "flex min-w-0 gap-2 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        expanded && showDetails ? "items-start" : "items-center",
         onToggle && "cursor-pointer",
       )}
     >
       {expanded ? (
         <>
-          <button
-            aria-expanded={showDetails}
-            aria-label={showDetails ? "Hide details" : "Show details"}
-            className="group/details flex min-w-0 items-center gap-2 rounded-md text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            onClick={toggleDetails}
-            type="button"
-          >
-            {avatar}
-            <span className={senderNameClassName}>{senderName}</span>
-            <span className="hidden min-w-0 shrink-[999] truncate text-muted-foreground text-xs sm:block">
-              {recipientSummary(message.headers, userEmail)}
-            </span>
-            <span className="flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors group-hover/details:bg-muted group-hover/details:text-foreground">
-              {showDetails ? (
-                <ChevronsDownUpIcon className="size-3.5" />
-              ) : (
-                <ChevronsUpDownIcon className="size-3.5" />
+          {showDetails ? (
+            // Not one big toggle like the summary, so addresses stay
+            // selectable and a click inside doesn't collapse the message.
+            // biome-ignore lint/a11y/useKeyWithClickEvents: the button inside toggles from the keyboard
+            <div
+              className="flex min-w-0 flex-1 cursor-auto items-start gap-2"
+              onClick={(event) => event.stopPropagation()}
+            >
+              {avatar}
+              <EmailDetails message={message}>
+                <Button
+                  aria-expanded
+                  aria-label="Hide details"
+                  onClick={toggleDetails}
+                  size="iconXs"
+                  variant="ghostMuted"
+                >
+                  <ChevronsDownUpIcon className="size-3.5" />
+                </Button>
+              </EmailDetails>
+            </div>
+          ) : (
+            <button
+              aria-expanded={false}
+              aria-label="Show details"
+              className="group/details flex min-w-0 items-center gap-2 rounded-md text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              onClick={toggleDetails}
+              type="button"
+            >
+              {avatar}
+              <span className={senderNameClassName}>{senderName}</span>
+              {recipients && (
+                <span className="hidden min-w-0 shrink-[999] truncate text-muted-foreground text-sm sm:block">
+                  to{" "}
+                  <span className="font-medium text-foreground">
+                    {recipients}
+                  </span>
+                </span>
               )}
-            </span>
-          </button>
+              <ChevronsUpDownIcon className="size-3.5 shrink-0 text-muted-foreground transition-opacity group-hover/details:opacity-100 group-focus-visible/details:opacity-100 sm:opacity-0" />
+            </button>
+          )}
           {canResearchSender && (
             <Tooltip content="View public profile">
               <Button
                 aria-label={`View public profile for ${senderName}`}
+                className="transition-opacity focus-visible:opacity-100 group-hover/message:opacity-100 sm:opacity-0"
                 onClick={(event) => {
                   event.stopPropagation();
                   onOpenSenderContext?.(message);
@@ -981,17 +1042,6 @@ function resolveComposeMode(
   // A popped-out reply is written in its own window, not inline.
   if (mode && isPoppedOut(mode)) return;
   return mode;
-}
-
-function recipientSummary(
-  { to, cc }: { to?: string; cc?: string },
-  userEmail: string,
-) {
-  const names = formatRecipientNames(
-    [...splitRecipientList(to ?? ""), ...splitRecipientList(cc ?? "")],
-    userEmail,
-  );
-  return names ? `to ${names}` : "";
 }
 
 const prepareReplyingToEmail = ({

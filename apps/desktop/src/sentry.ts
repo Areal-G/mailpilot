@@ -3,7 +3,7 @@ import type { Breadcrumb, ErrorEvent } from "@sentry/electron/main";
 import { app } from "electron";
 
 // Injected at build time; development and self-hosted builds leave it empty.
-const DSN = process.env.MAILPILOT_SENTRY_DSN;
+const DSN = process.env.MAIL_PILOT_SENTRY_DSN;
 // The mail engine and updater retry on their own, so a persistent failure
 // would otherwise report on every attempt.
 const REPEAT_REPORT_INTERVAL_MS = 10 * 60 * 1000;

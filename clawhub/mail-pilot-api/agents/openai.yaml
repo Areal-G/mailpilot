@@ -1,0 +1,7 @@
+interface:
+  display_name: "Mail Pilot API CLI"
+  short_description: "Manage Mail Pilot rules and stats"
+  default_prompt: "Use $mail-pilot-api to inspect or update Mail Pilot rules and analytics through the API CLI."
+
+policy:
+  allow_implicit_invocation: true

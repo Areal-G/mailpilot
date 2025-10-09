@@ -86,7 +86,7 @@ export type DigestEmailProps = {
 };
 export default function DigestEmail(props: DigestEmailProps) {
   const {
-    baseUrl = "https://www.mailpilot.dev",
+    baseUrl = "https://www.mailpilot.app",
     unsubscribeToken,
     ruleNames,
     emailAccountId,
@@ -245,7 +245,7 @@ export default function DigestEmail(props: DigestEmailProps) {
             <Section className="p-4 text-center">
               <Link href={baseUrl} className="text-[15px]">
                 <Img
-                  src={"https://www.mailpilot.dev/icon.png"}
+                  src={"https://www.mailpilot.app/icon.png"}
                   width="40"
                   height="40"
                   alt="Mail Pilot"
@@ -307,7 +307,7 @@ export default function DigestEmail(props: DigestEmailProps) {
 }
 
 DigestEmail.PreviewProps = {
-  baseUrl: "https://www.mailpilot.dev",
+  baseUrl: "https://www.mailpilot.app",
   unsubscribeToken: "123",
   emailAccountId: "123",
   ruleNames: {

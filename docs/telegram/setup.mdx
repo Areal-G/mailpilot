@@ -46,19 +46,19 @@ If `TELEGRAM_BOT_TOKEN` is missing, the Telegram connect option is hidden in the
 Run the setup script once after configuring your environment:
 
 ```bash
-pnpm --filter mailpilot-ai exec tsx scripts/setup-telegram-bot.ts
+pnpm --filter mailpilot-web exec tsx scripts/setup-telegram-bot.ts
 ```
 
 Local shortcut:
 
 ```bash
-pnpm --filter mailpilot-ai telegram:setup
+pnpm --filter mailpilot-web telegram:setup
 ```
 
 To also set a bot profile photo:
 
 ```bash
-pnpm --filter mailpilot-ai exec tsx scripts/setup-telegram-bot.ts \
+pnpm --filter mailpilot-web exec tsx scripts/setup-telegram-bot.ts \
   --profile-photo-url https://<your-domain>/telegram-bot.png
 ```
 

@@ -18,7 +18,7 @@ import {
   changesRequestSchema,
 } from "@mailpilot/mail-core/protocol/mail-http";
 
-const PARTITION = "persist:mailpilot";
+const PARTITION = "persist:mail-pilot";
 const PROOF = process.env.ELECTRON_PROOF ?? "search-archive";
 const ARCHIVE_SUBJECT =
   process.env.ELECTRON_ARCHIVE_SUBJECT ?? "Archive Action Message";
@@ -1030,7 +1030,7 @@ async function waitForCoverage(window: BrowserWindow) {
   for (let attempt = 0; attempt < 120; attempt += 1) {
     const complete = (await window.webContents.executeJavaScript(`
       (async () => {
-        const inspect = window.__inboxZeroMailInspect;
+        const inspect = window.__mailPilotMailInspect;
         if (!inspect?.read) return false;
         const diagnostics = await inspect.read();
         return (
@@ -1561,7 +1561,7 @@ async function waitForInspectSucceeded(
   for (let attempt = 0; attempt < 80; attempt += 1) {
     const result = (await window.webContents.executeJavaScript(`
       (async () => {
-        const inspect = window.__inboxZeroMailInspect;
+        const inspect = window.__mailPilotMailInspect;
         if (!inspect?.read) return { status: "missing" };
         const diagnostics = await inspect.read();
         const kindMap = ${JSON.stringify(kindMap)};
@@ -1620,7 +1620,7 @@ async function waitForInspectStatus(
   for (let attempt = 0; attempt < 80; attempt += 1) {
     const result = (await window.webContents.executeJavaScript(`
       (async () => {
-        const inspect = window.__inboxZeroMailInspect;
+        const inspect = window.__mailPilotMailInspect;
         if (!inspect?.read) return { status: "missing" };
         const diagnostics = await inspect.read();
         const expected = ${JSON.stringify(expected)};
@@ -1676,7 +1676,7 @@ async function readSubjects(window: BrowserWindow) {
 
 async function readTransport(window: BrowserWindow) {
   return (await window.webContents.executeJavaScript(`
-    window.__inboxZeroMailInspect?.transport ?? null
+    window.__mailPilotMailInspect?.transport ?? null
   `)) as "browser" | "desktop-ipc" | null;
 }
 
@@ -2132,7 +2132,7 @@ async function waitForStarSucceeded(window: BrowserWindow, threadId: string) {
   for (let attempt = 0; attempt < 80; attempt += 1) {
     const result = (await window.webContents.executeJavaScript(`
       (async () => {
-        const inspect = window.__inboxZeroMailInspect;
+        const inspect = window.__mailPilotMailInspect;
         if (!inspect?.read) return { status: "missing" };
         const diagnostics = await inspect.read();
         const threadId = ${expectedThreadId};
@@ -2202,7 +2202,7 @@ async function waitForAssistantCursor(
 async function readAssistantCursor(window: BrowserWindow) {
   return (await window.webContents.executeJavaScript(`
     (async () => {
-      const inspect = window.__inboxZeroMailInspect;
+      const inspect = window.__mailPilotMailInspect;
       if (!inspect?.inspect) return null;
       const snapshot = await inspect.inspect();
       return snapshot?.accounts?.[0]?.assistantCursor ?? null;
@@ -2341,7 +2341,7 @@ async function waitForReconnectBanner(window: BrowserWindow) {
 async function readInspectConnection(window: BrowserWindow) {
   return (await window.webContents.executeJavaScript(`
     (async () => {
-      const inspect = window.__inboxZeroMailInspect;
+      const inspect = window.__mailPilotMailInspect;
       if (!inspect?.read) return null;
       const diagnostics = await inspect.read();
       return diagnostics?.connection ?? null;
@@ -2353,7 +2353,7 @@ async function requestHostedSync(window: BrowserWindow) {
   for (let attempt = 0; attempt < 20; attempt += 1) {
     const result = (await window.webContents.executeJavaScript(`
       (async () => {
-        const inspect = window.__inboxZeroMailInspect;
+        const inspect = window.__mailPilotMailInspect;
         if (!inspect?.requestSync) return { status: "missing" };
         return await inspect.requestSync();
       })()

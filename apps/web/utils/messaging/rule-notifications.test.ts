@@ -96,7 +96,7 @@ describe("handleRuleNotificationAction", () => {
         id: "draft-1",
         threadId: "thread-1",
         textPlain:
-          'Thanks for the note.\n\nTry opening the &quot;Test&quot; tab.\n\nDrafted by <a href="https://mailpilot.dev/?ref=ABC">Mail Pilot</a>.',
+          'Thanks for the note.\n\nTry opening the &quot;Test&quot; tab.\n\nDrafted by <a href="https://mailpilot.app/?ref=ABC">Mail Pilot</a>.',
         subject: "Re: Test subject",
         date: new Date().toISOString(),
         snippet: "Thanks for the note.",
@@ -142,7 +142,7 @@ describe("handleRuleNotificationAction", () => {
       type: ActionType.DRAFT_MESSAGING_CHANNEL,
       accountProvider,
       content:
-        'Thanks for the note.\n\nTry opening the &quot;Test&quot; tab.\n\nDrafted by <a href="https://mailpilot.dev/?ref=ABC">Mail Pilot</a>.',
+        'Thanks for the note.\n\nTry opening the &quot;Test&quot; tab.\n\nDrafted by <a href="https://mailpilot.app/?ref=ABC">Mail Pilot</a>.',
       mailboxDraftAction: {
         id: "draft-action-1",
         draftId: "draft-1",
@@ -182,7 +182,7 @@ describe("handleRuleNotificationAction", () => {
     expect(cardText).toContain("I drafted a reply for you:");
     expect(cardText).toContain('Try opening the \\"Test\\" tab.');
     expect(cardText).toContain(
-      "Drafted by <https://mailpilot.dev/?ref=ABC|Mail Pilot>.",
+      "Drafted by <https://mailpilot.app/?ref=ABC|Mail Pilot>.",
     );
     expect(cardText).toContain("Status: Reply sent. ✅");
     if (accountProvider === "microsoft") {
@@ -1075,13 +1075,13 @@ describe("buildNotificationReplySendBody", () => {
       } as ParsedMessage,
       fallbackThreadId: "thread-fallback",
       content: "Thanks for checking in.",
-      formattedFrom: "Areal <elie@mailpilot.dev>",
+      formattedFrom: "Alex Morgan <alex@example.com>",
       attachments: [],
     });
 
     expect(body).toEqual(
       expect.objectContaining({
-        from: "Areal <elie@mailpilot.dev>",
+        from: "Alex Morgan <alex@example.com>",
       }),
     );
   });

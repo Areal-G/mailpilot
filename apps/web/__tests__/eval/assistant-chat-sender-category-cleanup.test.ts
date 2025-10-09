@@ -16,8 +16,8 @@ import { describeEvalMatrix } from "@/__tests__/eval/models";
 import { createEvalReporter } from "@/__tests__/eval/reporter";
 import { getMockMessage } from "@/__tests__/helpers";
 
-// pnpm --filter mailpilot-ai test-ai __tests__/eval/assistant-chat-sender-category-cleanup.test.ts
-// Multi-model: EVAL_MODELS=all pnpm --filter mailpilot-ai test-ai __tests__/eval/assistant-chat-sender-category-cleanup.test.ts
+// pnpm --filter mailpilot-web test-ai __tests__/eval/assistant-chat-sender-category-cleanup.test.ts
+// Multi-model: EVAL_MODELS=all pnpm --filter mailpilot-web test-ai __tests__/eval/assistant-chat-sender-category-cleanup.test.ts
 
 const evalReporter = createEvalReporter({
   evalName: "assistant-chat-sender-category-cleanup",

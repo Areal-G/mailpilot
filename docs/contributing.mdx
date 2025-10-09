@@ -5,17 +5,6 @@ description: 'Set up Mail Pilot for local development'
 
 This guide is for developers who want to run Mail Pilot locally and contribute to the project.
 
-<iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/hVQENQ4WT2Y"
-  title="Set up Mail Pilot locally"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-  style={{ width: '100%', borderRadius: '0.5rem' }}
-></iframe>
-
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) >= 24.0.0
@@ -119,11 +108,11 @@ If you regularly work in multiple Git worktrees or branch-specific local copies,
 
 ### Shared env files
 
-The helper expects shared local env files in `~/.config/mailpilot` and symlinks them into `apps/web`:
+The helper expects shared local env files in `~/.config/mail-pilot` and symlinks them into `apps/web`:
 
-- `~/.config/mailpilot/.env.local`
-- `~/.config/mailpilot/.env.test`
-- `~/.config/mailpilot/.env.e2e`
+- `~/.config/mail-pilot/.env.local`
+- `~/.config/mail-pilot/.env.test`
+- `~/.config/mail-pilot/.env.e2e`
 
 This keeps secrets in one place while still letting each branch use its own derived runtime values, such as database name and local port.
 
@@ -173,7 +162,7 @@ To test a production build locally:
 ```bash
 # Without Docker
 pnpm build
-pnpm --filter mailpilot-ai start
+pnpm --filter mailpilot-web start
 
 # With Docker (includes Postgres and Redis)
 NEXT_PUBLIC_BASE_URL=http://localhost:3000 docker compose --profile all up --build
@@ -185,4 +174,4 @@ To understand the codebase, we recommend connecting the repo to an AI coding too
 
 For troubleshooting common issues (rate limiting, OAuth errors, etc.), see the [Troubleshooting](/hosting/troubleshooting) page.
 
-View open tasks in [GitHub Issues](https://github.com/areal/mailpilot/issues) and join the [Discord](https://www.mailpilot.dev/discord) to discuss what's being worked on.
+View open tasks in [GitHub Issues](https://github.com/arealgizaw/mail-pilot/issues) and join the [Discord](https://www.mailpilot.app/discord) to discuss what's being worked on.

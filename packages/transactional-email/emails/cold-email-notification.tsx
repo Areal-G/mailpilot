@@ -21,7 +21,7 @@ type ColdEmailNotificationComponent = FC<ColdEmailNotificationProps> & {
 };
 
 const ColdEmailNotification: ColdEmailNotificationComponent = ({
-  baseUrl = "https://www.mailpilot.dev",
+  baseUrl = "https://www.mailpilot.app",
 }: ColdEmailNotificationProps) => (
   <Html>
     <Head />
@@ -31,7 +31,7 @@ const ColdEmailNotification: ColdEmailNotificationComponent = ({
           <Section className="p-8 text-center">
             <Link href={baseUrl} className="text-[15px]">
               <Img
-                src={"https://www.mailpilot.dev/icon.png"}
+                src={"https://www.mailpilot.app/icon.png"}
                 width="40"
                 height="40"
                 alt="Mail Pilot"
@@ -81,5 +81,5 @@ const ColdEmailNotification: ColdEmailNotificationComponent = ({
 export default ColdEmailNotification;
 
 ColdEmailNotification.PreviewProps = {
-  baseUrl: "https://www.mailpilot.dev",
+  baseUrl: "https://www.mailpilot.app",
 };

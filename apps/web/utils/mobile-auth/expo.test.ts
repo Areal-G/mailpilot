@@ -8,14 +8,11 @@ describe("safe Expo Better Auth plugin", () => {
 
   it("copies expo-origin into origin for mobile Better Auth requests", async () => {
     const plugin = safeExpo();
-    const request = new Request(
-      "https://www.mailpilot.dev/api/auth/session",
-      {
-        headers: {
-          "expo-origin": "mailpilot://",
-        },
+    const request = new Request("https://www.mailpilot.app/api/auth/session", {
+      headers: {
+        "expo-origin": "mailpilot://",
       },
-    );
+    });
 
     const result = await plugin.onRequest(request);
 

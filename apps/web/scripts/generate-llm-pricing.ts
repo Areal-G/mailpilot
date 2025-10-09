@@ -1,5 +1,5 @@
 // eslint-disable no-process-env
-// Run with: `pnpm --filter mailpilot-ai exec tsx scripts/generate-llm-pricing.ts`
+// Run with: `pnpm --filter mailpilot-web exec tsx scripts/generate-llm-pricing.ts`
 import { writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";

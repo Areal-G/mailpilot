@@ -44,8 +44,8 @@ Recommended choices for first-time self-hosting:
 **Option B: From the cloned repo**
 
 ```bash
-git clone https://github.com/areal/mailpilot.git
-cd mailpilot
+git clone https://github.com/arealgizaw/mail-pilot.git
+cd mail-pilot
 corepack enable
 pnpm install
 pnpm run setup
@@ -61,7 +61,7 @@ If you have the [gcloud CLI](https://cloud.google.com/sdk/docs/install) installe
 npx @mailpilot/cli setup-google --project-id YOUR_PROJECT_ID --domain yourdomain.com
 ```
 
-This works whether or not you have cloned the repository. If you installed the CLI globally, use `mailpilot setup-google` with the same flags.
+This works whether or not you have cloned the repository. If you installed the CLI globally, use `mail-pilot setup-google` with the same flags.
 
 The command enables required APIs, creates the Pub/Sub topic and subscription, and guides you through OAuth credential creation. It prints environment variables for you to add to your `.env`; it does not require a repo checkout.
 
@@ -90,11 +90,11 @@ Start the services with the command setup printed. From a cloned repo, you can a
 NEXT_PUBLIC_BASE_URL=https://yourdomain.com docker compose --env-file apps/web/.env --profile all up -d
 ```
 
-The pre-built Docker image is hosted at `ghcr.io/areal/mailpilot:latest` and will be automatically pulled. To pin a release, use its version without the `v` prefix (e.g., `ghcr.io/areal/mailpilot:2.30.0`).
+The pre-built Docker image is hosted at `ghcr.io/arealgizaw/mail-pilot:latest` and will be automatically pulled. To pin a release, use its version without the `v` prefix (e.g., `ghcr.io/arealgizaw/mail-pilot:2.30.0`).
 
 **Important**: Compose-time `${...}` values are resolved before service-level `env_file` entries are loaded. If you're running from a cloned repo, make sure Compose can see the same values as the app by linking or copying `apps/web/.env` to the repo root as `.env`. The CLI setup does this automatically for the default configuration and preserves existing user-managed root files. Copied files are refreshed only while their contents match the last CLI-written version; changed copies and retargeted links are preserved with a warning. For manual setup, run `ln -s apps/web/.env .env` once from the repo root before `docker compose up`. If a root `.env` already exists, review it before replacing it, or use `docker compose --env-file apps/web/.env --profile all up -d`. Shell environment values still take precedence.
 
-For named CLI configurations, use the exact Compose command printed by setup. The generated `MAILPILOT_ENV_FILE` setting selects the same named file for container settings. Existing named files created by older CLI versions also need this setting (for example, `MAILPILOT_ENV_FILE=./apps/web/.env.staging` in a cloned repo, or `./.env.staging` for a standalone install). Named configs use the same Compose project and do not create isolated deployments.
+For named CLI configurations, use the exact Compose command printed by setup. The generated `MAIL_PILOT_ENV_FILE` setting selects the same named file for container settings. Existing named files created by older CLI versions also need this setting (for example, `MAIL_PILOT_ENV_FILE=./apps/web/.env.staging` in a cloned repo, or `./.env.staging` for a standalone install). Named configs use the same Compose project and do not create isolated deployments.
 
 #### Using External Database Services (Optional)
 
@@ -119,7 +119,7 @@ Wait for the containers to start:
 # Check that containers are running (STATUS should show "Up")
 docker ps
 # Check logs. This can take 30 seconds to complete
-docker logs mailpilot-services-web-1 -f
+docker logs mail-pilot-services-web-1 -f
 ```
 
 ### 5. Access Your Application
@@ -252,8 +252,8 @@ If you prefer to build the image yourself instead of using the pre-built one:
 
 ```bash
 # Clone the repository
-git clone https://github.com/areal/mailpilot.git
-cd mailpilot
+git clone https://github.com/arealgizaw/mail-pilot.git
+cd mail-pilot
 
 # Install dependencies and configure environment (auto-generates secrets)
 corepack enable

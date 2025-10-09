@@ -1,7 +1,7 @@
 import type { MessageKey } from "@mailpilot/mail-core/identities";
 import type { MailIpcSnapshotEvent } from "@mailpilot/mail-core/protocol/mail-ipc-client";
 
-export type InboxZeroDesktopApi = {
+export type MailPilotDesktopApi = {
   readAttachment: (
     input: MessageKey & { attachmentId: string },
   ) => Promise<Uint8Array<ArrayBuffer>>;

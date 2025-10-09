@@ -68,7 +68,7 @@
             "group": "Apps",
             "pages": [
               "essentials/mobile-apps",
-              "essentials/mailpilot-tabs-extension"
+              "essentials/mail-pilot-tabs-extension"
             ]
           },
           {
@@ -190,12 +190,12 @@
         },
         {
           "anchor": "Community",
-          "href": "https://mailpilot.dev/discord",
+          "href": "https://mailpilot.app/discord",
           "icon": "discord"
         },
         {
           "anchor": "Blog",
-          "href": "https://www.mailpilot.dev/blog",
+          "href": "https://www.mailpilot.app/blog",
           "icon": "newspaper"
         }
       ]
@@ -212,20 +212,20 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:support@mailpilot.dev"
+        "href": "mailto:support@mailpilot.app"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://www.mailpilot.dev/welcome"
+      "href": "https://www.mailpilot.app/welcome"
     }
   },
   "footer": {
     "socials": {
-      "twitter": "https://www.mailpilot.dev/twitter",
-      "github": "https://www.mailpilot.dev/github",
-      "linkedin": "https://www.mailpilot.dev/linkedin"
+      "twitter": "https://www.mailpilot.app/twitter",
+      "github": "https://www.mailpilot.app/github",
+      "linkedin": "https://www.mailpilot.app/linkedin"
     }
   }
 }

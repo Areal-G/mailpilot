@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/electron/main";
 import { captureDesktopError, scrubBreadcrumb, scrubEvent } from "./sentry";
 
 vi.hoisted(() => {
-  process.env.MAILPILOT_SENTRY_DSN = "https://key@sentry.invalid/1";
+  process.env.MAIL_PILOT_SENTRY_DSN = "https://key@sentry.invalid/1";
 });
 vi.mock("electron", () => ({ app: { getVersion: () => "0.0.0" } }));
 vi.mock("@sentry/electron/main", () => ({
@@ -20,7 +20,7 @@ describe("scrubBreadcrumb", () => {
       scrubBreadcrumb({
         category: "electron",
         data: {
-          url: "https://www.mailpilot.dev/acc/mail?thread-id=t1&q=invoice",
+          url: "https://www.mailpilot.app/acc/mail?thread-id=t1&q=invoice",
           from: "/acc/mail?q=invoice#reply",
           status: 200,
         },
@@ -28,7 +28,7 @@ describe("scrubBreadcrumb", () => {
     ).toEqual({
       category: "electron",
       data: {
-        url: "https://www.mailpilot.dev/acc/mail",
+        url: "https://www.mailpilot.app/acc/mail",
         from: "/acc/mail",
         status: 200,
       },
@@ -42,12 +42,12 @@ describe("scrubEvent", () => {
       type: undefined,
       contexts: {
         electron: {
-          crashed_url: "https://www.mailpilot.dev/acc/mail?q=invoice",
+          crashed_url: "https://www.mailpilot.app/acc/mail?q=invoice",
         },
       },
     });
     expect(event.contexts?.electron?.crashed_url).toBe(
-      "https://www.mailpilot.dev/acc/mail",
+      "https://www.mailpilot.app/acc/mail",
     );
   });
 });

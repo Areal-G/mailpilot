@@ -58,8 +58,6 @@ import { ClientOnly } from "@/components/ClientOnly";
 import { useAccount } from "@/providers/EmailAccountProvider";
 import { PageWrapper } from "@/components/PageWrapper";
 import { PageHeader } from "@/components/PageHeader";
-import { TextLink } from "@/components/Typography";
-import { DismissibleVideoCard } from "@/components/VideoCard";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -396,44 +394,9 @@ export function BulkUnsubscribe() {
   return (
     <PageWrapper>
       <div className="flex items-start justify-between gap-4">
-        <PageHeader
-          title="Bulk Unsubscriber"
-          video={{
-            title: "Getting started with Bulk Unsubscribe",
-            description: (
-              <>
-                Learn how to quickly bulk unsubscribe from and archive unwanted
-                emails. You can read more in our{" "}
-                <TextLink
-                  href="https://docs.mailpilot.dev/essentials/bulk-email-unsubscriber"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  help center
-                </TextLink>
-                .
-              </>
-            ),
-            muxPlaybackId: "qxP8P5aKm7k7I01seCEMP1ZepHQAmdKCcW02x1fM7xQm00",
-          }}
-        />
+        <PageHeader title="Bulk Unsubscriber" />
         <ScanOlderEmailsButton />
       </div>
-
-      <DismissibleVideoCard
-        className="my-4"
-        icon={<ArchiveIcon className="size-5" />}
-        title="Getting started with Bulk Unsubscribe"
-        description={
-          "Learn how to use the Bulk Unsubscribe to unsubscribe from and archive unwanted emails."
-        }
-        muxPlaybackId="qxP8P5aKm7k7I01seCEMP1ZepHQAmdKCcW02x1fM7xQm00"
-        storageKey="bulk-unsubscribe-onboarding-video"
-        videoAnalytics={{
-          page: "bulk_unsubscribe",
-          surface: "dismissible_card",
-        }}
-      />
 
       <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:gap-3">
         <DropdownMenu>

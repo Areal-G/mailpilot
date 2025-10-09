@@ -135,7 +135,7 @@ export const saasFounderMixedInbox: DemoInboxFixture = {
       message({
         id: "18f51c3c6cae1075",
         from: person("GitHub", "notifications@github.com"),
-        subject: "Review requested on mailpilot-ai#4821",
+        subject: "Review requested on mailpilot-web#4821",
         bodyText:
           "You were requested as a reviewer for a pull request touching billing and rule automation.",
         unread: true,
@@ -149,7 +149,7 @@ export const saasFounderMixedInbox: DemoInboxFixture = {
         from: person("Vercel", "notifications@vercel.com"),
         subject: "Production deployment succeeded",
         bodyText:
-          "mailpilot-ai deployed successfully to production. Commit 4f91e7 is now live.",
+          "mailpilot-web deployed successfully to production. Commit 4f91e7 is now live.",
         unread: true,
         labels: ["INBOX"],
         date: "2026-04-22T10:12:00.000Z",
@@ -263,6 +263,7 @@ export const saasFounderMixedInbox: DemoInboxFixture = {
       message({
         id: "18f51c708364f9c1",
         from: person("Alex Morgan", "alex@northstarhq.com"),
+        to: [person("Leah Goldman", "leah@northstar.vc")],
         subject: "Re: Follow-up on Q2 metrics",
         bodyText: "Yes, I will send the full sheet after finance closes March.",
         unread: false,

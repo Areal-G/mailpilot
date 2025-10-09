@@ -25,7 +25,7 @@ vi.mock("@/utils/middleware", () => ({
         Object.assign(request, {
           auth: {
             emailAccountId: "account-1",
-            email: "owner@mailpilot.com",
+            email: "owner@mailpilot.app",
           },
           emailProvider: { getMessage: getMessageMock },
         }),
@@ -54,7 +54,7 @@ describe("GET /api/user/public-contact-context/[messageId]", () => {
     getMessageMock.mockResolvedValue({
       headers: {
         from: "John Smith <john@acme.com>",
-        to: "owner@mailpilot.com",
+        to: "owner@mailpilot.app",
       },
     });
   });
@@ -82,8 +82,8 @@ describe("GET /api/user/public-contact-context/[messageId]", () => {
   it("does not research the authenticated user's own address", async () => {
     getMessageMock.mockResolvedValue({
       headers: {
-        from: "owner@mailpilot.com",
-        to: "owner@mailpilot.com",
+        from: "owner@mailpilot.app",
+        to: "owner@mailpilot.app",
       },
     });
 

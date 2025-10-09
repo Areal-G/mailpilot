@@ -201,7 +201,7 @@ PLAYWRIGHT_REPORT_URL="$report_url" \
 PLAYWRIGHT_SCREENSHOTS_URL="$screenshots_url" \
 PLAYWRIGHT_DASHBOARD_URL="$public_base_url/index.html" \
 PLAYWRIGHT_PR_URL="$pull_request_url" \
-  pnpm -F mailpilot-ai exec tsx \
+  pnpm -F mailpilot-web exec tsx \
     scripts/generate-playwright-report-dashboard.ts \
     "$history_path" \
     "$dashboard_path" \

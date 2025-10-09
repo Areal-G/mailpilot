@@ -23,7 +23,7 @@ import {
   type SplitLock,
 } from "@/__tests__/eval/harness/split-lock";
 
-// EVAL_DATA_DIRS=/path/to/mailpilot-evals/datasets pnpm test-ai eval/suites/draft-reply-data
+// EVAL_DATA_DIRS=/path/to/mail-pilot-evals/datasets pnpm test-ai eval/suites/draft-reply-data
 
 const SUITE = "draft-reply";
 const TIMEOUT_MS = 15 * 60 * 1000;

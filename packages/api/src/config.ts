@@ -8,8 +8,8 @@ import {
 import { homedir } from "node:os";
 import { dirname, resolve } from "node:path";
 
-export const CONFIG_PATH = resolve(homedir(), ".mailpilot-api", "config.json");
-export const DEFAULT_BASE_URL = "https://www.mailpilot.dev";
+export const CONFIG_PATH = resolve(homedir(), ".mail-pilot-api", "config.json");
+export const DEFAULT_BASE_URL = "https://www.mailpilot.app";
 
 export type ApiCliConfig = {
   apiKey?: string;
@@ -67,16 +67,16 @@ export function resolveRuntimeConfig(
   storedConfig: ApiCliConfig = loadConfig(),
 ): Required<ApiCliConfig> {
   const apiKey =
-    options.apiKey || env.MAILPILOT_API_KEY || storedConfig.apiKey;
+    options.apiKey || env.MAIL_PILOT_API_KEY || storedConfig.apiKey;
   const baseUrl =
     options.baseUrl ||
-    env.MAILPILOT_BASE_URL ||
+    env.MAIL_PILOT_BASE_URL ||
     storedConfig.baseUrl ||
     DEFAULT_BASE_URL;
 
   if (!apiKey) {
     throw new Error(
-      "Missing API key. Set --api-key, MAILPILOT_API_KEY, or configure it with `mailpilot-api config set api-key ...`.",
+      "Missing API key. Set --api-key, MAIL_PILOT_API_KEY, or configure it with `mail-pilot-api config set api-key ...`.",
     );
   }
 

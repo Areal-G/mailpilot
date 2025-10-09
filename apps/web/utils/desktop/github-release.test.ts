@@ -15,10 +15,10 @@ function release(
   return {
     tag_name: tagName,
     prerelease,
-    html_url: `https://github.com/areal/mailpilot/releases/tag/${tagName}`,
+    html_url: `https://github.com/arealgizaw/mail-pilot/releases/tag/${tagName}`,
     assets: assets.map((name) => ({
       name,
-      browser_download_url: `https://github.com/areal/mailpilot/releases/download/${tagName}/${name}`,
+      browser_download_url: `https://github.com/arealgizaw/mail-pilot/releases/download/${tagName}/${name}`,
     })),
   };
 }
@@ -26,21 +26,21 @@ function release(
 const DOWNLOADS: DesktopDownloadLinks = {
   version: "0.2.0",
   releaseUrl:
-    "https://github.com/areal/mailpilot/releases/tag/desktop-v0.2.0",
+    "https://github.com/arealgizaw/mail-pilot/releases/tag/desktop-v0.2.0",
   macArm64Dmg:
-    "https://github.com/areal/mailpilot/releases/download/desktop-v0.2.0/Mail-Pilot-0.2.0-mac-arm64.dmg",
+    "https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.2.0/Mail-Pilot-0.2.0-mac-arm64.dmg",
   macX64Dmg:
-    "https://github.com/areal/mailpilot/releases/download/desktop-v0.2.0/Mail-Pilot-0.2.0-mac-x64.dmg",
+    "https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.2.0/Mail-Pilot-0.2.0-mac-x64.dmg",
   winX64Exe:
-    "https://github.com/areal/mailpilot/releases/download/desktop-v0.2.0/Mail-Pilot-0.2.0-win-x64.exe",
+    "https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.2.0/Mail-Pilot-0.2.0-win-x64.exe",
   winArm64Exe:
-    "https://github.com/areal/mailpilot/releases/download/desktop-v0.2.0/Mail-Pilot-0.2.0-win-arm64.exe",
+    "https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.2.0/Mail-Pilot-0.2.0-win-arm64.exe",
 };
 
 describe("pickLatestDesktopRelease", () => {
   it("picks the newest non-prerelease desktop tag and its installers", () => {
     const links = pickLatestDesktopRelease([
-      release("v2.30.0", ["mailpilot-cli.tgz"]),
+      release("v2.30.0", ["mail-pilot-cli.tgz"]),
       release("desktop-updates", ["latest-mac.yml"], true),
       release("desktop-v0.1.0", [
         "Mail-Pilot-0.1.0-mac-arm64.dmg",
@@ -73,7 +73,7 @@ describe("pickLatestDesktopRelease", () => {
   it("skips CLI and feed-only releases", () => {
     expect(
       pickLatestDesktopRelease([
-        release("v2.30.0", ["mailpilot-cli.tgz"]),
+        release("v2.30.0", ["mail-pilot-cli.tgz"]),
         release("desktop-updates", ["latest-mac.yml"], true),
       ]),
     ).toBeNull();

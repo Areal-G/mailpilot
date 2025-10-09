@@ -33,7 +33,7 @@ describe("buildVercelEnvValues", () => {
           value.environment === "preview",
       ),
     ).toMatchObject({
-      value: "projects/your-project-id/topics/mailpilot-emails",
+      value: "projects/your-project-id/topics/mail-pilot-emails",
     });
 
     expect(
@@ -69,7 +69,7 @@ describe("buildVercelEnvValues", () => {
       google: {
         clientId: "google-id",
         clientSecret: "google-secret",
-        pubsubTopicName: "projects/demo/topics/mailpilot",
+        pubsubTopicName: "projects/demo/topics/mail-pilot",
       },
       llmEnv,
       microsoft: {

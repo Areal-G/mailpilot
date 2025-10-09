@@ -3,7 +3,7 @@ import { MAIL_ANALYTICS_EVENTS } from "@/utils/analytics/product";
 import { runWhenIdle } from "@/utils/analytics/summary-flush";
 import {
   type DesktopHealth,
-  getInboxZeroDesktopApp,
+  getMailPilotDesktopApp,
 } from "@/utils/desktop-app";
 
 const FIRST_REPORT_DELAY_MS = 2 * 60 * 1000;
@@ -11,7 +11,7 @@ const REPORT_INTERVAL_MS = 60 * 60 * 1000;
 
 /** Desktop builds without the health bridge report nothing. */
 export function startDesktopHealthReporting() {
-  const getDesktopHealth = getInboxZeroDesktopApp()?.getDesktopHealth;
+  const getDesktopHealth = getMailPilotDesktopApp()?.getDesktopHealth;
   if (!getDesktopHealth) return;
 
   const report = () =>

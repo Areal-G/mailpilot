@@ -10,17 +10,17 @@ import {
 describe("buildShareText", () => {
   it("includes the count and link", () => {
     expect(
-      buildShareText({ senderCount: 12, link: "https://www.mailpilot.dev" }),
+      buildShareText({ senderCount: 12, link: "https://www.mailpilot.app" }),
     ).toBe(
-      "I just unsubscribed from 12 email lists with Mail Pilot. https://www.mailpilot.dev",
+      "I just unsubscribed from 12 email lists with Mail Pilot. https://www.mailpilot.app",
     );
   });
 
   it("uses singular wording for one sender", () => {
     expect(
-      buildShareText({ senderCount: 1, link: "https://www.mailpilot.dev" }),
+      buildShareText({ senderCount: 1, link: "https://www.mailpilot.app" }),
     ).toBe(
-      "I just unsubscribed from 1 email list with Mail Pilot. https://www.mailpilot.dev",
+      "I just unsubscribed from 1 email list with Mail Pilot. https://www.mailpilot.app",
     );
   });
 
@@ -28,11 +28,11 @@ describe("buildShareText", () => {
     expect(
       buildShareText({
         senderCount: 12,
-        link: "https://www.mailpilot.dev",
+        link: "https://www.mailpilot.app",
         yearlyEmails: 2400,
       }),
     ).toBe(
-      "I just unsubscribed from 12 email lists with Mail Pilot — that's ~2,400 fewer emails a year. https://www.mailpilot.dev",
+      "I just unsubscribed from 12 email lists with Mail Pilot — that's ~2,400 fewer emails a year. https://www.mailpilot.app",
     );
   });
 
@@ -40,11 +40,11 @@ describe("buildShareText", () => {
     expect(
       buildShareText({
         senderCount: 1,
-        link: "https://www.mailpilot.dev",
+        link: "https://www.mailpilot.app",
         yearlyEmails: 0,
       }),
     ).toBe(
-      "I just unsubscribed from 1 email list with Mail Pilot — that's ~0 fewer emails a year. https://www.mailpilot.dev",
+      "I just unsubscribed from 1 email list with Mail Pilot — that's ~0 fewer emails a year. https://www.mailpilot.app",
     );
   });
 });

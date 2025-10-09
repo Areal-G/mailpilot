@@ -4,7 +4,7 @@ import { createGenerateText } from "@/utils/llms";
 import { getModel } from "@/utils/llms/model";
 
 // Run with:
-// pnpm --filter mailpilot-ai test-ai eval/llm-unavailable-model-fallback.test.ts
+// pnpm --filter mailpilot-web test-ai eval/llm-unavailable-model-fallback.test.ts
 
 const PRIMARY_MODEL = "qa/definitely-unavailable-model-3110";
 const FALLBACK_MODEL = "google/gemini-3.1-flash-lite-preview";

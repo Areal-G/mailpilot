@@ -11,14 +11,14 @@ afterEach(() => {
 
 describe("normalizeBaseUrl", () => {
   it("appends the API path when given a site origin", () => {
-    expect(normalizeBaseUrl("https://www.mailpilot.dev")).toBe(
-      "https://www.mailpilot.dev/api/v1",
+    expect(normalizeBaseUrl("https://www.mailpilot.app")).toBe(
+      "https://www.mailpilot.app/api/v1",
     );
   });
 
   it("keeps an existing api/v1 base URL unchanged", () => {
-    expect(normalizeBaseUrl("https://www.mailpilot.dev/api/v1")).toBe(
-      "https://www.mailpilot.dev/api/v1",
+    expect(normalizeBaseUrl("https://www.mailpilot.app/api/v1")).toBe(
+      "https://www.mailpilot.app/api/v1",
     );
   });
 
@@ -29,8 +29,8 @@ describe("normalizeBaseUrl", () => {
   });
 
   it("appends api/v1 to custom deployment paths", () => {
-    expect(normalizeBaseUrl("https://example.com/mailpilot")).toBe(
-      "https://example.com/mailpilot/api/v1",
+    expect(normalizeBaseUrl("https://example.com/mail-pilot")).toBe(
+      "https://example.com/mail-pilot/api/v1",
     );
   });
 });
@@ -38,21 +38,21 @@ describe("normalizeBaseUrl", () => {
 describe("buildApiUrl", () => {
   it("joins the base URL, path, and query params", () => {
     expect(
-      buildApiUrl("https://www.mailpilot.dev", "/stats/by-period", {
+      buildApiUrl("https://www.mailpilot.app", "/stats/by-period", {
         period: "week",
         fromDate: "123",
       }),
     ).toBe(
-      "https://www.mailpilot.dev/api/v1/stats/by-period?period=week&fromDate=123",
+      "https://www.mailpilot.app/api/v1/stats/by-period?period=week&fromDate=123",
     );
   });
 
   it("keeps empty-string query values", () => {
     expect(
-      buildApiUrl("https://www.mailpilot.dev", "/stats/by-period", {
+      buildApiUrl("https://www.mailpilot.app", "/stats/by-period", {
         fromDate: "",
       }),
-    ).toBe("https://www.mailpilot.dev/api/v1/stats/by-period?fromDate=");
+    ).toBe("https://www.mailpilot.app/api/v1/stats/by-period?fromDate=");
   });
 });
 
@@ -74,7 +74,7 @@ describe("ApiClient errors", () => {
 
     const client = new ApiClient({
       apiKey: "test-key",
-      baseUrl: "https://www.mailpilot.dev",
+      baseUrl: "https://www.mailpilot.app",
     });
 
     await expect(client.get("/rules")).rejects.toThrow("Missing API key");

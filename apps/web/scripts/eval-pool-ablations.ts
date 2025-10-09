@@ -11,8 +11,8 @@
  * measuring noise no matter how clean its individual p-values looked, and the
  * per-run column is there so that shows up rather than being averaged away.
  *
- *   pnpm -F mailpilot-ai eval:pool-ablations              # every full run
- *   pnpm -F mailpilot-ai eval:pool-ablations a.json b.json
+ *   pnpm -F mailpilot-web eval:pool-ablations              # every full run
+ *   pnpm -F mailpilot-web eval:pool-ablations a.json b.json
  */
 
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";

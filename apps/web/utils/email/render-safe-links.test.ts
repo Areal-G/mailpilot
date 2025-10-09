@@ -81,9 +81,9 @@ describe("renderEmailTextWithSafeLinks", () => {
   it.each([
     {
       name: "label contains a different domain",
-      text: "Use [mailpilot.dev](https://attacker.tld/login) to continue.",
+      text: "Use [mailpilot.app](https://attacker.tld/login) to continue.",
       expected:
-        '<a href="https://attacker.tld/login">mailpilot.dev - attacker.tld</a>',
+        '<a href="https://attacker.tld/login">mailpilot.app - attacker.tld</a>',
     },
     {
       name: "label contains a different subdomain",

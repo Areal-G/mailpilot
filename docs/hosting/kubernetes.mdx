@@ -17,14 +17,14 @@ Mail Pilot can run on Kubernetes as the same pieces used by Docker Compose:
 The chart lives in the repository at:
 
 ```bash
-charts/mailpilot
+charts/mail-pilot
 ```
 
 Install it with:
 
 ```bash
-helm upgrade --install mailpilot ./charts/mailpilot \
-  -n mailpilot \
+helm upgrade --install mail-pilot ./charts/mail-pilot \
+  -n mail-pilot \
   --create-namespace \
   -f values.prod.yaml
 ```
@@ -45,19 +45,19 @@ ingress:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: mailpilot-tls
+    - secretName: mail-pilot-tls
       hosts:
         - app.example.com
 
 env:
   NEXT_PUBLIC_BASE_URL: https://app.example.com
-  GOOGLE_PUBSUB_TOPIC_NAME: projects/example/topics/mailpilot
+  GOOGLE_PUBSUB_TOPIC_NAME: projects/example/topics/mail-pilot
   QUEUE_BACKEND: bullmq
 
-existingSecret: mailpilot-secrets
+existingSecret: mail-pilot-secrets
 ```
 
-`mailpilot-secrets` should contain the required app environment variables from the [Environment Variables reference](/hosting/environment-variables). You can use `secretEnv` instead for simple installs.
+`mail-pilot-secrets` should contain the required app environment variables from the [Environment Variables reference](/hosting/environment-variables). You can use `secretEnv` instead for simple installs.
 
 For a first install with bundled Postgres and Redis, also provide generated values for the bundled services:
 
@@ -86,17 +86,17 @@ Use managed Postgres and Redis through existing Kubernetes Secrets:
 externalDatabase:
   enabled: true
   existingSecret:
-    name: mailpilot-database
+    name: mail-pilot-database
 
 externalRedis:
   enabled: true
   existingSecret:
-    name: mailpilot-redis
+    name: mail-pilot-redis
 ```
 
-`mailpilot-database` should contain `DATABASE_URL` and `DIRECT_URL`.
+`mail-pilot-database` should contain `DATABASE_URL` and `DIRECT_URL`.
 
-`mailpilot-redis` should contain `REDIS_URL`, `REDIS_HTTP_URL`, and `REDIS_HTTP_TOKEN`. Secrets that still use `UPSTASH_REDIS_URL` and `UPSTASH_REDIS_TOKEN` keep working: leave `redisHttpUrlKey` and `redisHttpTokenKey` empty, or point those keys at the legacy names.
+`mail-pilot-redis` should contain `REDIS_URL`, `REDIS_HTTP_URL`, and `REDIS_HTTP_TOKEN`. Secrets that still use `UPSTASH_REDIS_URL` and `UPSTASH_REDIS_TOKEN` keep working: leave `redisHttpUrlKey` and `redisHttpTokenKey` empty, or point those keys at the legacy names.
 
 You can use plain Kubernetes Secrets, External Secrets, Sealed Secrets, SOPS, or a cloud secret controller.
 
@@ -131,22 +131,22 @@ Provide the QStash secrets using `secretEnv` or `existingSecret`; see the [Envir
 After installing, check the rollout:
 
 ```bash
-kubectl get pods -n mailpilot
-kubectl rollout status deploy/mailpilot-web -n mailpilot
+kubectl get pods -n mail-pilot
+kubectl rollout status deploy/mail-pilot-web -n mail-pilot
 ```
 
 Test the health endpoint:
 
 ```bash
-kubectl port-forward svc/mailpilot-web 3000:80 -n mailpilot
+kubectl port-forward svc/mail-pilot-web 3000:80 -n mail-pilot
 curl http://localhost:3000/api/health
 ```
 
 Test one scheduled job:
 
 ```bash
-kubectl create job --from=cronjob/mailpilot-watch-renewal test-watch-renewal -n mailpilot
-kubectl logs job/test-watch-renewal -n mailpilot
+kubectl create job --from=cronjob/mail-pilot-watch-renewal test-watch-renewal -n mail-pilot
+kubectl logs job/test-watch-renewal -n mail-pilot
 ```
 
 ## Operational Notes

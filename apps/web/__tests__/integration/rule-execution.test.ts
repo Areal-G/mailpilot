@@ -1,5 +1,5 @@
 /**
- * Integration test: rule execution via @mailpilot/emulate
+ * Integration test: rule execution via the `emulate` package
  *
  * Tests the executeAct function — the core of rule execution that applies
  * labels, archives, marks read, and creates drafts against the Gmail API.

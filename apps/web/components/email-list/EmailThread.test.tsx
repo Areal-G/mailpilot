@@ -6,6 +6,7 @@ import {
   fireEvent,
   render,
   screen,
+  within,
 } from "@testing-library/react";
 import { useState } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -110,6 +111,107 @@ vi.mock("@/app/(app)/[emailAccountId]/compose/ComposeEmailFormLazy", () => ({
 
 let composerMounts = 0;
 
+describe("EmailThread reply actions row", () => {
+  afterEach(cleanup);
+
+  it("offers Reply and Forward under the last message, and Reply all only with other recipients", () => {
+    const view = render(
+      <EmailThread
+        messages={[
+          createReaderMessage("first", "1000"),
+          createReaderMessage("second", "2000"),
+        ]}
+        refetch={vi.fn()}
+        showReplyButton
+      />,
+    );
+    const row = within(screen.getByRole("group", { name: "Reply actions" }));
+    expect(row.getByRole("button", { name: "Reply" })).toBeTruthy();
+    expect(row.getByRole("button", { name: "Forward" })).toBeTruthy();
+    expect(row.queryByRole("button", { name: "Reply all" })).toBeNull();
+
+    view.rerender(
+      <EmailThread
+        messages={[
+          createReaderMessage("first", "1000"),
+          withRecipients(
+            createReaderMessage("second", "2000"),
+            "user@example.com, teammate@example.com",
+          ),
+        ]}
+        refetch={vi.fn()}
+        showReplyButton
+      />,
+    );
+    expect(
+      within(screen.getByRole("group", { name: "Reply actions" })).getByRole(
+        "button",
+        { name: "Reply all" },
+      ),
+    ).toBeTruthy();
+  });
+
+  it("replies to the last message and hides itself until the composer closes", () => {
+    render(
+      <EmailThread
+        messages={[
+          createReaderMessage("first", "1000"),
+          createReaderMessage("second", "2000"),
+        ]}
+        refetch={vi.fn()}
+        showReplyButton
+      />,
+    );
+    fireEvent.click(
+      within(screen.getByRole("group", { name: "Reply actions" })).getByRole(
+        "button",
+        { name: "Reply" },
+      ),
+    );
+    const editor = screen.getByRole("textbox", { name: "Email message" });
+    expect(
+      editor
+        .closest("[data-thread-message-id]")
+        ?.getAttribute("data-thread-message-id"),
+    ).toBe("second");
+    expect(screen.queryByRole("group", { name: "Reply actions" })).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: "Send" }));
+    expect(screen.getByRole("group", { name: "Reply actions" })).toBeTruthy();
+  });
+
+  it("forwards the last message", () => {
+    render(
+      <EmailThread
+        messages={[createReaderMessage("only", "1000")]}
+        refetch={vi.fn()}
+        showReplyButton
+      />,
+    );
+    fireEvent.click(
+      within(screen.getByRole("group", { name: "Reply actions" })).getByRole(
+        "button",
+        { name: "Forward" },
+      ),
+    );
+    expect(
+      screen.getByRole("textbox", { name: "Email message" }).dataset
+        .draftSessionId,
+    ).toMatch(/:forward$/);
+  });
+
+  it("stays hidden when replies are not allowed", () => {
+    render(
+      <EmailThread
+        messages={[createReaderMessage("only", "1000")]}
+        refetch={vi.fn()}
+        showReplyButton={false}
+      />,
+    );
+    expect(screen.queryByRole("group", { name: "Reply actions" })).toBeNull();
+  });
+});
+
 describe("EmailThread reply composer", () => {
   afterEach(cleanup);
 
@@ -120,7 +222,7 @@ describe("EmailThread reply composer", () => {
     const view = render(
       <EmailThread messages={[first]} refetch={vi.fn()} showReplyButton />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "Reply" }));
+    fireEvent.click(messageReplyButton());
     expect(screen.getByRole("textbox", { name: "Email message" })).toBeTruthy();
 
     view.rerender(
@@ -303,7 +405,8 @@ describe("EmailThread outgoing replies", () => {
     );
     expect(outgoingRow?.querySelector("time")).toBeTruthy();
     expect(outgoingRow?.textContent).not.toContain("Sending");
-    expect(screen.getAllByRole("button", { name: "Reply" })).toHaveLength(2);
+    // Each message's own Reply, plus the thread's reply row under the last.
+    expect(screen.getAllByRole("button", { name: "Reply" })).toHaveLength(3);
 
     view.rerender(
       <EmailThread
@@ -332,7 +435,7 @@ describe("EmailThread outgoing replies", () => {
         showReplyButton
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "Reply" }));
+    fireEvent.click(messageReplyButton());
     fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
     view.rerender(
@@ -374,7 +477,7 @@ describe("EmailThread outgoing replies", () => {
       const view = render(
         <EmailThread messages={[parent]} refetch={vi.fn()} showReplyButton />,
       );
-      fireEvent.click(screen.getByRole("button", { name: "Reply" }));
+      fireEvent.click(messageReplyButton());
       fireEvent.click(screen.getByRole("button", { name: "Queue send" }));
       view.rerender(
         <EmailThread
@@ -431,7 +534,7 @@ describe("EmailThread outgoing replies", () => {
       const view = render(
         <EmailThread messages={[parent]} refetch={vi.fn()} showReplyButton />,
       );
-      fireEvent.click(screen.getByRole("button", { name: "Reply" }));
+      fireEvent.click(messageReplyButton());
       fireEvent.click(screen.getByRole("button", { name: "Submit send" }));
       view.rerender(
         <EmailThread
@@ -579,7 +682,7 @@ describe("EmailThread outgoing replies", () => {
           showReplyButton
         />,
       );
-      fireEvent.click(screen.getByRole("button", { name: "Reply" }));
+      fireEvent.click(messageReplyButton());
       fireEvent.click(screen.getByRole("button", { name: "Queue send" }));
       await act(async () => vi.advanceTimersByTimeAsync(500));
       expect(screen.getByLabelText("Email message")).toBeTruthy();
@@ -1205,4 +1308,13 @@ function createReaderMessage(id: string, internalDate: string) {
     textPlain: "Message body",
     threadId: "thread-1",
   } as unknown as ThreadMessage;
+}
+
+function withRecipients(message: ThreadMessage, to: string) {
+  return { ...message, headers: { ...message.headers, to } } as ThreadMessage;
+}
+
+// The message's own icon; the thread's reply row repeats the name below it.
+function messageReplyButton() {
+  return screen.getAllByRole("button", { name: "Reply" })[0];
 }

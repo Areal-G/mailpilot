@@ -41,7 +41,7 @@ import { ActionType } from "@/generated/prisma/enums";
 import prisma from "@/utils/__mocks__/prisma";
 import { createScopedLogger } from "@/utils/logger";
 
-// pnpm --filter mailpilot-ai test-ai __tests__/eval/assistant-chat-rule-suggestions.test.ts
+// pnpm --filter mailpilot-web test-ai __tests__/eval/assistant-chat-rule-suggestions.test.ts
 
 const shouldRunEval = shouldRunEvalTests();
 const evalReporter = createEvalReporter({

@@ -136,7 +136,7 @@ describe("getPublicContactContext", () => {
     expect(request.prompt).toContain("john@acme.com");
     expect(request.prompt).toContain("acme.com");
     expect(request.prompt).not.toContain("Confidential acquisition");
-    expect(request.prompt).not.toContain("owner@mailpilot.com");
+    expect(request.prompt).not.toContain("owner@mailpilot.app");
     expect(request.instructions).toContain("Do not include any email address");
     expect(request.providerOptions).toEqual({
       openrouter: { plugins: [{ id: "web", max_results: 5 }] },
@@ -368,7 +368,7 @@ function getEmailAccount(): EmailAccountWithAI {
   return {
     id: "account-1",
     userId: "user-1",
-    email: "owner@mailpilot.com",
+    email: "owner@mailpilot.app",
     about: "Confidential acquisition plans",
     multiRuleSelectionEnabled: false,
     sensitiveDataPolicy: null,

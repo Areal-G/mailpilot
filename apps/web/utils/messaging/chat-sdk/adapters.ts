@@ -20,15 +20,15 @@ type MessagingAdapterRegistry = {
 };
 
 declare global {
-  var inboxZeroMessagingAdapterRegistry: MessagingAdapterRegistry | undefined;
+  var mailPilotMessagingAdapterRegistry: MessagingAdapterRegistry | undefined;
 }
 
 export function getMessagingAdapterRegistry(): MessagingAdapterRegistry {
-  if (!global.inboxZeroMessagingAdapterRegistry) {
-    global.inboxZeroMessagingAdapterRegistry = createMessagingAdapterRegistry();
+  if (!global.mailPilotMessagingAdapterRegistry) {
+    global.mailPilotMessagingAdapterRegistry = createMessagingAdapterRegistry();
   }
 
-  return global.inboxZeroMessagingAdapterRegistry;
+  return global.mailPilotMessagingAdapterRegistry;
 }
 
 function createMessagingAdapterRegistry(): MessagingAdapterRegistry {

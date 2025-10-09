@@ -15,8 +15,8 @@ await esbuild.build({
   outfile: "dist/main.js",
   format: "esm",
   define: {
-    "process.env.MAILPILOT_SENTRY_DSN": JSON.stringify(
-      process.env.MAILPILOT_SENTRY_DSN ?? "",
+    "process.env.MAIL_PILOT_SENTRY_DSN": JSON.stringify(
+      process.env.MAIL_PILOT_SENTRY_DSN ?? "",
     ),
   },
   // electron-updater and fs-extra are CJS. esbuild rewrites their require("fs")

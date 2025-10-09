@@ -5,7 +5,7 @@ describe("parseDesktopAppVersion", () => {
   it("reads the version from the Electron user agent", () => {
     expect(
       parseDesktopAppVersion(
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) InboxZero/0.4.2 Chrome/140.0.0.0 Electron/43.4.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) MailPilot/0.4.2 Chrome/140.0.0.0 Electron/43.4.0 Safari/537.36",
       ),
     ).toBe("0.4.2");
   });
@@ -24,7 +24,7 @@ describe("parseDesktopAppVersion", () => {
       ),
     ).toBeUndefined();
     expect(
-      parseDesktopAppVersion("Mozilla/5.0 NotInboxZero/1.0.0"),
+      parseDesktopAppVersion("Mozilla/5.0 NotMailPilot/1.0.0"),
     ).toBeUndefined();
   });
 });

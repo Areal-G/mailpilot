@@ -255,27 +255,27 @@ describe("sender queue", () => {
   it("drops sender-queue keys and leaves unrelated session storage", async () => {
     installMemorySessionStorage();
     sessionStorage.setItem(
-      `mailpilot:sender-queue:${JSON.stringify({ kind: "archive" })}`,
+      `mail-pilot:sender-queue:${JSON.stringify({ kind: "archive" })}`,
       JSON.stringify({ durable: [], progress: [], transient: [] }),
     );
     sessionStorage.setItem(
-      `mailpilot:sender-queue:${JSON.stringify({ kind: "trash" })}`,
+      `mail-pilot:sender-queue:${JSON.stringify({ kind: "trash" })}`,
       JSON.stringify({ durable: [], progress: [], transient: [] }),
     );
-    sessionStorage.setItem("mailpilot:other", "keep");
+    sessionStorage.setItem("mail-pilot:other", "keep");
 
     const { clearStoredSenderQueues } = await import("./sender-queue");
     clearStoredSenderQueues();
 
-    expect(sessionStorage.getItem("mailpilot:other")).toBe("keep");
+    expect(sessionStorage.getItem("mail-pilot:other")).toBe("keep");
     expect(
       sessionStorage.getItem(
-        `mailpilot:sender-queue:${JSON.stringify({ kind: "archive" })}`,
+        `mail-pilot:sender-queue:${JSON.stringify({ kind: "archive" })}`,
       ),
     ).toBeNull();
     expect(
       sessionStorage.getItem(
-        `mailpilot:sender-queue:${JSON.stringify({ kind: "trash" })}`,
+        `mail-pilot:sender-queue:${JSON.stringify({ kind: "trash" })}`,
       ),
     ).toBeNull();
   });
@@ -291,7 +291,7 @@ describe("sender queue", () => {
     const { addToQueue, clearStatuses } = createSenderQueue(() => ({
       kind: "trash",
     }));
-    const storageKey = `mailpilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
+    const storageKey = `mail-pilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
 
     await addToQueue({
       sender: "sender@example.com",
@@ -314,7 +314,7 @@ describe("sender queue", () => {
       "./sender-queue"
     );
     const { addToQueue } = createSenderQueue(() => ({ kind: "trash" }));
-    const storageKey = `mailpilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
+    const storageKey = `mail-pilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
 
     await addToQueue({
       sender: "first@example.com",
@@ -353,7 +353,7 @@ describe("sender queue", () => {
     const { addToQueue, clearStatuses } = createSenderQueue(() => ({
       kind: "trash",
     }));
-    const storageKey = `mailpilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
+    const storageKey = `mail-pilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
 
     await addToQueue({
       sender: "keep@example.com",
@@ -390,7 +390,7 @@ describe("sender queue", () => {
     const { addToQueue, clearStatuses } = createSenderQueue(() => ({
       kind: "trash",
     }));
-    const storageKey = `mailpilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
+    const storageKey = `mail-pilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
 
     await addToQueue({
       sender: "keep@example.com",
@@ -427,7 +427,7 @@ describe("sender queue", () => {
     const { addToQueue, clearStatuses } = createSenderQueue(() => ({
       kind: "trash",
     }));
-    const storageKey = `mailpilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
+    const storageKey = `mail-pilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
 
     await addToQueue({
       sender: "keep@example.com",
@@ -485,7 +485,7 @@ describe("sender queue", () => {
     const { addToQueue, clearStatuses } = createSenderQueue(() => ({
       kind: "trash",
     }));
-    const storageKey = `mailpilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
+    const storageKey = `mail-pilot:sender-queue:${JSON.stringify({ kind: "trash" })}`;
 
     await addToQueue({
       sender: "one@example.com",

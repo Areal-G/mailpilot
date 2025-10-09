@@ -21,7 +21,7 @@ describe("proxy matcher", () => {
 describe("proxy content negotiation", () => {
   it("returns markdown when explicitly preferred", async () => {
     const response = proxy(
-      new NextRequest("https://www.mailpilot.dev/", {
+      new NextRequest("https://www.mailpilot.app/", {
         headers: { Accept: "text/markdown, text/html;q=0.8" },
       }),
     );
@@ -36,7 +36,7 @@ describe("proxy content negotiation", () => {
 
   it("passes browser requests through and advertises negotiation", () => {
     const response = proxy(
-      new NextRequest("https://www.mailpilot.dev/pricing", {
+      new NextRequest("https://www.mailpilot.app/pricing", {
         headers: { Accept: "text/html,application/xhtml+xml" },
       }),
     );
@@ -47,7 +47,7 @@ describe("proxy content negotiation", () => {
 
   it("never replaces RSC responses with markdown", () => {
     const response = proxy(
-      new NextRequest("https://www.mailpilot.dev/", {
+      new NextRequest("https://www.mailpilot.app/", {
         headers: { Accept: "text/markdown", RSC: "1" },
       }),
     );

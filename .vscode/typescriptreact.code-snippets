@@ -1,5 +1,4 @@
 {
-  // based on: https://github.com/theodorusclarence/ts-nextjs-tailwind-starter/blob/main/.vscode/typescriptreact.code-snippets
   //#region  //*=========== React ===========
   "React.useState": {
     "prefix": "us",

@@ -109,7 +109,6 @@ export const POST = withError("lemon-squeezy/webhook", async (request) => {
 });
 
 // https://docs.lemonsqueezy.com/help/webhooks#signing-requests
-// https://gist.github.com/amosbastian/e403e1d8ccf4f7153f7840dd11a85a69
 async function getPayload(request: Request): Promise<Payload> {
   if (!env.LEMON_SQUEEZY_SIGNING_SECRET)
     throw new Error("No Lemon Squeezy signing secret provided.");

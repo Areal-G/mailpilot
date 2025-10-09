@@ -39,7 +39,7 @@ const examplePromptsBase = [
   "If someone asks to cancel a plan, draft a reply with the cancellation link: https://company.com/cancel",
   "If a founder sends me an investor update, label it @[Investor Update] and archive it",
   "If someone pitches me their startup, label it as @[Investing], archive it, and draft a friendly reply that I no longer have time to look at the email but if they get a warm intro, that's their best bet to get funding from me",
-  "If someone asks for a discount, reply with the discount code INBOX20",
+  "If someone asks for a discount, reply with the discount code PILOT20",
   "If someone asks for help with Product or Company, draft a reply telling them I no longer work there, but they should reach out to Company for support",
   "Review any emails from questions@pr.com and see if any are about finance. If so, draft a friendly reply that answers the question",
   "If people ask me to speak at an event, label the email @[Speaker Opportunity] and archive it",

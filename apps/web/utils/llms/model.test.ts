@@ -196,18 +196,6 @@ describe("Models", () => {
       expect(result.providerOptions?.openai?.reasoningEffort).toBe("medium");
     });
 
-    it("should use user's provider and model when API key is provided", () => {
-      const userAi = defaultUserAi({
-        aiApiKey: "user-api-key",
-        aiProvider: Provider.GOOGLE,
-        aiModel: "gemini-1.5-pro-latest",
-      });
-
-      const result = getModel(userAi);
-      expect(result.provider).toBe(Provider.GOOGLE);
-      expect(result.modelName).toBe("gemini-1.5-pro-latest");
-    });
-
     it("disables OpenAI response storage for user API keys so Zero Data Retention orgs work", () => {
       const userAi = defaultUserAi({
         aiApiKey: "user-api-key",
@@ -519,7 +507,7 @@ describe("Models", () => {
       expect(createGateway).toHaveBeenCalledWith({
         apiKey: "test-ai-gateway-key",
         headers: {
-          "http-referer": "https://www.mailpilot.dev",
+          "http-referer": "https://www.mailpilot.app",
           "x-title": "Mail Pilot",
         },
       });

@@ -47,6 +47,14 @@ export function createLocalEnvironment({
     "SYSTEMROOT",
     "COMSPEC",
     "PATHEXT",
+    // Windows: Docker CLI plugins, pnpm and Node resolve their dirs from these.
+    "USERPROFILE",
+    "APPDATA",
+    "LOCALAPPDATA",
+    "ProgramData",
+    "ProgramFiles",
+    "HOMEDRIVE",
+    "HOMEPATH",
   ]) {
     const value = inherited[key];
     if (value !== undefined) systemEnv[key] = value;
@@ -93,6 +101,8 @@ export function createLocalEnvironment({
     STRIPE_WEBHOOK_SECRET: "whsec_emulator",
     NEXT_PUBLIC_BYPASS_PREMIUM_CHECKS:
       inherited.NEXT_PUBLIC_BYPASS_PREMIUM_CHECKS ?? "true",
+    // Emulated providers only, so the guest "Try demo" sign-in is safe here.
+    NEXT_PUBLIC_DEMO_MODE: inherited.NEXT_PUBLIC_DEMO_MODE ?? "true",
     NEXT_PUBLIC_EMAIL_SEND_ENABLED: "true",
     NEXT_PUBLIC_CONTACTS_ENABLED: "true",
   };

@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useDesktopUpdateStatus } from "@/hooks/useDesktopUpdateStatus";
-import { getInboxZeroDesktopApp } from "@/utils/desktop-app";
+import { getMailPilotDesktopApp } from "@/utils/desktop-app";
 
 export function DesktopUpdateMenuItem() {
   const status = useDesktopUpdateStatus();
@@ -19,7 +19,7 @@ export function DesktopUpdateMenuItem() {
           className="h-9"
           tooltip="Restart to update"
           sidebarName="left-sidebar"
-          onClick={() => getInboxZeroDesktopApp()?.installUpdate?.()}
+          onClick={() => getMailPilotDesktopApp()?.installUpdate?.()}
         >
           <DownloadIcon />
           <span>Restart to update</span>

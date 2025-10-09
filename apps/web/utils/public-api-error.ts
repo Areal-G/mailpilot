@@ -4,7 +4,7 @@ import { env } from "@/env";
 import { SafeError } from "@/utils/error";
 
 export const PUBLIC_API_DOCS_URL =
-  "https://docs.mailpilot.dev/api-reference/introduction";
+  "https://docs.mailpilot.app/api-reference/introduction";
 export const PUBLIC_API_OPENAPI_PATH = "/openapi.json";
 
 export type PublicApiErrorCode =

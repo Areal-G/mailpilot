@@ -20,7 +20,7 @@ export default function robots(): MetadataRoute.Robots {
     },
     sitemap: [
       `${env.NEXT_PUBLIC_BASE_URL}/sitemap.xml`,
-      "https://docs.mailpilot.dev/sitemap.xml",
+      "https://docs.mailpilot.app/sitemap.xml",
     ],
   };
 }

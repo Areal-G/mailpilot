@@ -180,14 +180,14 @@ test("opens saved mail offline, reconnects, and clears it on sign-out", async ({
       .toBe(true);
     await page.evaluate(() => {
       navigator.serviceWorker.controller?.postMessage({
-        type: "mailpilot:save-offline-mail",
+        type: "mail-pilot:save-offline-mail",
       });
     });
     await expect
       .poll(() =>
         page.evaluate(async () => {
           const name = (await caches.keys()).find((name) =>
-            name.startsWith("mailpilot:offline-mail:"),
+            name.startsWith("mail-pilot:offline-mail:"),
           );
           if (!name) return false;
           const cache = await caches.open(name);
@@ -206,7 +206,7 @@ test("opens saved mail offline, reconnects, and clears it on sign-out", async ({
       .poll(
         async () =>
           page.evaluate(async () => {
-            const inspect = window.__inboxZeroMailInspect;
+            const inspect = window.__mailPilotMailInspect;
             if (!inspect?.read) return false;
             const diagnostics = (await inspect.read()) as {
               coverage?: Array<{ metadata?: string }>;
@@ -296,7 +296,7 @@ test("opens saved mail offline, reconnects, and clears it on sign-out", async ({
       .poll(() =>
         page.evaluate(async () => {
           const names = (await caches.keys()).filter((name) =>
-            name.startsWith("mailpilot:offline-mail:"),
+            name.startsWith("mail-pilot:offline-mail:"),
           );
           const entries = await Promise.all(
             names.map(

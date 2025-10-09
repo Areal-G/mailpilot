@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 import {
   type DesktopUpdateStatus,
-  getInboxZeroDesktopApp,
+  getMailPilotDesktopApp,
 } from "@/utils/desktop-app";
 
 let status: DesktopUpdateStatus = null;
@@ -19,7 +19,7 @@ export function useDesktopUpdateStatus() {
 }
 
 function subscribe(listener: () => void) {
-  const desktop = getInboxZeroDesktopApp();
+  const desktop = getMailPilotDesktopApp();
   if (!desktop?.onUpdateStatus || !desktop.installUpdate) return () => {};
   listeners.add(listener);
   if (listeners.size === 1) {

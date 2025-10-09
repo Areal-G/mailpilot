@@ -52,10 +52,6 @@ async function main() {
   }
   if (Number(process.versions.node.split(".")[0]) !== 24)
     throw new Error("Use Node.js 24, matching package.json engines.");
-  if (process.platform === "win32")
-    throw new Error(
-      "Local development currently supports macOS and Linux. On Windows, run this command inside WSL.",
-    );
   const appPort = Number(values.port);
   if (!Number.isInteger(appPort) || appPort < 1 || appPort > 65_535)
     throw new Error("--port must be an integer between 1 and 65535");
@@ -80,7 +76,7 @@ async function main() {
   if (backend === "docker") {
     try {
       await exec("docker", ["compose", "version"], { timeout: 15_000 });
-      await exec("docker", ["info"], { timeout: 15_000 });
+      await exec("docker", ["info"], { timeout: 600_000 });
     } catch {
       throw new Error(
         "Start Docker Desktop with Compose installed, or install PostgreSQL and Redis and use --backend native. On macOS: brew install postgresql@16 redis.",
@@ -210,7 +206,7 @@ async function main() {
       });
       await exec("docker", [...args, "up", "-d"], {
         env: dockerEnv,
-        timeout: 240_000,
+        timeout: 900_000,
         signal: processes.signal,
       });
     }
@@ -245,12 +241,12 @@ async function main() {
     } finally {
       await client.end();
     }
-    await processes.run("Database migrations", PNPM, [
-      "exec",
-      "prisma",
-      "migrate",
-      "deploy",
-    ]);
+    await processes.run(
+      "Database migrations",
+      PNPM,
+      ["exec", "prisma", "migrate", "deploy"],
+      1_800_000,
+    );
     await configureDemoOnboarding(env.DATABASE_URL);
 
     const redis = new Redis(env.REDIS_URL, {

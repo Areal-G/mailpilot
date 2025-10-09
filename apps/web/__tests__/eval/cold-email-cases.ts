@@ -736,7 +736,7 @@ Lena`,
     expected: false,
     email: getEmail({
       from: "Ben Okafor <ben@teachingemail.example>",
-      subject: "Using your inbox zero guide in a course",
+      subject: "Using your email productivity guide in a course",
       content: `Hi,
 
 I teach a small online course on email habits and would like to include two diagrams from your blog post on inbox triage, with credit and a link. Is that okay with you?`,

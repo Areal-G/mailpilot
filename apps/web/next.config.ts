@@ -1,4 +1,3 @@
-import { withSentryConfig } from "@sentry/nextjs";
 import { withAxiom } from "next-axiom";
 import nextMdx from "@next/mdx";
 import { realpathSync } from "node:fs";
@@ -33,6 +32,8 @@ const microsoftEmulatorOrigin = env.MICROSOFT_BASE_URL
   : null;
 
 const nextConfig: NextConfig = {
+  // Don't let `next dev` write AGENTS.md / DEV.md into the checkout.
+  agentRules: false,
   allowedDevOrigins: [
     "127.0.0.1",
     ...(URL.canParse(env.NEXT_PUBLIC_BASE_URL)
@@ -119,20 +120,17 @@ const nextConfig: NextConfig = {
           "style-src 'self' 'unsafe-inline' https:",
           // Add this line to allow data: fonts
           "font-src 'self' data: https:",
-          // For images including avatars and Mux thumbnails
-          "img-src 'self' data: https: blob: https://image.mux.com https://*.litix.io",
-          // For Mux video and audio content
-          "media-src 'self' blob: https://*.mux.com",
+          // For images including avatars
+          "img-src 'self' data: https: blob:",
+          // For audio and video content
+          "media-src 'self' blob:",
           // If you use web workers or service workers
           "worker-src 'self' blob:",
-          // For API calls, SWR, external services, and Mux
-          [
-            "connect-src 'self' https: wss: https://*.mux.com https://*.litix.io",
-            microsoftEmulatorOrigin,
-          ]
+          // For API calls, SWR and external services
+          ["connect-src 'self' https: wss:", microsoftEmulatorOrigin]
             .filter(Boolean)
             .join(" "),
-          // iframes for Mux player and PDF attachment previews
+          // iframes for PDF attachment previews
           "frame-src 'self' https: blob:",
           // Prevent embedding in iframes
           "frame-ancestors 'none'",
@@ -201,10 +199,6 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1280, 1440, 1920],
     remotePatterns: [
       {
-        hostname: "image.mux.com",
-        protocol: "https",
-      },
-      {
         hostname: "ph-avatars.imgix.net",
         protocol: "https",
       },
@@ -217,7 +211,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
       },
       {
-        hostname: "images.mailpilot.dev",
+        hostname: "images.mailpilot.app",
         protocol: "https",
       },
       {
@@ -270,38 +264,38 @@ const nextConfig: NextConfig = {
         source: "/",
       },
       {
-        destination: "https://go.mailpilot.dev/feature-requests",
+        destination: "https://go.mailpilot.app/feature-requests",
         permanent: true,
         source: "/feature-requests",
       },
       {
-        destination: "https://go.mailpilot.dev/feature-requests",
+        destination: "https://go.mailpilot.app/feature-requests",
         permanent: true,
         source: "/roadmap",
       },
       {
-        destination: "https://go.mailpilot.dev/feedback",
+        destination: "https://go.mailpilot.app/feedback",
         permanent: true,
         source: "/feedback",
       },
       {
-        destination: "https://go.mailpilot.dev/changelog",
+        destination: "https://go.mailpilot.app/changelog",
         permanent: true,
         source: "/changelog",
       },
       {
-        destination: "https://go.mailpilot.dev/x",
+        destination: "https://go.mailpilot.app/x",
         permanent: true,
         source: "/twitter",
       },
       {
-        destination: "https://go.mailpilot.dev/github",
+        destination: "https://go.mailpilot.app/github",
         permanent: true,
         source: "/github",
       },
       {
         destination:
-          "https://apps.apple.com/app/mailpilot-ai-email/id6759736561",
+          "https://apps.apple.com/app/mailpilot-web-email/id6759736561",
         permanent: false,
         source: "/ios",
       },
@@ -312,17 +306,17 @@ const nextConfig: NextConfig = {
       },
       {
         destination:
-          "https://play.google.com/store/apps/details?id=com.getmailpilot.app",
+          "https://play.google.com/store/apps/details?id=app.mailpilot.app",
         permanent: false,
         source: "/android",
       },
       {
-        destination: "https://go.mailpilot.dev/discord",
+        destination: "https://go.mailpilot.app/discord",
         permanent: true,
         source: "/discord",
       },
       {
-        destination: "https://go.mailpilot.dev/linkedin",
+        destination: "https://go.mailpilot.app/linkedin",
         permanent: true,
         source: "/linkedin",
       },
@@ -332,17 +326,17 @@ const nextConfig: NextConfig = {
         source: "/contact",
       },
       {
-        destination: "https://go.mailpilot.dev/waitlist",
+        destination: "https://go.mailpilot.app/waitlist",
         permanent: true,
         source: "/waitlist",
       },
       {
-        destination: "https://go.mailpilot.dev/waitlist-other",
+        destination: "https://go.mailpilot.app/waitlist-other",
         permanent: false,
         source: "/waitlist-other",
       },
       {
-        destination: "https://go.mailpilot.dev/affiliate",
+        destination: "https://go.mailpilot.app/affiliate",
         permanent: true,
         source: "/affiliates",
       },
@@ -352,17 +346,17 @@ const nextConfig: NextConfig = {
         source: "/newsletters",
       },
       {
-        destination: "https://docs.mailpilot.dev",
+        destination: "https://docs.mailpilot.app",
         permanent: true,
         source: "/docs",
       },
       {
-        destination: "https://docs.mailpilot.dev/:path*",
+        destination: "https://docs.mailpilot.app/:path*",
         permanent: true,
         source: "/docs/:path*",
       },
       {
-        destination: "https://docs.mailpilot.dev",
+        destination: "https://docs.mailpilot.app",
         permanent: true,
         source: "/api-reference/cli",
       },
@@ -392,30 +386,14 @@ const nextConfig: NextConfig = {
         source: "/new-senders",
       },
       {
-        destination: "https://go.mailpilot.dev/game",
+        destination: "https://go.mailpilot.app/game",
         permanent: false,
         source: "/game",
       },
       {
-        destination: "https://go.mailpilot.dev/soc2",
+        destination: "https://go.mailpilot.app/soc2",
         permanent: true,
         source: "/soc2",
-      },
-    ];
-  },
-  async rewrites() {
-    return [
-      {
-        destination: "https://app.posthog.com/:path*",
-        source: "/ingest/:path*",
-      },
-      {
-        destination: "https://api.dub.co/track/:path",
-        source: "/_proxy/dub/track/:path",
-      },
-      {
-        destination: "https://www.dubcdn.com/analytics/script.js",
-        source: "/_proxy/dub/script.js",
       },
     ];
   },
@@ -453,45 +431,10 @@ const nextConfig: NextConfig = {
   },
 };
 
-const sentryOptions = {
-  org: process.env.SENTRY_ORGANIZATION,
-  project: process.env.SENTRY_PROJECT,
-  // For all available options, see:
-  // https://github.com/getsentry/sentry-webpack-plugin#options
-
-  // Suppresses source map uploading logs during build
-  silent: !process.env.CI,
-};
-
-const sentryConfig = {
-  // Enables automatic instrumentation of Vercel Cron Monitors.
-  // See the following for more information:
-  // https://docs.sentry.io/product/crons/
-  // https://vercel.com/docs/cron-jobs
-  automaticVercelMonitors: true,
-
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
-
-  // Hides source maps from generated client bundles
-  hideSourceMaps: true,
-  // For all available options, see:
-  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-  // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
-  tunnelRoute: "/monitoring",
-};
-
 const mdxConfig = withMDX(nextConfig);
 
-const useSentry =
-  process.env.NEXT_PUBLIC_SENTRY_DSN &&
-  process.env.SENTRY_ORGANIZATION &&
-  process.env.SENTRY_PROJECT;
-
-const exportConfig = useSentry
-  ? withSentryConfig(mdxConfig, { ...sentryOptions, ...sentryConfig })
-  : mdxConfig;
+// Sentry error reporting is disabled.
+const exportConfig = mdxConfig;
 
 // NEXTAUTH_SECRET is deprecated but kept as an option to not break the build. At least one must be set.
 if (!env.AUTH_SECRET && !env.NEXTAUTH_SECRET) {

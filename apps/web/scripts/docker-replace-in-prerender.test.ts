@@ -6,7 +6,7 @@ import {
 
 const PLACEHOLDER = "http://NEXT_PUBLIC_BASE_URL_PLACEHOLDER";
 const SHORTER = "https://mail.example.com";
-const LONGER = "https://mailpilot.self-hosted.example.org";
+const LONGER = "https://mail-pilot.self-hosted.example.org";
 
 const LENGTH_PREFIXED = "TAOoUSsLlGgMmVb";
 

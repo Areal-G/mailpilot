@@ -13,7 +13,7 @@ describe("loadConfig", () => {
   it("returns an empty object when the config file does not exist", () => {
     const missingConfigPath = join(
       tmpdir(),
-      `mailpilot-api-missing-${process.pid}-${Date.now()}.json`,
+      `mail-pilot-api-missing-${process.pid}-${Date.now()}.json`,
     );
 
     expect(loadConfig(missingConfigPath)).toEqual({});
@@ -21,7 +21,7 @@ describe("loadConfig", () => {
 });
 
 describe("updateConfig", () => {
-  const configDir = join(tmpdir(), `mailpilot-api-config-${process.pid}`);
+  const configDir = join(tmpdir(), `mail-pilot-api-config-${process.pid}`);
   const configPath = join(configDir, "config.json");
 
   afterEach(() => {
@@ -32,7 +32,7 @@ describe("updateConfig", () => {
   it("merges new values with the existing config file", () => {
     updateConfig(
       {
-        baseUrl: "https://www.mailpilot.dev",
+        baseUrl: "https://www.mailpilot.app",
       },
       configPath,
     );
@@ -46,7 +46,7 @@ describe("updateConfig", () => {
 
     expect(updated).toEqual({
       apiKey: "iz_test_key",
-      baseUrl: "https://www.mailpilot.dev",
+      baseUrl: "https://www.mailpilot.app",
     });
   });
 
@@ -65,8 +65,8 @@ describe("updateConfig", () => {
   });
 
   it("prefers flags over environment variables and stored config", () => {
-    vi.stubEnv("MAILPILOT_API_KEY", "env-key");
-    vi.stubEnv("MAILPILOT_BASE_URL", "https://env.example.com");
+    vi.stubEnv("MAIL_PILOT_API_KEY", "env-key");
+    vi.stubEnv("MAIL_PILOT_BASE_URL", "https://env.example.com");
 
     const resolved = resolveRuntimeConfig(
       {
@@ -87,7 +87,7 @@ describe("updateConfig", () => {
   });
 
   it("falls back from flags to environment variables and stored config", () => {
-    vi.stubEnv("MAILPILOT_API_KEY", "env-key");
+    vi.stubEnv("MAIL_PILOT_API_KEY", "env-key");
 
     const resolved = resolveRuntimeConfig({}, process.env, {
       apiKey: "stored-key",
@@ -102,7 +102,7 @@ describe("updateConfig", () => {
 
   it("throws when the API key is missing", () => {
     expect(() =>
-      resolveRuntimeConfig({ baseUrl: "https://www.mailpilot.dev" }, {}, {}),
+      resolveRuntimeConfig({ baseUrl: "https://www.mailpilot.app" }, {}, {}),
     ).toThrow("Missing API key");
   });
 

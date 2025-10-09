@@ -6,7 +6,7 @@ import type { Logger } from "@/utils/logger";
 const APNS_PRODUCTION_HOST = "https://api.push.apple.com";
 const APNS_SANDBOX_HOST = "https://api.sandbox.push.apple.com";
 const APNS_JWT_TTL_SECONDS = 50 * 60;
-const DEFAULT_TOPIC = "com.getmailpilot.app";
+const DEFAULT_TOPIC = "app.mailpilot.app";
 const DEFAULT_TEAM_ID = "Z46U4K6CNL";
 
 export type ApnsAlert = {

@@ -196,7 +196,7 @@ function getApiKey() {
 }
 
 function getResourceName(app: string) {
-  return `mailpilot-${app}`;
+  return `mail-pilot-${app}`;
 }
 
 function memoize(

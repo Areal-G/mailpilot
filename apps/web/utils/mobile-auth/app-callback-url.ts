@@ -1,12 +1,12 @@
-export const MAILPILOT_APP_SCHEME = "mailpilot";
-export const MAILPILOT_APP_CALLBACK_HOST = "auth-callback";
+export const MAIL_PILOT_APP_SCHEME = "mailpilot";
+export const MAIL_PILOT_APP_CALLBACK_HOST = "auth-callback";
 
 const STATE_PATTERN = /^[A-Za-z0-9._~-]{16,256}$/u;
 const CODE_PATTERN = /^[A-Za-z0-9._~-]{16,256}$/u;
 const ERROR_PATTERN = /^[A-Za-z0-9._-]{1,64}$/u;
 const ERROR_DESCRIPTION_PATTERN = /^[\w .,+'-]{1,200}$/u;
 
-export function getInboxZeroCustomSchemeCallbackUrl(
+export function getMailPilotCustomSchemeCallbackUrl(
   params: Record<string, string | string[] | undefined>,
 ): string | null {
   const state = firstSearchParam(params.state);
@@ -15,7 +15,7 @@ export function getInboxZeroCustomSchemeCallbackUrl(
   const errorDescription = firstSearchParam(params.error_description);
 
   const url = new URL(
-    `${MAILPILOT_APP_SCHEME}://${MAILPILOT_APP_CALLBACK_HOST}`,
+    `${MAIL_PILOT_APP_SCHEME}://${MAIL_PILOT_APP_CALLBACK_HOST}`,
   );
 
   if (state && STATE_PATTERN.test(state)) {
@@ -38,15 +38,15 @@ export function getInboxZeroCustomSchemeCallbackUrl(
   return url.toString();
 }
 
-export function isInboxZeroAppCallbackUrl(redirectUrl: string): boolean {
+export function isMailPilotAppCallbackUrl(redirectUrl: string): boolean {
   try {
     const parsedUrl = new URL(redirectUrl);
     const path = `${parsedUrl.hostname}${parsedUrl.pathname}`
       .replace(/^\/+/u, "")
       .replace(/\/+$/u, "");
     return (
-      parsedUrl.protocol === `${MAILPILOT_APP_SCHEME}:` &&
-      path === MAILPILOT_APP_CALLBACK_HOST
+      parsedUrl.protocol === `${MAIL_PILOT_APP_SCHEME}:` &&
+      path === MAIL_PILOT_APP_CALLBACK_HOST
     );
   } catch {
     return false;

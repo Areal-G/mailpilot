@@ -149,15 +149,14 @@ export default function GuestBookingRescheduledEmail({
 }
 
 GuestBookingRescheduledEmail.PreviewProps = {
-  cancelUrl:
-    "https://www.mailpilot.dev/book/cancel/example?token=test-token",
+  cancelUrl: "https://www.mailpilot.app/book/cancel/example?token=test-token",
   rescheduleUrl:
-    "https://www.mailpilot.dev/book/reschedule/example?token=test-token",
+    "https://www.mailpilot.app/book/reschedule/example?token=test-token",
   eventTitle: "15 min intro",
   formattedTime: "Fri, Nov 13, 2026 · 10:00 AM",
   previousFormattedTime: "Thu, Nov 12, 2026 · 10:00 AM",
   guestName: "Sarah Chen",
-  hostName: "Elie",
+  hostName: "Alex",
   location: "Google Meet",
   dateMonth: "NOV",
   dateDay: "13",

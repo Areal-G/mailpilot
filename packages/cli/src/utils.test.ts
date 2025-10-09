@@ -367,7 +367,7 @@ CRON_SECRET=
 # =============================================================================
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
-GOOGLE_PUBSUB_TOPIC_NAME=projects/your-project/topics/mailpilot-emails
+GOOGLE_PUBSUB_TOPIC_NAME=projects/your-project/topics/mail-pilot-emails
 GOOGLE_PUBSUB_VERIFICATION_TOKEN=
 
 # =============================================================================
@@ -419,7 +419,7 @@ QUEUE_BACKEND= # bullmq | qstash | internal
       // Google
       GOOGLE_CLIENT_ID: "123456789-abcdef.apps.googleusercontent.com",
       GOOGLE_CLIENT_SECRET: "GOCSPX-abcdefghijk",
-      GOOGLE_PUBSUB_TOPIC_NAME: "projects/my-project/topics/mailpilot",
+      GOOGLE_PUBSUB_TOPIC_NAME: "projects/my-project/topics/mail-pilot",
       GOOGLE_PUBSUB_VERIFICATION_TOKEN: "pubsub-token-hex",
       // Microsoft
       MICROSOFT_CLIENT_ID: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
@@ -469,7 +469,7 @@ CRON_SECRET=cron-secret-hex
 # =============================================================================
 GOOGLE_CLIENT_ID=123456789-abcdef.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=GOCSPX-abcdefghijk
-GOOGLE_PUBSUB_TOPIC_NAME=projects/my-project/topics/mailpilot
+GOOGLE_PUBSUB_TOPIC_NAME=projects/my-project/topics/mail-pilot
 GOOGLE_PUBSUB_VERIFICATION_TOKEN=pubsub-token-hex
 
 # =============================================================================
@@ -686,7 +686,7 @@ describe("parsePortConflict", () => {
     const stderr =
       "Error response from daemon: failed to set up container networking: " +
       "driver failed programming external connectivity on endpoint " +
-      "mailpilot-services-redis-1 (abc123): Bind for 0.0.0.0:6380 failed: port is already allocated";
+      "mail-pilot-services-redis-1 (abc123): Bind for 0.0.0.0:6380 failed: port is already allocated";
     expect(parsePortConflict(stderr)).toBe(
       "Port 6380 is already in use by another process.",
     );
@@ -758,7 +758,7 @@ describe("syncManagedComposeEnv", () => {
   });
 
   it("creates a managed root env for the default repo config", () => {
-    const repoRoot = mkdtempSync(join(tmpdir(), "mailpilot-cli-"));
+    const repoRoot = mkdtempSync(join(tmpdir(), "mail-pilot-cli-"));
     directories.push(repoRoot);
     const appDir = join(repoRoot, "apps", "web");
     const appEnv = join(appDir, ".env");
@@ -773,7 +773,7 @@ describe("syncManagedComposeEnv", () => {
   });
 
   it("refreshes a managed copied root env after later updates", () => {
-    const repoRoot = mkdtempSync(join(tmpdir(), "mailpilot-cli-"));
+    const repoRoot = mkdtempSync(join(tmpdir(), "mail-pilot-cli-"));
     directories.push(repoRoot);
     const appDir = join(repoRoot, "apps", "web");
     const appEnv = join(appDir, ".env");
@@ -794,7 +794,7 @@ describe("syncManagedComposeEnv", () => {
   });
 
   it("preserves a user replacement when a copied file's marker is stale", () => {
-    const repoRoot = mkdtempSync(join(tmpdir(), "mailpilot-cli-"));
+    const repoRoot = mkdtempSync(join(tmpdir(), "mail-pilot-cli-"));
     directories.push(repoRoot);
     const appEnv = join(repoRoot, "apps/web/.env");
     const rootEnv = join(repoRoot, ".env");
@@ -812,14 +812,14 @@ describe("syncManagedComposeEnv", () => {
   });
 
   it("preserves files with legacy or invalid markers", () => {
-    const repoRoot = mkdtempSync(join(tmpdir(), "mailpilot-cli-"));
+    const repoRoot = mkdtempSync(join(tmpdir(), "mail-pilot-cli-"));
     directories.push(repoRoot);
     const appEnv = join(repoRoot, "apps/web/.env");
     mkdirSync(join(repoRoot, "apps/web"), { recursive: true });
     writeFileSync(appEnv, "FOO=new\n");
     writeFileSync(join(repoRoot, ".env"), "FOO=manual\n");
     for (const marker of ["apps/web/.env", "null", "{}", "invalid-json"]) {
-      writeFileSync(join(repoRoot, ".env.mailpilot-managed"), marker);
+      writeFileSync(join(repoRoot, ".env.mail-pilot-managed"), marker);
       expect(syncManagedComposeEnv({ envFile: appEnv, repoRoot })).toBeTruthy();
       expect(readFileSync(join(repoRoot, ".env"), "utf-8")).toBe(
         "FOO=manual\n",
@@ -828,7 +828,7 @@ describe("syncManagedComposeEnv", () => {
   });
 
   it("does not overwrite an unmanaged root env file", () => {
-    const repoRoot = mkdtempSync(join(tmpdir(), "mailpilot-cli-"));
+    const repoRoot = mkdtempSync(join(tmpdir(), "mail-pilot-cli-"));
     directories.push(repoRoot);
     const appDir = join(repoRoot, "apps", "web");
     const appEnv = join(appDir, ".env");
@@ -844,7 +844,7 @@ describe("syncManagedComposeEnv", () => {
   });
 
   it("does not overwrite an unmanaged root env symlink", () => {
-    const repoRoot = mkdtempSync(join(tmpdir(), "mailpilot-cli-"));
+    const repoRoot = mkdtempSync(join(tmpdir(), "mail-pilot-cli-"));
     directories.push(repoRoot);
     const appDir = join(repoRoot, "apps", "web");
     const appEnv = join(appDir, ".env");
@@ -862,7 +862,7 @@ describe("syncManagedComposeEnv", () => {
   });
 
   it("preserves a retargeted symlink even when an old marker remains", () => {
-    const repoRoot = mkdtempSync(join(tmpdir(), "mailpilot-cli-"));
+    const repoRoot = mkdtempSync(join(tmpdir(), "mail-pilot-cli-"));
     directories.push(repoRoot);
     const appDir = join(repoRoot, "apps", "web");
     const appEnv = join(appDir, ".env");
@@ -870,7 +870,7 @@ describe("syncManagedComposeEnv", () => {
 
     mkdirSync(appDir, { recursive: true });
     writeFileSync(appEnv, "FOO=managed\n");
-    writeFileSync(join(repoRoot, ".env.mailpilot-managed"), "apps/web/.env");
+    writeFileSync(join(repoRoot, ".env.mail-pilot-managed"), "apps/web/.env");
     symlinkSync(".env.previous", rootEnv);
 
     syncManagedComposeEnv({ envFile: appEnv, repoRoot });
@@ -880,7 +880,7 @@ describe("syncManagedComposeEnv", () => {
   });
 
   it("preserves dangling unmanaged symlinks without writing their targets", () => {
-    const repoRoot = mkdtempSync(join(tmpdir(), "mailpilot-cli-"));
+    const repoRoot = mkdtempSync(join(tmpdir(), "mail-pilot-cli-"));
     directories.push(repoRoot);
     const appEnv = join(repoRoot, "apps/web/.env");
     mkdirSync(join(repoRoot, "apps/web"), { recursive: true });
@@ -891,11 +891,11 @@ describe("syncManagedComposeEnv", () => {
 
     expect(readlinkSync(join(repoRoot, ".env"))).toBe(".env.manual");
     expect(existsSync(join(repoRoot, ".env.manual"))).toBe(false);
-    expect(existsSync(join(repoRoot, ".env.mailpilot-managed"))).toBe(false);
+    expect(existsSync(join(repoRoot, ".env.mail-pilot-managed"))).toBe(false);
   });
 
   it("does not claim ownership of an identical user-managed file", () => {
-    const repoRoot = mkdtempSync(join(tmpdir(), "mailpilot-cli-"));
+    const repoRoot = mkdtempSync(join(tmpdir(), "mail-pilot-cli-"));
     directories.push(repoRoot);
     const appEnv = join(repoRoot, "apps/web/.env");
     mkdirSync(join(repoRoot, "apps/web"), { recursive: true });
@@ -908,11 +908,11 @@ describe("syncManagedComposeEnv", () => {
 
     expect(readFileSync(join(repoRoot, ".env"), "utf-8")).toBe("FOO=one\n");
     expect(lstatSync(join(repoRoot, ".env")).isFile()).toBe(true);
-    expect(existsSync(join(repoRoot, ".env.mailpilot-managed"))).toBe(false);
+    expect(existsSync(join(repoRoot, ".env.mail-pilot-managed"))).toBe(false);
   });
 
   it("does not attach a standalone configuration to a detected repository", () => {
-    const repoRoot = mkdtempSync(join(tmpdir(), "mailpilot-cli-"));
+    const repoRoot = mkdtempSync(join(tmpdir(), "mail-pilot-cli-"));
     directories.push(repoRoot);
     const standaloneDir = join(repoRoot, "standalone");
     mkdirSync(standaloneDir);
@@ -925,7 +925,7 @@ describe("syncManagedComposeEnv", () => {
   });
 
   it("skips named env files because they use explicit compose env-file flags", () => {
-    const repoRoot = mkdtempSync(join(tmpdir(), "mailpilot-cli-"));
+    const repoRoot = mkdtempSync(join(tmpdir(), "mail-pilot-cli-"));
     directories.push(repoRoot);
     const appDir = join(repoRoot, "apps", "web");
     const namedEnv = join(appDir, ".env.staging");
@@ -955,7 +955,7 @@ describe("Compose environment selection", () => {
       composeEnvFile,
     });
     expect(parseEnvFile(content)).toMatchObject({
-      MAILPILOT_ENV_FILE: composeEnvFile,
+      MAIL_PILOT_ENV_FILE: composeEnvFile,
       AUTH_SECRET: "staging-secret",
       REDIS_HTTP_TOKEN: "staging-token",
     });
@@ -965,10 +965,10 @@ describe("Compose environment selection", () => {
     expect(
       fixComposeEnvPaths(
         // biome-ignore lint/suspicious/noTemplateCurlyInString: Docker Compose interpolation, not JavaScript.
-        "- path: ${MAILPILOT_ENV_FILE:-./apps/web/.env}\n- path: ./apps/web/.env\n- ./apps/web/.env",
+        "- path: ${MAIL_PILOT_ENV_FILE:-./apps/web/.env}\n- path: ./apps/web/.env\n- ./apps/web/.env",
       ),
       // biome-ignore lint/suspicious/noTemplateCurlyInString: Docker Compose interpolation, not JavaScript.
-    ).toBe("- path: ${MAILPILOT_ENV_FILE:-./.env}\n- path: ./.env\n- ./.env");
+    ).toBe("- path: ${MAIL_PILOT_ENV_FILE:-./.env}\n- path: ./.env\n- ./.env");
   });
 });
 

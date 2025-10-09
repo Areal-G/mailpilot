@@ -11,9 +11,9 @@
  * test only looks at cases where the two arms disagreed, so it needs far fewer
  * cases to reach the same confidence.
  *
- *   pnpm -F mailpilot-ai eval:compare baseline.json variant.json
- *   pnpm -F mailpilot-ai eval:compare baseline.json variant.json --allow-model-change
- *   pnpm -F mailpilot-ai eval:compare            # two most recent runs
+ *   pnpm -F mailpilot-web eval:compare baseline.json variant.json
+ *   pnpm -F mailpilot-web eval:compare baseline.json variant.json --allow-model-change
+ *   pnpm -F mailpilot-web eval:compare            # two most recent runs
  */
 
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";

@@ -142,7 +142,7 @@ describe("stripTraceUrlQueries", () => {
           name: "ResourceSendRequest",
           args: {
             data: {
-              url: 'https://www.mailpilot.dev/api/threads?q=from:"boss"#top',
+              url: 'https://www.mailpilot.app/api/threads?q=from:"boss"#top',
               stack: [{ url: "https://cdn.example.com/app.js?v=1" }],
             },
           },
@@ -157,7 +157,7 @@ describe("stripTraceUrlQueries", () => {
           name: "ResourceSendRequest",
           args: {
             data: {
-              url: "https://www.mailpilot.dev/api/threads",
+              url: "https://www.mailpilot.app/api/threads",
               stack: [{ url: "https://cdn.example.com/app.js" }],
             },
           },

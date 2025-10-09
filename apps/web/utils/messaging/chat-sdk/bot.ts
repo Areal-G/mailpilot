@@ -88,7 +88,7 @@ import {
 import { getEmailAccountWithAi } from "@/utils/user/get";
 
 const MAX_CHAT_CONTEXT_MESSAGES = 12;
-const CHAT_SDK_STATE_KEY_PREFIX = "mailpilot:chat-sdk";
+const CHAT_SDK_STATE_KEY_PREFIX = "mail-pilot:chat-sdk";
 const CONNECT_COMMAND_REGEX =
   /^\/?connect(?:@[A-Za-z0-9_]+)?\s+([A-Za-z0-9._-]+)\s*$/i;
 const PENDING_EMAIL_CONFIRM_ACTION_ID = "acpe";
@@ -240,17 +240,17 @@ type ParsedPendingEmailActionValue =
   | { kind: "token"; token: string };
 
 declare global {
-  var inboxZeroMessagingChatSdk: MessagingChatSdkContext | undefined;
+  var mailPilotMessagingChatSdk: MessagingChatSdkContext | undefined;
 }
 
 const messagingRequestLoggerStore = new AsyncLocalStorage<Logger>();
 
 export function getMessagingChatSdkBot(): MessagingChatSdkContext {
-  if (!global.inboxZeroMessagingChatSdk) {
-    global.inboxZeroMessagingChatSdk = createMessagingChatSdkBot();
+  if (!global.mailPilotMessagingChatSdk) {
+    global.mailPilotMessagingChatSdk = createMessagingChatSdkBot();
   }
 
-  return global.inboxZeroMessagingChatSdk;
+  return global.mailPilotMessagingChatSdk;
 }
 
 export function withMessagingRequestLogger<T>({
@@ -2713,7 +2713,13 @@ async function postMessagingThreadMessage({
   logMeta?: Record<string, unknown>;
 }): Promise<void> {
   try {
-    await thread.post(message);
+    await thread.post(
+      thread.adapter.name === "teams"
+        ? Card({
+            children: [CardText(message)],
+          })
+        : message,
+    );
   } catch (error) {
     logger.error(errorLogMessage, {
       ...logMeta,
@@ -2943,7 +2949,7 @@ function getMessagingAssistantPostPayload({
     return { raw: markdownToSlackMrkdwn(text) };
   }
 
-  return { markdown: text };
+  return Card({ children: [CardText(text)] });
 }
 
 export function getMessagingAiGeneratedPostPayload({

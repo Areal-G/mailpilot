@@ -3,7 +3,7 @@ import { createServer } from "node:http";
 import type { AddressInfo } from "node:net";
 
 /**
- * A local stand-in for the Recall.ai API, in the spirit of `@mailpilot/emulate`
+ * A local stand-in for the Recall.ai API, in the spirit of the `emulate` package
  * but kept in-repo because Recall is too niche to belong in that package.
  *
  * It is stateful rather than a mock: bots are created, advance through the real

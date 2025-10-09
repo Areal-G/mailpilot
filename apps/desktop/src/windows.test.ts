@@ -5,7 +5,7 @@ import {
   parseDesktopWindowStates,
 } from "./windows";
 
-const origin = "https://www.mailpilot.dev";
+const origin = "https://www.mailpilot.app";
 const mailBounds = {
   x: 120,
   y: 80,

@@ -1,4 +1,4 @@
-# docker-compose.local.yml - Run locally built mailpilot image with dependencies
+# docker-compose.local.yml - Run locally built mail-pilot image with dependencies
 #
 # Usage:
 #   pnpm docker:local:run                    # uses this file automatically
@@ -15,7 +15,7 @@
 
 services:
   app:
-    image: ${FULL_IMAGE:-ghcr.io/your-username/mailpilot}:latest
+    image: ${FULL_IMAGE:-ghcr.io/your-username/mail-pilot}:latest
     ports:
       - "3000:3000"
     env_file:

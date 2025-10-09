@@ -61,7 +61,7 @@ describe("notifyMailboxChanged", () => {
     envMock.APNS_KEY_ID = "KEYID123";
     envMock.APNS_TEAM_ID = "TEAMID1234";
     envMock.APNS_PRIVATE_KEY = "private-key";
-    envMock.APNS_TOPIC = "com.getmailpilot.app";
+    envMock.APNS_TOPIC = "app.mailpilot.app";
     envMock.FCM_TRANSPORT = undefined;
     vi.mocked(redis.set).mockResolvedValue("OK");
     vi.mocked(prisma.emailAccount.findUnique).mockResolvedValue({

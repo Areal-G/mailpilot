@@ -5,7 +5,7 @@
 set -eu
 
 MARKETING_DIR="apps/web/app/(marketing)"
-REPO_URL="github.com/mailpilot/marketing.git"
+REPO_URL="github.com/mail-pilot/marketing.git"
 
 if [ -z "${GITHUB_MARKETING_TOKEN:-}" ]; then
   echo "ℹ️  No GITHUB_MARKETING_TOKEN provided – skipping private marketing clone."

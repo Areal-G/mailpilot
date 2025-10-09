@@ -316,9 +316,9 @@ export function MeetingDetail({
             <AlertDialogHeader>
               <AlertDialogTitle>Delete meeting notes?</AlertDialogTitle>
               <AlertDialogDescription>
-                The summary and transcript will be permanently deleted from
-                Mail Pilot. Recap emails already sent and follow-up drafts in
-                your mailbox will remain.
+                The summary and transcript will be permanently deleted from Mail
+                Pilot. Recap emails already sent and follow-up drafts in your
+                mailbox will remain.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

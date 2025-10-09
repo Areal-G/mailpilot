@@ -33,11 +33,11 @@ import {
   getLabelById,
   createLabel,
   getOrCreateLabel,
-  getOrCreateInboxZeroLabel,
+  getOrCreateMailPilotLabel,
   GmailLabel,
 } from "@/utils/gmail/label";
 import { labelVisibility, messageVisibility } from "@/utils/gmail/constants";
-import type { InboxZeroLabel } from "@/utils/label";
+import type { MailPilotLabel } from "@/utils/label";
 import type { ThreadsQuery } from "@/utils/threads/validation";
 import { getMessageByRfc822Id, getRawMessage } from "@/utils/gmail/message";
 import {
@@ -1260,7 +1260,7 @@ export class GmailProvider implements EmailProvider {
     });
 
     const unsubscribeLabel =
-      await this.getOrCreateInboxZeroLabel("unsubscribed");
+      await this.getOrCreateMailPilotLabel("unsubscribed");
 
     if (unsubscribeLabel?.id) {
       log.warn("Unsubscribe label not found");
@@ -1349,8 +1349,8 @@ export class GmailProvider implements EmailProvider {
     });
   }
 
-  async getOrCreateInboxZeroLabel(key: InboxZeroLabel): Promise<EmailLabel> {
-    const label = await getOrCreateInboxZeroLabel({
+  async getOrCreateMailPilotLabel(key: MailPilotLabel): Promise<EmailLabel> {
+    const label = await getOrCreateMailPilotLabel({
       gmail: this.client,
       key,
     });

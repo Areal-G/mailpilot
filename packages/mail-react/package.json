@@ -4,15 +4,6 @@
   "private": true,
   "description": "Thin React bindings for the shared mail engine facade",
   
-  "homepage": "https://github.com/areal/mailpilot/tree/main/packages/mail-react#readme",
-  "bugs": {
-    "url": "https://github.com/areal/mailpilot/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/areal/mailpilot.git",
-    "directory": "packages/mail-react"
-  },
   "type": "module",
   "sideEffects": false,
   "exports": {

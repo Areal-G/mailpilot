@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { Testimonials } from "@/components/new-landing/sections/Testimonials";
-import { Hero, HeroContent } from "@/app/(landing)/home/Hero";
+import { Hero } from "@/app/(landing)/home/Hero";
 import { Pricing } from "@/components/new-landing/sections/Pricing";
-import { Awards } from "@/components/new-landing/sections/Awards";
 import { EverythingElseSection } from "@/components/new-landing/sections/EverythingElseSection";
 import { StartedInMinutes } from "@/components/new-landing/sections/StartedInMinutes";
 import { BulkUnsubscribe } from "@/components/new-landing/sections/BulkUnsubscribe";
@@ -58,10 +56,8 @@ export default function NewLanding() {
             ]}
           />
         }
-        subtitle={`${BRAND_NAME} organizes your inbox and calendar, drafts replies in your voice, and helps you reach inbox zero fast. Never miss an important email again.`}
-      >
-        <HeroContent />
-      </Hero>
+        subtitle={`${BRAND_NAME} organizes your inbox and calendar, drafts replies in your voice, and helps you clear your inbox fast. Never miss an important email again.`}
+      />
       <OrganizedInbox
         title={
           <>
@@ -84,9 +80,7 @@ export default function NewLanding() {
       />
       <BulkUnsubscribe />
       <EverythingElseSection />
-      <Awards />
       <Pricing />
-      <Testimonials />
       <FinalCTA />
       <FAQs />
     </BasicLayout>

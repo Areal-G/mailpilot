@@ -23,7 +23,7 @@ import { ActionType } from "@/generated/prisma/enums";
 import type { updateRuleActions } from "@/utils/rule/rule";
 import prisma from "@/utils/__mocks__/prisma";
 
-// pnpm --filter mailpilot-ai test-ai eval/assistant-chat-fix-rule-intent
+// pnpm --filter mailpilot-web test-ai eval/assistant-chat-fix-rule-intent
 const shouldRunEval = shouldRunEvalTests();
 const logger = createScopedLogger("eval-assistant-chat-fix-rule-intent");
 const reporter = createEvalReporter({

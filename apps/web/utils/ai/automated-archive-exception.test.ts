@@ -18,18 +18,18 @@ describe("shouldSkipAutomatedArchiveForSender", () => {
   });
 
   it("skips archive actions for the whitelisted sender", () => {
-    envMock.WHITELIST_FROM = "onboarding@mailpilot.dev";
+    envMock.WHITELIST_FROM = "onboarding@mailpilot.app";
 
     expect(
       shouldSkipAutomatedArchiveForSender({
         actionType: ActionType.ARCHIVE,
-        from: "Mail Pilot <onboarding@mailpilot.dev>",
+        from: "Mail Pilot <onboarding@mailpilot.app>",
       }),
     ).toBe(true);
   });
 
   it("does not skip archive actions for ordinary senders", () => {
-    envMock.WHITELIST_FROM = "onboarding@mailpilot.dev";
+    envMock.WHITELIST_FROM = "onboarding@mailpilot.app";
 
     expect(
       shouldSkipAutomatedArchiveForSender({
@@ -40,12 +40,12 @@ describe("shouldSkipAutomatedArchiveForSender", () => {
   });
 
   it("does not skip non-archive actions for company senders", () => {
-    envMock.WHITELIST_FROM = "onboarding@mailpilot.dev";
+    envMock.WHITELIST_FROM = "onboarding@mailpilot.app";
 
     expect(
       shouldSkipAutomatedArchiveForSender({
         actionType: ActionType.LABEL,
-        from: "Mail Pilot <onboarding@mailpilot.dev>",
+        from: "Mail Pilot <onboarding@mailpilot.app>",
       }),
     ).toBe(false);
   });

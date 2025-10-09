@@ -15,7 +15,7 @@ describe("readJsonInput", () => {
   });
 
   it("accepts JSON files with a UTF-8 BOM", async () => {
-    tempDir = await mkdtemp(join(tmpdir(), "mailpilot-api-io-"));
+    tempDir = await mkdtemp(join(tmpdir(), "mail-pilot-api-io-"));
     const filePath = join(tempDir, "rule.json");
 
     await writeFile(filePath, '\uFEFF{"name":"Rule"}');

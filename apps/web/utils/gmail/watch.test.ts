@@ -3,7 +3,7 @@ import { createScopedLogger } from "@/utils/logger";
 
 const { envMock, withGmailRetryMock } = vi.hoisted(() => ({
   envMock: {
-    GOOGLE_PUBSUB_TOPIC_NAME: "projects/test/topics/mailpilot",
+    GOOGLE_PUBSUB_TOPIC_NAME: "projects/test/topics/mail-pilot",
     GOOGLE_PUBSUB_VERIFICATION_TOKEN: "test-google-webhook-token" as
       | string
       | undefined,
@@ -77,7 +77,7 @@ describe("watchGmail", () => {
       requestBody: {
         labelIds: ["INBOX", "SENT"],
         labelFilterBehavior: "include",
-        topicName: "projects/test/topics/mailpilot",
+        topicName: "projects/test/topics/mail-pilot",
       },
     });
   });

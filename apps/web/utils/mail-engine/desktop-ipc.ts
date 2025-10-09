@@ -1,13 +1,13 @@
 import type { MailClient } from "@mailpilot/mail-core/engine";
 import { createMailIpcClient } from "@mailpilot/mail-core/protocol/mail-ipc-client";
-import { getInboxZeroDesktopApp } from "@/utils/desktop-app";
+import { getMailPilotDesktopApp } from "@/utils/desktop-app";
 import {
   pageConnectivityOnline,
   requestSyncUnlessOffline,
 } from "@/utils/mail-engine/worker-protocol";
 
 export function hasDesktopMailEngineIpc() {
-  const desktop = getInboxZeroDesktopApp();
+  const desktop = getMailPilotDesktopApp();
   return Boolean(
     desktop?.mailEngine &&
       desktop.mailEngineSubscribe &&
@@ -19,7 +19,7 @@ export function hasDesktopMailEngineIpc() {
 export function createDesktopIpcMailClient(input?: {
   provider?: "google" | "microsoft";
 }) {
-  const desktop = getInboxZeroDesktopApp();
+  const desktop = getMailPilotDesktopApp();
   const invoke = desktop?.mailEngine;
   const subscribe = desktop?.mailEngineSubscribe;
   const unsubscribe = desktop?.mailEngineUnsubscribe;

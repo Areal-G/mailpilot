@@ -14,11 +14,15 @@ import {
 
 declare global {
   interface Window {
-    inboxZeroConversionQueue?: ConversionEvent[];
+    mailPilotConversionQueue?: ConversionEvent[];
   }
 }
 
+const CONVERSION_TRACKING_DISABLED = true;
+
 export function trackClientConversion(event: ConversionEvent) {
+  // Conversion tracking (GTM and third-party scripts) is disabled.
+  if (CONVERSION_TRACKING_DISABLED) return;
   if (typeof window === "undefined") return;
 
   const consent = getCookieConsentState();
@@ -67,8 +71,8 @@ function trackGoogleTagManagerConversion(event: ConversionEvent) {
 function trackPrivateConversion(event: ConversionEvent) {
   if (!env.NEXT_PUBLIC_CONVERSION_ANALYTICS_SCRIPT_URL) return;
 
-  window.inboxZeroConversionQueue ??= [];
-  window.inboxZeroConversionQueue.push(event);
+  window.mailPilotConversionQueue ??= [];
+  window.mailPilotConversionQueue.push(event);
   window.dispatchEvent(
     new CustomEvent(CONVERSION_BROWSER_EVENT, { detail: event }),
   );

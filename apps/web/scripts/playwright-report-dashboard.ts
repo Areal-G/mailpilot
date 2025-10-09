@@ -252,7 +252,7 @@ export function renderPlaywrightDashboard(history: PlaywrightRun[]): string {
       <div class="actions">
         <a class="button" href="#" id="latest-screenshots">Latest screenshots</a>
         <a class="button" href="#" id="latest-report">Latest report</a>
-        <a class="button" href="https://github.com/areal/mailpilot/actions/workflows/playwright.yml">GitHub Actions</a>
+        <a class="button" href="https://github.com/arealgizaw/mail-pilot/actions/workflows/playwright.yml">GitHub Actions</a>
       </div>
     </header>
 
@@ -554,7 +554,7 @@ export function renderScreenshotGallery(input: {
     const filters = Array.from(document.querySelectorAll(".filter"));
     const filterEmpty = document.querySelector(".filter-empty");
     const viewOptions = Array.from(document.querySelectorAll(".view-option"));
-    const storageKey = "mailpilot-playwright-gallery-columns";
+    const storageKey = "mail-pilot-playwright-gallery-columns";
 
     function setGalleryColumns(value, persist = false) {
       if (!gallery || !["1", "2", "3", "4"].includes(value)) return;

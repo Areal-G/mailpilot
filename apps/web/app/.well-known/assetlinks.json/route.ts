@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { env } from "@/env";
 
-const ANDROID_PACKAGE_NAME = "com.getmailpilot.app";
+const ANDROID_PACKAGE_NAME = "app.mailpilot.app";
 
 export function GET() {
   const fingerprints = env.ANDROID_APP_CERT_SHA256_FINGERPRINTS ?? [];

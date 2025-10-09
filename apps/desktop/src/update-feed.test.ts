@@ -26,26 +26,26 @@ releaseDate: '2026-08-16T10:00:00.000Z'
 describe("desktop update feed", () => {
   it("points the generic feed at a stable GitHub release tag", () => {
     expect(getDesktopUpdateFeedUrl()).toBe(
-      "https://github.com/areal/mailpilot/releases/download/desktop-updates",
+      "https://github.com/arealgizaw/mail-pilot/releases/download/desktop-updates",
     );
     expect(getDesktopAssetBaseUrl("desktop-v0.1.0")).toBe(
-      "https://github.com/areal/mailpilot/releases/download/desktop-v0.1.0",
+      "https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.1.0",
     );
   });
 
   it("rewrites relative artifact names to the versioned GitHub release", () => {
     const yaml = rewriteUpdateFeedYaml(
       MAC_YML,
-      "https://github.com/areal/mailpilot/releases/download/desktop-v0.1.0/",
+      "https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.1.0/",
     );
     expect(yaml).toContain(
-      "url: https://github.com/areal/mailpilot/releases/download/desktop-v0.1.0/Mail-Pilot-0.1.0-mac-arm64.zip",
+      "url: https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.1.0/Mail-Pilot-0.1.0-mac-arm64.zip",
     );
     expect(yaml).toContain(
-      "url: 'https://github.com/areal/mailpilot/releases/download/desktop-v0.1.0/Mail-Pilot-0.1.0-mac-x64.zip'",
+      "url: 'https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.1.0/Mail-Pilot-0.1.0-mac-x64.zip'",
     );
     expect(yaml).toContain(
-      "path: https://github.com/areal/mailpilot/releases/download/desktop-v0.1.0/Mail-Pilot-0.1.0-mac-arm64.zip",
+      "path: https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.1.0/Mail-Pilot-0.1.0-mac-arm64.zip",
     );
     expect(yaml).toContain("sha512: abc");
     expect(yaml).toContain("version: 0.1.0");
@@ -57,7 +57,7 @@ describe("desktop update feed", () => {
 path: https://example.com/Mail-Pilot-0.1.0-mac-arm64.zip
 sha512: abc
 `,
-      "https://github.com/areal/mailpilot/releases/download/desktop-v0.1.0",
+      "https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.1.0",
     );
     expect(yaml).toContain(
       "url: https://example.com/Mail-Pilot-0.1.0-mac-arm64.zip",
@@ -85,11 +85,11 @@ describe("rewriteUpdateFeedFiles", () => {
     expect(
       rewriteUpdateFeedFiles(
         dir,
-        "https://github.com/areal/mailpilot/releases/download/desktop-v0.1.0",
+        "https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.1.0",
       ),
     ).toEqual(["latest-mac.yml"]);
     expect(fs.readFileSync(path.join(dir, "latest-mac.yml"), "utf8")).toContain(
-      "https://github.com/areal/mailpilot/releases/download/desktop-v0.1.0/Mail-Pilot-0.1.0-mac-arm64.zip",
+      "https://github.com/arealgizaw/mail-pilot/releases/download/desktop-v0.1.0/Mail-Pilot-0.1.0-mac-arm64.zip",
     );
     expect(fs.readFileSync(path.join(dir, "notes.txt"), "utf8")).toBe(
       "leave me",

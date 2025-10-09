@@ -3,7 +3,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 export const DESKTOP_PROTOCOL = "mailpilot";
 export const DESKTOP_AUTH_CALLBACK_PATH = "/auth-callback";
-export const DEFAULT_APP_URL = "https://www.mailpilot.dev";
+export const DEFAULT_APP_URL = "https://www.mailpilot.app";
 export const DESKTOP_AUTH_PROVIDERS = ["apple", "google", "microsoft"] as const;
 
 export type DesktopAuthProvider = (typeof DESKTOP_AUTH_PROVIDERS)[number];
@@ -13,11 +13,11 @@ export type DesktopAuthCallback =
   | { ok: false; error: string };
 
 export function getDesktopAppOrigin(
-  appUrl = process.env.MAILPILOT_APP_URL ?? DEFAULT_APP_URL,
+  appUrl = process.env.MAIL_PILOT_APP_URL ?? DEFAULT_APP_URL,
 ): string {
   const parsed = new URL(appUrl);
   if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
-    throw new Error("MAILPILOT_APP_URL must be an http(s) URL");
+    throw new Error("MAIL_PILOT_APP_URL must be an http(s) URL");
   }
   return parsed.origin;
 }
@@ -144,13 +144,13 @@ export function isDesktopLocalMailUrl(
 export function shouldUseLocalMailRenderer(
   env: NodeJS.Dict<string> = process.env,
 ): boolean {
-  return env.MAILPILOT_LOCAL_MAIL === "1";
+  return env.MAIL_PILOT_LOCAL_MAIL === "1";
 }
 
 export function shouldSmokeLocalMail(
   env: NodeJS.Dict<string> = process.env,
 ): boolean {
-  return env.MAILPILOT_LOCAL_MAIL_SMOKE === "1";
+  return env.MAIL_PILOT_LOCAL_MAIL_SMOKE === "1";
 }
 
 export function resolveDesktopStartUrl({
@@ -285,8 +285,6 @@ export const DESKTOP_MAC_TITLEBAR_HEIGHT = 52;
 export const DESKTOP_MAC_TRAFFIC_LIGHTS_WIDTH = 78;
 /** Web chrome marked with this is hidden by the Mac desktop stylesheet. */
 export const DESKTOP_MAC_HIDE_ATTRIBUTE = "data-hide-on-desktop-mac";
-export const DESKTOP_MAC_TITLEBAR_SPACER_ATTRIBUTE =
-  "data-desktop-mac-titlebar-spacer";
 /** Lifts the sidebar toggle into the titlebar, just right of the traffic lights. */
 export const DESKTOP_MAC_TITLEBAR_TOGGLE_ATTRIBUTE =
   "data-desktop-mac-titlebar-toggle";
@@ -352,14 +350,11 @@ html::after {
   display: none !important;
 }
 
-[${DESKTOP_MAC_TITLEBAR_SPACER_ATTRIBUTE}] {
-  padding-top: ${DESKTOP_MAC_TITLEBAR_HEIGHT}px;
-}
-
 [${DESKTOP_MAC_TITLEBAR_TOGGLE_ATTRIBUTE}] {
-  position: absolute;
-  top: 4px;
-  left: ${DESKTOP_MAC_TRAFFIC_LIGHTS_WIDTH - 8}px;
+  position: fixed;
+  top: 12px;
+  left: ${DESKTOP_MAC_TRAFFIC_LIGHTS_WIDTH}px;
+  z-index: 30;
 }
 
 [${DESKTOP_MAC_END_ATTRIBUTE}] {

@@ -9,7 +9,7 @@ ipcRenderer.on("desktop:open-settings", () => {
   else openSettingsPending = true;
 });
 
-contextBridge.exposeInMainWorld("inboxZeroDesktop", {
+contextBridge.exposeInMainWorld("mailPilotDesktop", {
   setUnreadCount: (count: number) =>
     ipcRenderer.send("desktop:unread-count", count),
   signalReady: () => ipcRenderer.send("desktop:ready"),

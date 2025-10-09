@@ -1,12 +1,12 @@
 import { AuthCallbackHandoff } from "./AuthCallbackHandoff";
-import { getInboxZeroCustomSchemeCallbackUrl } from "@/utils/mobile-auth/app-callback-url";
+import { getMailPilotCustomSchemeCallbackUrl } from "@/utils/mobile-auth/app-callback-url";
 
 export default async function AuthCallbackPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const appUrl = getInboxZeroCustomSchemeCallbackUrl(await searchParams);
+  const appUrl = getMailPilotCustomSchemeCallbackUrl(await searchParams);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">

@@ -13,7 +13,7 @@ import { SerwistProvider, useSerwist } from "@serwist/next/react";
 import { SWRConfig } from "swr";
 import { swrFetcher } from "./swr-fetcher";
 import {
-  getInboxZeroDesktopApp,
+  getMailPilotDesktopApp,
   shouldCheckForDesktopWebUpdate,
 } from "@/utils/desktop-app";
 import {
@@ -56,7 +56,7 @@ function ManageServiceWorker() {
   useEffect(() => {
     if (!serwist) return;
 
-    const isDesktopApp = Boolean(getInboxZeroDesktopApp());
+    const isDesktopApp = Boolean(getMailPilotDesktopApp());
     const pageLoadedAt = Date.now();
     let hadController = Boolean(navigator.serviceWorker.controller);
     let lastCheckedAt: number | null = null;
@@ -217,7 +217,7 @@ function ManageServiceWorker() {
 
 function SignalDesktopReady() {
   useEffect(() => {
-    getInboxZeroDesktopApp()?.signalReady?.();
+    getMailPilotDesktopApp()?.signalReady?.();
   }, []);
   return null;
 }

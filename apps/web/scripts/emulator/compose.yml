@@ -1,4 +1,4 @@
-name: mailpilot-emulator
+name: mail-pilot-emulator
 
 services:
   db:

@@ -49,7 +49,7 @@ function findRepoRoot(): string | null {
 const REPO_ROOT = findRepoRoot();
 
 // Standalone config paths (used for production Docker mode)
-const STANDALONE_CONFIG_DIR = resolve(homedir(), ".mailpilot");
+const STANDALONE_CONFIG_DIR = resolve(homedir(), ".mail-pilot");
 const STANDALONE_ENV_FILE = resolve(STANDALONE_CONFIG_DIR, ".env");
 const STANDALONE_COMPOSE_FILE = resolve(
   STANDALONE_CONFIG_DIR,
@@ -131,14 +131,14 @@ async function main() {
   stripSetupAwsDoubleDash(process.argv);
 
   program
-    .name("mailpilot")
+    .name("mail-pilot")
     .description(
       "CLI tool for self-hosting Mail Pilot — AI email assistant.\n\n" +
         "Quick start:\n" +
-        "  mailpilot setup      Configure OAuth providers, AI provider, and Docker\n" +
-        "  mailpilot start      Start Mail Pilot\n" +
-        "  mailpilot config     View and update settings\n\n" +
-        "Docs: https://docs.mailpilot.dev/self-hosting",
+        "  mail-pilot setup      Configure OAuth providers, AI provider, and Docker\n" +
+        "  mail-pilot start      Start Mail Pilot\n" +
+        "  mail-pilot config     View and update settings\n\n" +
+        "Docs: https://docs.mailpilot.app/self-hosting",
     )
     .version(packageJson.version, "-v, --version");
 
@@ -361,7 +361,7 @@ async function runSetupQuick(options: { name?: string }) {
 
   p.note(
     "Choose the email provider(s) you want to enable now.\n" +
-      "You can add or change providers later with: mailpilot config",
+      "You can add or change providers later with: mail-pilot config",
     "Step 1: OAuth Providers",
   );
 
@@ -418,9 +418,9 @@ async function runSetupQuick(options: { name?: string }) {
         "14. Copy the Client ID and Client Secret\n\n" +
         "If External: you'll see a \"This app isn't verified\" warning when\n" +
         'signing in. Click "Advanced" then "Go to [app name]" to proceed.\n\n' +
-        "Tip: if you have the gcloud CLI, run 'mailpilot setup-google'\n" +
+        "Tip: if you have the gcloud CLI, run 'mail-pilot setup-google'\n" +
         "to enable APIs and set up Pub/Sub automatically.\n\n" +
-        "Full guide: https://docs.mailpilot.dev/hosting/setup-guides",
+        "Full guide: https://docs.mailpilot.app/hosting/setup-guides",
       "Google OAuth",
     );
 
@@ -467,7 +467,7 @@ async function runSetupQuick(options: { name?: string }) {
         'Tenant ID tip: use "common" for most setups.\n' +
         "Use a specific tenant ID only if your organization requires\n" +
         "single-tenant sign-in.\n\n" +
-        "Full guide: https://docs.mailpilot.dev/hosting/setup-guides#microsoft-oauth-setup",
+        "Full guide: https://docs.mailpilot.app/hosting/setup-guides#microsoft-oauth-setup",
       "Microsoft OAuth",
     );
 
@@ -527,20 +527,20 @@ async function runSetupQuick(options: { name?: string }) {
     p.note(
       "Google Pub/Sub enables real-time email notifications.\n\n" +
         "1. Go to: https://console.cloud.google.com/cloudpubsub/topic/list\n" +
-        '2. Create a topic (e.g., "mailpilot-emails")\n' +
+        '2. Create a topic (e.g., "mail-pilot-emails")\n' +
         "3. Grant Gmail publish access to your topic:\n" +
         "   - Add principal: gmail-api-push@system.gserviceaccount.com\n" +
         '   - Role: "Pub/Sub Publisher"\n' +
         "4. Create a push subscription using this endpoint:\n" +
         `   https://yourdomain.com/api/google/webhook?token=${pubsubVerificationToken}\n` +
         "5. Paste the topic name below (or press Enter to skip for now)\n\n" +
-        "Full guide: https://docs.mailpilot.dev/hosting/setup-guides#google-pubsub-setup",
+        "Full guide: https://docs.mailpilot.app/hosting/setup-guides#google-pubsub-setup",
       "Google Pub/Sub (optional)",
     );
 
     const pubsubTopicResult = await p.text({
       message: "Google Pub/Sub Topic Name",
-      placeholder: "projects/your-project-id/topics/mailpilot-emails",
+      placeholder: "projects/your-project-id/topics/mail-pilot-emails",
       validate: (v) => {
         if (!v) return;
         if (!v.startsWith("projects/") || !v.includes("/topics/")) {
@@ -623,7 +623,7 @@ async function runSetupQuick(options: { name?: string }) {
       ? googleClientSecret || "your-google-client-secret"
       : "skipped",
     GOOGLE_PUBSUB_TOPIC_NAME:
-      pubsubTopic || "projects/your-project-id/topics/mailpilot-emails",
+      pubsubTopic || "projects/your-project-id/topics/mail-pilot-emails",
     // Microsoft OAuth
     MICROSOFT_CLIENT_ID: wantsMicrosoft
       ? microsoftClientId || "your-microsoft-client-id"
@@ -698,7 +698,7 @@ async function runSetupQuick(options: { name?: string }) {
   if (p.isCancel(shouldStart) || !shouldStart) {
     p.note(
       `Start later with:\n  ${composeCmd} --profile all up -d\n\n` +
-        `Update settings with:\n  mailpilot config${configName ? ` --name ${configName}` : ""}`,
+        `Update settings with:\n  mail-pilot config${configName ? ` --name ${configName}` : ""}`,
       "Next steps",
     );
     p.outro("Setup complete!");
@@ -776,10 +776,10 @@ async function runSetupQuick(options: { name?: string }) {
   p.note(
     `Open http://localhost:${webPort} to get started.\n\n` +
       "Useful commands:\n" +
-      "  mailpilot config    — update settings (e.g. add Pub/Sub token)\n" +
-      "  mailpilot logs -f   — view live logs\n" +
-      "  mailpilot stop      — stop the app\n" +
-      "  mailpilot update    — update to latest version",
+      "  mail-pilot config    — update settings (e.g. add Pub/Sub token)\n" +
+      "  mail-pilot logs -f   — view live logs\n" +
+      "  mail-pilot stop      — stop the app\n" +
+      "  mail-pilot update    — update to latest version",
     "You're all set!",
   );
 
@@ -964,10 +964,10 @@ async function runSetupAdvanced(options: { name?: string }) {
    - http://localhost:${webPort}/api/google/linking/callback
 5. Copy Client ID and Client Secret
 
-Tip: with the gcloud CLI installed, run 'mailpilot setup-google'
+Tip: with the gcloud CLI installed, run 'mail-pilot setup-google'
 to enable APIs and provision Pub/Sub automatically.
 
-Full guide: https://docs.mailpilot.dev/self-hosting/google-oauth`,
+Full guide: https://docs.mailpilot.app/self-hosting/google-oauth`,
       "Google OAuth Setup",
     );
 
@@ -1001,22 +1001,22 @@ Full guide: https://docs.mailpilot.dev/self-hosting/google-oauth`,
       `To receive real-time email notifications, you need to set up Google Pub/Sub:
 
 1. Go to Google Cloud Console: https://console.cloud.google.com/cloudpubsub/topic/list
-2. Create a new topic (e.g., "mailpilot-emails")
+2. Create a new topic (e.g., "mail-pilot-emails")
 3. Add the Gmail API service account as a publisher:
    - Click on the topic → Permissions → Add Principal
    - Add: gmail-api-push@system.gserviceaccount.com
    - Role: Pub/Sub Publisher
 4. Create a push subscription pointing to your webhook URL:
    - Endpoint: https://yourdomain.com/api/google/webhook?token=${pubsubVerificationToken}
-5. Copy the full topic name (e.g., projects/my-project-123/topics/mailpilot-emails)
+5. Copy the full topic name (e.g., projects/my-project-123/topics/mail-pilot-emails)
 
-Full guide: https://docs.mailpilot.dev/self-hosting/google-pubsub`,
+Full guide: https://docs.mailpilot.app/self-hosting/google-pubsub`,
       "Google Pub/Sub Setup (Required for Gmail)",
     );
 
     const pubsubTopic = await p.text({
       message: "Google Pub/Sub Topic Name",
-      placeholder: "projects/your-project-id/topics/mailpilot-emails",
+      placeholder: "projects/your-project-id/topics/mail-pilot-emails",
       validate: (v) => {
         if (!v) return; // Allow empty to skip
         if (!v.startsWith("projects/") || !v.includes("/topics/")) {
@@ -1032,7 +1032,7 @@ Full guide: https://docs.mailpilot.dev/self-hosting/google-pubsub`,
     }
 
     env.GOOGLE_PUBSUB_TOPIC_NAME =
-      pubsubTopic || "projects/your-project-id/topics/mailpilot-emails";
+      pubsubTopic || "projects/your-project-id/topics/mail-pilot-emails";
   } else {
     env.GOOGLE_CLIENT_ID = "skipped";
     env.GOOGLE_CLIENT_SECRET = "skipped";
@@ -1051,7 +1051,7 @@ Full guide: https://docs.mailpilot.dev/self-hosting/google-pubsub`,
 5. Go to Certificates & secrets → New client secret
 6. Copy Application (client) ID and the secret Value
 
-Full guide: https://docs.mailpilot.dev/self-hosting/microsoft-oauth`,
+Full guide: https://docs.mailpilot.app/self-hosting/microsoft-oauth`,
       "Microsoft OAuth Setup",
     );
 
@@ -1166,7 +1166,7 @@ Full guide: https://docs.mailpilot.dev/self-hosting/microsoft-oauth`,
   // Google PubSub topic - only set placeholder if not already configured during Google OAuth setup
   if (!env.GOOGLE_PUBSUB_TOPIC_NAME) {
     env.GOOGLE_PUBSUB_TOPIC_NAME =
-      "projects/your-project-id/topics/mailpilot-emails";
+      "projects/your-project-id/topics/mail-pilot-emails";
   }
 
   // App config
@@ -1274,7 +1274,7 @@ Full guide: https://docs.mailpilot.dev/self-hosting/microsoft-oauth`,
 ${baseUrlCommand} ${composeCmd} --profile all up -d
 
 # View logs:
-docker logs mailpilot-services-web-1 -f
+docker logs mail-pilot-services-web-1 -f
 
 # Then open:
 https://yourdomain.com`;
@@ -1313,7 +1313,7 @@ async function runStart(options: { detach: boolean }) {
   if (!existsSync(STANDALONE_COMPOSE_FILE)) {
     p.log.error(
       "Mail Pilot is not configured for production mode.\n" +
-        "Run 'mailpilot setup' and choose Production (Docker) first.",
+        "Run 'mail-pilot setup' and choose Production (Docker) first.",
     );
     process.exit(1);
   }
@@ -1388,7 +1388,7 @@ async function runStart(options: { detach: boolean }) {
     }
 
     p.note(
-      `Mail Pilot is running at:\nhttp://localhost:${webPort}\n\nView logs: mailpilot logs\nStop: mailpilot stop`,
+      `Mail Pilot is running at:\nhttp://localhost:${webPort}\n\nView logs: mail-pilot logs\nStop: mail-pilot stop`,
       "Running",
     );
 
@@ -1488,7 +1488,7 @@ async function runStatus() {
   requireDocker();
 
   if (!existsSync(STANDALONE_COMPOSE_FILE)) {
-    p.log.error("Mail Pilot is not configured.\nRun 'mailpilot setup' first.");
+    p.log.error("Mail Pilot is not configured.\nRun 'mail-pilot setup' first.");
     process.exit(1);
   }
 
@@ -1535,7 +1535,7 @@ async function runUpdate() {
   });
 
   if (p.isCancel(restart)) {
-    p.outro("Update complete. Run 'mailpilot start' to use the new version.");
+    p.outro("Update complete. Run 'mail-pilot start' to use the new version.");
     return;
   }
 
@@ -1640,7 +1640,7 @@ function requireEnvFile(name?: string): { envFile: string; content: string } {
   if (!envFile) {
     const suffix = name ? ` (${name})` : "";
     p.log.error(
-      `No .env file found${suffix}.\nRun 'mailpilot setup' first to create one.`,
+      `No .env file found${suffix}.\nRun 'mail-pilot setup' first to create one.`,
     );
     process.exit(1);
   }
@@ -1717,7 +1717,7 @@ async function runConfigInteractive(name?: string) {
 
   p.log.success(`Updated ${keyToUpdate}`);
   p.note(
-    "If containers are running, restart for changes to take effect:\n  mailpilot stop && mailpilot start",
+    "If containers are running, restart for changes to take effect:\n  mail-pilot stop && mail-pilot start",
     "Next step",
   );
   p.outro("Done!");
@@ -1757,7 +1757,7 @@ async function runConfigGet(key: string, name?: string) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 const ENV_EXAMPLE_URL =
-  "https://raw.githubusercontent.com/areal/mailpilot/main/apps/web/.env.example";
+  "https://raw.githubusercontent.com/arealgizaw/mail-pilot/main/apps/web/.env.example";
 
 async function fetchEnvExample(): Promise<string> {
   const response = await fetch(ENV_EXAMPLE_URL);
@@ -1787,7 +1787,7 @@ function cancelSetup(): never {
 // ═══════════════════════════════════════════════════════════════════════════
 
 const COMPOSE_URL =
-  "https://raw.githubusercontent.com/areal/mailpilot/main/docker-compose.yml";
+  "https://raw.githubusercontent.com/arealgizaw/mail-pilot/main/docker-compose.yml";
 
 async function fetchDockerCompose(): Promise<string> {
   const response = await fetch(COMPOSE_URL);
@@ -1831,10 +1831,10 @@ function runDockerCommand(
 function logPortConflictGuidance() {
   p.log.info(
     "Stop the conflicting process or change the port:\n" +
-      "  mailpilot config set WEB_PORT <port>\n" +
-      "  mailpilot config set POSTGRES_PORT <port>\n" +
-      "  mailpilot config set REDIS_PORT <port>\n" +
-      "  mailpilot config set REDIS_HTTP_PORT <port>",
+      "  mail-pilot config set WEB_PORT <port>\n" +
+      "  mail-pilot config set POSTGRES_PORT <port>\n" +
+      "  mail-pilot config set REDIS_PORT <port>\n" +
+      "  mail-pilot config set REDIS_HTTP_PORT <port>",
   );
 }
 
@@ -1855,8 +1855,8 @@ function checkContainersRunning(composeArgs: string[]): boolean {
 const isMainModule =
   process.argv[1] &&
   (process.argv[1].endsWith("main.ts") ||
-    process.argv[1].endsWith("mailpilot.js") ||
-    basename(process.argv[1]).startsWith("mailpilot"));
+    process.argv[1].endsWith("mail-pilot.js") ||
+    basename(process.argv[1]).startsWith("mail-pilot"));
 
 if (isMainModule) {
   main().catch((error) => {

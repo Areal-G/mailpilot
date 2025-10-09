@@ -4,7 +4,7 @@ description: 'Configure Gmail push notifications with Google PubSub'
 ---
 
 <Tip>
-  **Automated Setup:** If you ran `mailpilot setup-google`, the Pub/Sub topic and subscription were created automatically. Skip to the "For local development" section below.
+  **Automated Setup:** If you ran `mail-pilot setup-google`, the Pub/Sub topic and subscription were created automatically. Skip to the "For local development" section below.
 </Tip>
 
 Complete [Google OAuth](/hosting/google-oauth) first.
@@ -15,7 +15,7 @@ PubSub enables real-time email notifications so Mail Pilot is notified immediate
 
 1. Go to the [Pub/Sub Topics page](https://console.cloud.google.com/cloudpubsub/topic/list) in Google Cloud Console.
 2. Click **Create Topic**.
-3. Enter a topic ID (e.g., `mailpilot-emails`).
+3. Enter a topic ID (e.g., `mail-pilot-emails`).
 4. Click **Create**.
 
 ### 2. Grant Gmail publish access
@@ -44,7 +44,7 @@ Gmail needs permission to send notifications to your topic. This is the step tha
 ### 4. Update your environment variables
 
 Set these in your `.env` file:
-- `GOOGLE_PUBSUB_TOPIC_NAME` — the full topic name (e.g., `projects/your-project-id/topics/mailpilot-emails`)
+- `GOOGLE_PUBSUB_TOPIC_NAME` — the full topic name (e.g., `projects/your-project-id/topics/mail-pilot-emails`)
 - `GOOGLE_PUBSUB_VERIFICATION_TOKEN` — the value of `TOKEN` you used in the webhook URL above
 
 If your deployment protects `/api/google/webhook` with upstream authentication, you can set `GOOGLE_PUBSUB_VERIFICATION_TOKEN` to an empty string to intentionally disable query-parameter verification. Leaving it unset is treated as a misconfiguration.

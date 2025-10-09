@@ -71,7 +71,7 @@ export function generateEnvFile(config: {
     content += `\n${key}=${value}`;
   };
 
-  setValue("MAILPILOT_ENV_FILE", wrapInQuotes(config.composeEnvFile));
+  setValue("MAIL_PILOT_ENV_FILE", wrapInQuotes(config.composeEnvFile));
 
   // ─────────────────────────────────────────────────────────────────────────
   // Database & Redis
@@ -311,7 +311,7 @@ export function generateEncryptionSecrets(existing: EnvConfig): EnvConfig {
   };
 }
 
-const MANAGED_COMPOSE_ENV_MARKER_SUFFIX = ".mailpilot-managed";
+const MANAGED_COMPOSE_ENV_MARKER_SUFFIX = ".mail-pilot-managed";
 
 export function syncManagedComposeEnv({
   envFile,

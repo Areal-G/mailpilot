@@ -1,5 +1,5 @@
 // Builds a self-contained HTML dashboard from eval run history.
-// Run with: `pnpm --filter mailpilot-ai eval-report` (add `-- --open` to launch it)
+// Run with: `pnpm --filter mailpilot-web eval-report` (add `-- --open` to launch it)
 import { execFile } from "node:child_process";
 import * as fs from "node:fs";
 import * as path from "node:path";

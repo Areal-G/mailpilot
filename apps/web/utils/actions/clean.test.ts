@@ -25,7 +25,7 @@ vi.mock("next/server", async (importOriginal) => ({
 }));
 vi.mock("@/utils/email/provider", () => ({
   createEmailProvider: vi.fn(async () => ({
-    getOrCreateInboxZeroLabel: vi.fn(async (key: string) => ({
+    getOrCreateMailPilotLabel: vi.fn(async (key: string) => ({
       id: `label-${key}`,
     })),
     getThreadsWithQuery: mockGetThreadsWithQuery,

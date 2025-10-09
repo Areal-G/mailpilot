@@ -1,7 +1,7 @@
 name: E2E Flow Tests
 
 # This workflow runs comprehensive E2E tests with real email accounts.
-# It uses the pre-built Docker image from ghcr.io/areal/mailpilot:latest
+# It uses the pre-built Docker image from ghcr.io/arealgizaw/mail-pilot:latest
 # instead of building from source, saving ~5 minutes per run.
 #
 # To enable: Set the repository variable E2E_FLOWS_ENABLED=true
@@ -30,7 +30,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  DOCKER_IMAGE: ghcr.io/areal/mailpilot:latest
+  DOCKER_IMAGE: ghcr.io/arealgizaw/mail-pilot:latest
 
 jobs:
   check-enabled:
@@ -104,7 +104,7 @@ jobs:
         run: |
           docker run -d \
             --pull always \
-            --name mailpilot-e2e \
+            --name mail-pilot-e2e \
             -p 3000:3000 \
             -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
             -e DIRECT_URL="${{ secrets.DIRECT_URL }}" \
@@ -175,7 +175,7 @@ jobs:
           done
           if [ "$SERVER_READY" != "true" ]; then
             echo "ERROR: App server failed to start within 120 seconds"
-            docker logs mailpilot-e2e
+            docker logs mail-pilot-e2e
             exit 1
           fi
 
@@ -200,9 +200,9 @@ jobs:
               exit 1
             fi
 
-            pnpm -F mailpilot-ai test-e2e:flows -- "$E2E_FLOW_TEST_FILE"
+            pnpm -F mailpilot-web test-e2e:flows -- "$E2E_FLOW_TEST_FILE"
           else
-            pnpm -F mailpilot-ai test-e2e:flows
+            pnpm -F mailpilot-web test-e2e:flows
           fi
         env:
           E2E_FLOW_TEST_FILE: ${{ github.event.inputs.test_file }}
@@ -266,7 +266,7 @@ jobs:
       - name: Collect Docker logs
         if: always()
         run: |
-          docker logs mailpilot-e2e > docker-server.log 2>&1 || true
+          docker logs mail-pilot-e2e > docker-server.log 2>&1 || true
 
       - name: Upload test logs on failure
         if: failure()

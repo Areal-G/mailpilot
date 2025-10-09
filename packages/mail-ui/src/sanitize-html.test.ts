@@ -134,10 +134,10 @@ describe("sanitizeMailHtml", () => {
     );
     const authoredStyle = Array.from(parsedDocument.querySelectorAll("style"))
       .map((style) => style.textContent ?? "")
-      .find((style) => style.includes("mailpilot-authored"));
+      .find((style) => style.includes("mail-pilot-authored"));
 
     expect(authoredStyle).toContain(
-      "prefers-color-scheme: mailpilot-authored",
+      "prefers-color-scheme: mail-pilot-authored",
     );
     expect(authoredStyle).not.toContain("prefers-color-scheme: dark");
     expect(authoredStyle).toContain("prefers-color-scheme: light");

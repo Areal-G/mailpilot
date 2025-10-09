@@ -1,5 +1,5 @@
 /**
- * Integration test: Slack notification flows via @mailpilot/emulate
+ * Integration test: Slack notification flows via the `emulate` package
  *
  * Tests real app notification flows — message formatting, Block Kit
  * construction, and delivery — against a local Slack emulator.
@@ -77,7 +77,7 @@ describe.skipIf(!RUN_INTEGRATION_TESTS)(
         ],
         channels: [
           {
-            name: "mailpilot-notifications",
+            name: "mail-pilot-notifications",
             is_private: true,
             topic: "Mail Pilot alerts",
           },
@@ -90,7 +90,7 @@ describe.skipIf(!RUN_INTEGRATION_TESTS)(
       });
 
       emulatorClient = slackHarness.client;
-      notifChannelId = slackHarness.channelsByName["mailpilot-notifications"];
+      notifChannelId = slackHarness.channelsByName["mail-pilot-notifications"];
       engChannelId = slackHarness.channelsByName.engineering;
       if (!notifChannelId || !engChannelId) {
         throw new Error("Slack emulator channels not found");

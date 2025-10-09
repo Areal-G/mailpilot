@@ -19,10 +19,7 @@ describe("robots route", () => {
   });
 
   it("returns the existing production rules", async () => {
-    const robots = await loadRobots(
-      "https://www.mailpilot.dev",
-      "production",
-    );
+    const robots = await loadRobots("https://www.mailpilot.app", "production");
 
     expect(robots()).toEqual({
       rules: {
@@ -31,15 +28,15 @@ describe("robots route", () => {
         disallow: "/components",
       },
       sitemap: [
-        "https://www.mailpilot.dev/sitemap.xml",
-        "https://docs.mailpilot.dev/sitemap.xml",
+        "https://www.mailpilot.app/sitemap.xml",
+        "https://docs.mailpilot.app/sitemap.xml",
       ],
     });
   });
 
   it("disallows every path and omits the sitemap when indexing is off", async () => {
     const robots = await loadRobots(
-      "https://staging.mailpilot.dev",
+      "https://staging.mailpilot.app",
       "production",
     );
 

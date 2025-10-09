@@ -15,7 +15,6 @@ import { useUser } from "@/hooks/useUser";
 import { LoadingContent } from "@/components/LoadingContent";
 import { Loading } from "@/components/Loading";
 import { WELCOME_PATH } from "@/utils/config";
-import { CrispChatLoggedOutVisible } from "@/components/CrispChat";
 import { getAndClearAuthErrorCookie } from "@/utils/auth-cookies";
 import { SUPPORT_EMAIL } from "@/utils/branding";
 import {
@@ -129,10 +128,6 @@ export default function LogInErrorPage() {
     <BasicLayout>
       <Suspense fallback={<Loading />}>
         <LoginErrorContent />
-      </Suspense>
-
-      <Suspense>
-        <CrispChatLoggedOutVisible />
       </Suspense>
     </BasicLayout>
   );

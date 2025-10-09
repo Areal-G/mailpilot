@@ -6,7 +6,7 @@ import {
 import { createEvalReporter } from "@/__tests__/eval/reporter";
 import { aiParseFilingReply } from "@/utils/ai/document-filing/parse-filing-reply";
 
-// pnpm --filter mailpilot-ai test-ai __tests__/eval/filing-reply.test.ts
+// pnpm --filter mailpilot-web test-ai __tests__/eval/filing-reply.test.ts
 
 const shouldRunEval = shouldRunEvalTests();
 const TIMEOUT = 60_000;

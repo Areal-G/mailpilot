@@ -4,7 +4,7 @@ const { mockEnv } = vi.hoisted(() => ({
   mockEnv: {
     DESKTOP_AUTH_ORIGIN: "mailpilot://",
     MOBILE_AUTH_ORIGIN: "mailpilot://",
-    NEXT_PUBLIC_BASE_URL: "https://www.mailpilot.dev",
+    NEXT_PUBLIC_BASE_URL: "https://www.mailpilot.app",
   },
 }));
 
@@ -23,7 +23,7 @@ describe("mobile auth URL helpers", () => {
   beforeEach(() => {
     mockEnv.DESKTOP_AUTH_ORIGIN = "mailpilot://";
     mockEnv.MOBILE_AUTH_ORIGIN = "mailpilot://";
-    mockEnv.NEXT_PUBLIC_BASE_URL = "https://www.mailpilot.dev";
+    mockEnv.NEXT_PUBLIC_BASE_URL = "https://www.mailpilot.app";
   });
 
   afterEach(() => {
@@ -33,14 +33,14 @@ describe("mobile auth URL helpers", () => {
 
   it("builds the web callback URL from the configured base origin", () => {
     expect(getMobileAuthWebCallbackUrl("state-1234567890")).toBe(
-      "https://www.mailpilot.dev/api/mobile-auth/callback?state=state-1234567890",
+      "https://www.mailpilot.app/api/mobile-auth/callback?state=state-1234567890",
     );
-    expect(getMobileAuthBaseUrlOrigin()).toBe("https://www.mailpilot.dev");
+    expect(getMobileAuthBaseUrlOrigin()).toBe("https://www.mailpilot.app");
   });
 
   it("uses the HTTPS app callback URL for production", () => {
     expect(getMobileAuthAppCallbackUrl().toString()).toBe(
-      "https://www.mailpilot.dev/auth-callback",
+      "https://www.mailpilot.app/auth-callback",
     );
   });
 

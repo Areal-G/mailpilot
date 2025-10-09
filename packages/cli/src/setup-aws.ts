@@ -86,8 +86,8 @@ const REDIS_INSTANCE_OPTIONS = [
   },
 ];
 
-const APP_NAME = "mailpilot";
-const SERVICE_NAME = "mailpilot-ecs";
+const APP_NAME = "mail-pilot";
+const SERVICE_NAME = "mail-pilot-ecs";
 const ENVIRONMENT_NAME_REGEX = /^[a-z][a-z0-9-]*$/;
 const ENVIRONMENT_NAME_ERROR =
   "Must start with a letter and contain only lowercase letters, numbers, and hyphens";
@@ -160,7 +160,7 @@ export async function runAwsSetup(options: AwsSetupOptions) {
     p.log.success("gcloud CLI configured");
   } else {
     p.log.warn(
-      "gcloud CLI not configured - you'll need to run 'mailpilot setup-google' separately",
+      "gcloud CLI not configured - you'll need to run 'mail-pilot setup-google' separately",
     );
   }
 
@@ -173,7 +173,7 @@ export async function runAwsSetup(options: AwsSetupOptions) {
     if (availableProfiles.length === 0) {
       p.log.error(
         "No AWS profiles found. Please configure AWS credentials first:\n" +
-          "  aws configure --profile mailpilot",
+          "  aws configure --profile mail-pilot",
       );
       process.exit(1);
     }
@@ -375,7 +375,7 @@ export async function runAwsSetup(options: AwsSetupOptions) {
       p.log.error(
         "Missing GOOGLE_CLIENT_ID/GOOGLE_CLIENT_SECRET.\n" +
           "In non-interactive mode, set these env vars before running:\n" +
-          "GOOGLE_CLIENT_ID=... GOOGLE_CLIENT_SECRET=... mailpilot setup-aws --yes",
+          "GOOGLE_CLIENT_ID=... GOOGLE_CLIENT_SECRET=... mail-pilot setup-aws --yes",
       );
       process.exit(1);
     }
@@ -455,8 +455,8 @@ export async function runAwsSetup(options: AwsSetupOptions) {
   const pubsubTopicName =
     configuredPubsubTopic ||
     (googleConfig
-      ? `projects/${googleConfig.projectId}/topics/${domain || "mailpilot"}`
-      : "projects/your-project-id/topics/mailpilot-emails");
+      ? `projects/${googleConfig.projectId}/topics/${domain || "mail-pilot"}`
+      : "projects/your-project-id/topics/mail-pilot-emails");
   const pubsubTopic = /^projects\/([^/\s]+)\/topics\/([^/\s]+)$/.exec(
     pubsubTopicName,
   );
@@ -968,7 +968,7 @@ export async function runAwsSetup(options: AwsSetupOptions) {
       spinner.stop("Failed to configure Pub/Sub");
       p.log.warn(
         "Pub/Sub setup failed. You can configure it manually:\n" +
-          `mailpilot setup-google --webhook-url "${webhookUrl}"`,
+          `mail-pilot setup-google --webhook-url "${webhookUrl}"`,
       );
     } else {
       spinner.stop("Google Pub/Sub configured");
@@ -1009,13 +1009,13 @@ export async function runAwsSetup(options: AwsSetupOptions) {
 
   if (!configureGoogle) {
     nextSteps.push(
-      `Run Google setup:\n  mailpilot setup-google${webhookUrl ? ` --webhook-url "${webhookUrl}"` : ""}`,
+      `Run Google setup:\n  mail-pilot setup-google${webhookUrl ? ` --webhook-url "${webhookUrl}"` : ""}`,
     );
   }
 
   if (!domain) {
     nextSteps.push(
-      "Get your app URL:\n  copilot svc show --name mailpilot-ecs",
+      "Get your app URL:\n  copilot svc show --name mail-pilot-ecs",
     );
   }
 
@@ -1479,7 +1479,7 @@ function resetServiceManifestVariables(): void {
   let content = readFileSync(manifestPath, "utf-8");
   content = content.replace(
     /^\s*NEXT_PUBLIC_BASE_URL:.*$/m,
-    "  NEXT_PUBLIC_BASE_URL: # YOUR_DOMAIN, e.g. https://www.mailpilot.dev (with http or https)",
+    "  NEXT_PUBLIC_BASE_URL: # YOUR_DOMAIN, e.g. https://www.mailpilot.app (with http or https)",
   );
   content = content.replace(/^\s*DEFAULT_LLM_PROVIDER:.*\n?/m, "");
   content = content.replace(/^\s*DEFAULT_LLM_MODEL:.*\n?/m, "");

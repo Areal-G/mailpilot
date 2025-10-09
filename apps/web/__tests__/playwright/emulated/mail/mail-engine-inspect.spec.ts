@@ -17,7 +17,7 @@ test("exposes engine diagnostics after metadata coverage", async ({
   });
   await waitForMetadataCoverage(page);
   const inspect = await page.evaluate(async () => {
-    const seam = window.__inboxZeroMailInspect;
+    const seam = window.__mailPilotMailInspect;
     if (!seam) return { present: false as const };
     const diagnostics = (await seam.read()) as {
       accountId?: string;
@@ -61,7 +61,7 @@ test("keeps the owner engine after a full reload", async ({
 }, testInfo) => {
   const { conversations, emailAccountId } = await openMail(page);
   await expect
-    .poll(async () => page.evaluate(() => window.__inboxZeroMailInspect?.role))
+    .poll(async () => page.evaluate(() => window.__mailPilotMailInspect?.role))
     .toBe("owner");
   await page.reload({ waitUntil: "domcontentloaded" });
   await expect(conversations.getByRole("option").first()).toBeVisible({
@@ -69,14 +69,14 @@ test("keeps the owner engine after a full reload", async ({
   });
   await expect
     .poll(
-      async () => page.evaluate(() => window.__inboxZeroMailInspect?.role),
+      async () => page.evaluate(() => window.__mailPilotMailInspect?.role),
       {
         timeout: 60_000,
       },
     )
     .toBe("owner");
   expect(
-    await page.evaluate(() => window.__inboxZeroMailInspect?.accountId),
+    await page.evaluate(() => window.__mailPilotMailInspect?.accountId),
   ).toBe(emailAccountId);
   await capturePlaywrightCheckpoint(page, testInfo, "mail-engine-reload");
 });
@@ -89,7 +89,7 @@ test("serves a second tab as a follower of the owner engine", async ({
     timeout: 60_000,
   });
   await expect
-    .poll(async () => page.evaluate(() => window.__inboxZeroMailInspect?.role))
+    .poll(async () => page.evaluate(() => window.__mailPilotMailInspect?.role))
     .toBe("owner");
 
   const follower = await page.context().newPage();
@@ -104,15 +104,15 @@ test("serves a second tab as a follower of the owner engine", async ({
   ).not.toHaveCount(0);
   await expect
     .poll(
-      async () => follower.evaluate(() => window.__inboxZeroMailInspect?.role),
+      async () => follower.evaluate(() => window.__mailPilotMailInspect?.role),
       { timeout: 60_000 },
     )
     .toBe("follower");
-  expect(await page.evaluate(() => window.__inboxZeroMailInspect?.role)).toBe(
+  expect(await page.evaluate(() => window.__mailPilotMailInspect?.role)).toBe(
     "owner",
   );
   expect(
-    await follower.evaluate(() => window.__inboxZeroMailInspect?.accountId),
+    await follower.evaluate(() => window.__mailPilotMailInspect?.accountId),
   ).toBe(emailAccountId);
   await capturePlaywrightCheckpoint(follower, testInfo, "mail-engine-follower");
   await follower.close();
@@ -164,7 +164,7 @@ test("opens account reconnect from blocked_auth catch-up", async ({
   await expect
     .poll(async () => {
       const diagnostics = (await page.evaluate(async () => {
-        const seam = window.__inboxZeroMailInspect;
+        const seam = window.__mailPilotMailInspect;
         return seam ? seam.read() : null;
       })) as { connection?: string } | null;
       return diagnostics?.connection;
@@ -200,7 +200,7 @@ test("serves two accounts through one owner and takes over when that owner leave
   const { conversations, emailAccountId } = await openMail(page);
   await waitForMetadataCoverage(page);
   await expect
-    .poll(() => page.evaluate(() => window.__inboxZeroMailInspect?.role))
+    .poll(() => page.evaluate(() => window.__mailPilotMailInspect?.role))
     .toBe("owner");
   const secondAccount = await createSecondEmailAccount(emailAccountId);
   const other = await page.context().newPage();
@@ -226,8 +226,8 @@ test("serves two accounts through one owner and takes over when that owner leave
       .poll(
         () =>
           other.evaluate(() => ({
-            role: window.__inboxZeroMailInspect?.role,
-            accountId: window.__inboxZeroMailInspect?.accountId,
+            role: window.__mailPilotMailInspect?.role,
+            accountId: window.__mailPilotMailInspect?.accountId,
           })),
         { timeout: 60_000 },
       )
@@ -240,13 +240,13 @@ test("serves two accounts through one owner and takes over when that owner leave
     ).toBeVisible({ timeout: 60_000 });
     await expect(conversations.getByRole("option").first()).toBeVisible();
     const diagnostics = await other.evaluate(async () =>
-      window.__inboxZeroMailInspect?.read(),
+      window.__mailPilotMailInspect?.read(),
     );
     expect(diagnostics).toMatchObject({ accountId: secondAccount.id });
 
     await page.goto("about:blank");
     await expect
-      .poll(() => other.evaluate(() => window.__inboxZeroMailInspect?.role), {
+      .poll(() => other.evaluate(() => window.__mailPilotMailInspect?.role), {
         timeout: 60_000,
       })
       .toBe("owner");
@@ -257,8 +257,8 @@ test("serves two accounts through one owner and takes over when that owner leave
       .poll(
         () =>
           page.evaluate(() => ({
-            role: window.__inboxZeroMailInspect?.role,
-            accountId: window.__inboxZeroMailInspect?.accountId,
+            role: window.__mailPilotMailInspect?.role,
+            accountId: window.__mailPilotMailInspect?.accountId,
           })),
         { timeout: 60_000 },
       )
@@ -301,7 +301,7 @@ test("joins two different accounts when both tabs start together", async ({
         async () => {
           const roles = await Promise.all(
             [page, other].map((tab) =>
-              tab.evaluate(() => window.__inboxZeroMailInspect?.role),
+              tab.evaluate(() => window.__mailPilotMailInspect?.role),
             ),
           );
           return roles.sort();
@@ -314,7 +314,7 @@ test("joins two different accounts when both tabs start together", async ({
       [other, secondAccount.id],
     ] as const) {
       expect(
-        await tab.evaluate(() => window.__inboxZeroMailInspect?.accountId),
+        await tab.evaluate(() => window.__mailPilotMailInspect?.accountId),
       ).toBe(accountId);
       await expect(
         tab
@@ -341,7 +341,7 @@ async function waitForMetadataCoverage(page: Page) {
     .poll(
       async () =>
         page.evaluate(async () => {
-          const seam = window.__inboxZeroMailInspect;
+          const seam = window.__mailPilotMailInspect;
           if (!seam) return { present: false, coverageComplete: false };
           const diagnostics = (await seam.read()) as {
             coverage?: Array<{ metadata: string }>;

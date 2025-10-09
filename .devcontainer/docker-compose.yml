@@ -3,12 +3,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    hostname: mailpilot-app
+    hostname: mail-pilot-app
     command: sleep infinity
     volumes:
-      - ..:/workspaces/mailpilot:cached
+      - ..:/workspaces/mail-pilot:cached
       # Named volume for node_modules to avoid host/container architecture mismatch
-      - node_modules:/workspaces/mailpilot/node_modules
+      - node_modules:/workspaces/mail-pilot/node_modules
       - pnpm-store:/pnpm/store
     environment:
       PNPM_HOME: /pnpm

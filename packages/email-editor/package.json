@@ -11,15 +11,6 @@
     "react",
     "squire"
   ],
-  "homepage": "https://github.com/areal/mailpilot/tree/main/packages/email-editor#readme",
-  "bugs": {
-    "url": "https://github.com/areal/mailpilot/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/areal/mailpilot.git",
-    "directory": "packages/email-editor"
-  },
   "type": "module",
   "sideEffects": [
     "**/*.css"
@@ -39,7 +30,7 @@
     "parse5": "8.0.1"
   },
   "peerDependencies": {
-    "dompurify": "3.4.15",
+    "dompurify": "3.4.17",
     "react": ">=19",
     "react-dom": ">=19",
     "squire-rte": "2.4.9"

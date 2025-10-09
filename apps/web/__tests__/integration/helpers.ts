@@ -1,5 +1,5 @@
 /**
- * Shared helpers for integration tests using @mailpilot/emulate.
+ * Shared helpers for integration tests using the `emulate` package.
  *
  * Eliminates boilerplate: emulator creation, OAuth/client setup,
  * provider instantiation, and thread ID resolution for both

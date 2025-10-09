@@ -43,7 +43,7 @@ async function up({ foreground, integrationTests, ownerToken }) {
   if (!ownerToken) throw new Error("--owner-token requires a value");
   if (exists(statePath)) {
     throw new Error(
-      "Emulator is already running. Stop it with: pnpm -F mailpilot-ai emulator:down",
+      "Emulator is already running. Stop it with: pnpm -F mailpilot-web emulator:down",
     );
   }
   assertInheritedTargets();
@@ -480,18 +480,18 @@ function appEnv({
     NEXT_PUBLIC_EMAIL_SEND_ENABLED: "true",
     CRON_SECRET: "local-emulator-cron",
     APPLE_IAP_LOCAL_TESTING: "true",
-    APPLE_IAP_BUNDLE_ID: "com.getmailpilot.app",
+    APPLE_IAP_BUNDLE_ID: "app.mailpilot.app",
     APPLE_IAP_APPLE_ID: "6759736561",
     NEXT_PUBLIC_APPLE_IAP_STARTER_MONTHLY_PRODUCT_ID:
-      "com.getmailpilot.starter.monthly.v2",
+      "app.mailpilot.starter.monthly.v2",
     NEXT_PUBLIC_APPLE_IAP_STARTER_ANNUALLY_PRODUCT_ID:
-      "com.getmailpilot.starter.annual.v2",
+      "app.mailpilot.starter.annual.v2",
     APNS_TRANSPORT: "fake",
     APNS_ENVIRONMENT: "sandbox",
-    APNS_TOPIC: "com.getmailpilot.app",
+    APNS_TOPIC: "app.mailpilot.app",
     APNS_TEAM_ID: "Z46U4K6CNL",
     FCM_TRANSPORT: "fake",
-    FCM_PROJECT_ID: "mailpilot-emulator",
+    FCM_PROJECT_ID: "mail-pilot-emulator",
     NEXT_PUBLIC_BYPASS_PREMIUM_CHECKS: "",
     NEXT_PUBLIC_POSTHOG_KEY: "",
     NEXT_PUBLIC_POSTHOG_API_HOST: "",

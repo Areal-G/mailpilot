@@ -3,31 +3,26 @@
   "version": "2.29.2",
   "description": "CLI tool for setting up and managing Mail Pilot - AI email assistant",
   "keywords": [
-    "mailpilot",
+    "mail-pilot",
     "email",
     "cli",
     "setup"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/areal/mailpilot.git",
-    "directory": "packages/cli"
-  },
   
   "type": "module",
   "bin": {
-    "mailpilot": "bin/mailpilot.js"
+    "mail-pilot": "bin/mail-pilot.js"
   },
   "files": [
     "bin"
   ],
   "scripts": {
-    "build": "bun build src/main.ts --outfile bin/mailpilot.js --target node",
-    "build:binary": "bun build src/main.ts --compile --outfile dist/mailpilot",
+    "build": "bun build src/main.ts --outfile bin/mail-pilot.js --target node",
+    "build:binary": "bun build src/main.ts --compile --outfile dist/mail-pilot",
     "build:binary:all": "pnpm build:binary:macos-arm64 && pnpm build:binary:macos-x64 && pnpm build:binary:linux-x64",
-    "build:binary:linux-x64": "bun build src/main.ts --compile --target=bun-linux-x64 --outfile dist/mailpilot-linux-x64",
-    "build:binary:macos-arm64": "bun build src/main.ts --compile --target=bun-darwin-arm64 --outfile dist/mailpilot-darwin-arm64",
-    "build:binary:macos-x64": "bun build src/main.ts --compile --target=bun-darwin-x64 --outfile dist/mailpilot-darwin-x64",
+    "build:binary:linux-x64": "bun build src/main.ts --compile --target=bun-linux-x64 --outfile dist/mail-pilot-linux-x64",
+    "build:binary:macos-arm64": "bun build src/main.ts --compile --target=bun-darwin-arm64 --outfile dist/mail-pilot-darwin-arm64",
+    "build:binary:macos-x64": "bun build src/main.ts --compile --target=bun-darwin-x64 --outfile dist/mail-pilot-darwin-x64",
     "dev": "bun run src/main.ts",
     "prepublishOnly": "bun run build",
     "test": "vitest run",

@@ -90,14 +90,14 @@ test("enables drafting and manages persisted draft knowledge", async ({
   await addDialog.getByRole("textbox", { name: "Title" }).fill(KNOWLEDGE_TITLE);
   await addDialog
     .locator('[contenteditable="true"]')
-    .fill("Customers use the product to reach inbox zero every morning.");
+    .fill("Customers use the product to clear their inbox every morning.");
   await addDialog.getByRole("button", { name: "Create" }).click();
   await expect
     .poll(() => getKnowledgeState(emailAccountId), {
       timeout: SERVER_ACTION_TIMEOUT_MS,
     })
     .toEqual({
-      content: "Customers use the product to reach inbox zero every morning.",
+      content: "Customers use the product to clear their inbox every morning.",
       title: KNOWLEDGE_TITLE,
     });
 

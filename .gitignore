@@ -93,8 +93,13 @@ copilot/environments/**/manifest.yml
 
 /apps/web/app/(app)/\[emailAccountId\]/demo/*
 
-# Cursor
-.editor/plans/
+# AI coding-assistant config
+.local/
+.editor/
+.codex/
+.agents/
+AGENTS.md
+DEV.md
 
 # AI SDK devtools
 .devtools/
@@ -102,15 +107,6 @@ copilot/environments/**/manifest.yml
 # browser QA flow results
 qa/browser-flows/results/*
 !qa/browser-flows/results/README.md
-
-# local skills
-.local/skills/local/
-.agents/skills/local/
-
-# local claude hooks (personal nested repo)
-.local/local/
-.local/scheduled_tasks.lock
-.local/worktrees/
 
 # eval reports
 eval-results/

@@ -24,7 +24,7 @@ type ReconnectionEmailComponent = FC<ReconnectionEmailProps> & {
 };
 
 const ReconnectionEmail: ReconnectionEmailComponent = ({
-  baseUrl = "https://www.mailpilot.dev",
+  baseUrl = "https://www.mailpilot.app",
   email,
   unsubscribeToken,
 }: ReconnectionEmailProps) => {
@@ -40,7 +40,7 @@ const ReconnectionEmail: ReconnectionEmailComponent = ({
             <Section className="p-4 text-center">
               <Link href={baseUrl} className="text-[15px]">
                 <Img
-                  src={"https://www.mailpilot.dev/icon.png"}
+                  src={"https://www.mailpilot.app/icon.png"}
                   width="40"
                   height="40"
                   alt="Mail Pilot"
@@ -139,7 +139,7 @@ function Footer({
 }
 
 ReconnectionEmail.PreviewProps = {
-  baseUrl: "https://www.mailpilot.dev",
+  baseUrl: "https://www.mailpilot.app",
   email: "user@example.com",
   unsubscribeToken: "preview-token-123",
 };

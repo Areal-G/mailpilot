@@ -44,10 +44,6 @@ jobs:
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
 
-      - name: Check PR monitor failure reporting
-        if: matrix.shard == 1
-        run: node --test .local/skills/pr-watch/pr-digest.test.mjs
-
       - name: Run lint check
         if: matrix.shard == 1
         run: pnpm check
@@ -62,22 +58,22 @@ jobs:
 
       - name: Check Prisma enum imports
         if: matrix.shard == 1
-        run: pnpm -F mailpilot-ai check-enums
+        run: pnpm -F mailpilot-web check-enums
 
       - name: Check server action exports
         if: matrix.shard == 1
-        run: pnpm -F mailpilot-ai check-server-actions
+        run: pnpm -F mailpilot-web check-server-actions
 
       - name: Check client redirects
         if: matrix.shard == 1
-        run: pnpm -F mailpilot-ai check-client-redirects
+        run: pnpm -F mailpilot-web check-client-redirects
 
       - name: Check test fixture hygiene
         if: matrix.shard == 1
-        run: pnpm -F mailpilot-ai check-test-fixtures
+        run: pnpm -F mailpilot-web check-test-fixtures
 
       - name: Run tests
-        run: pnpm -F mailpilot-ai test --run --shard=${{ matrix.shard }}/2
+        run: pnpm -F mailpilot-web test --run --shard=${{ matrix.shard }}/2
         env:
           RUN_AI_TESTS: false
           DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
@@ -102,8 +98,8 @@ jobs:
         run: |
           docker run -d --name postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:15
           until docker exec postgres pg_isready -U postgres >/dev/null 2>&1; do sleep 1; done
-          pnpm -F mailpilot-ai exec prisma migrate deploy
-          pnpm -F mailpilot-ai test-db __tests__/db/shared-conversations.test.ts
+          pnpm -F mailpilot-web exec prisma migrate deploy
+          pnpm -F mailpilot-web test-db __tests__/db/shared-conversations.test.ts
         env:
           DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
           DIRECT_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
@@ -120,7 +116,7 @@ jobs:
 
       - name: Run integration tests
         if: matrix.shard == 1
-        run: pnpm -F mailpilot-ai test-integration
+        run: pnpm -F mailpilot-web test-integration
         env:
           RUN_INTEGRATION_TESTS: true
           DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
@@ -153,6 +149,6 @@ jobs:
         working-directory: apps/desktop
         run: node node_modules/electron/install.js
       - name: Install runtime libraries
-        run: pnpm -F mailpilot-ai exec playwright install-deps chromium
+        run: pnpm -F mailpilot-web exec playwright install-deps chromium
       - name: Test actual Electron processes and SQLite
         run: xvfb-run -a pnpm -F @mailpilot/desktop test

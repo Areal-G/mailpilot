@@ -9,7 +9,7 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
-import { InboxZeroFooter } from "./components/mailpilot-footer";
+import { MailPilotFooter } from "./components/mail-pilot-footer";
 
 export type InvoiceEmailProps = {
   baseUrl: string;
@@ -48,7 +48,7 @@ export default function InvoiceEmail({
                 .
               </Text>
             </Section>
-            <InboxZeroFooter />
+            <MailPilotFooter />
           </Container>
         </Body>
       </Tailwind>
@@ -57,6 +57,6 @@ export default function InvoiceEmail({
 }
 
 InvoiceEmail.PreviewProps = {
-  baseUrl: "https://www.mailpilot.dev",
+  baseUrl: "https://www.mailpilot.app",
   invoiceUrl: "https://example.com/invoice.pdf",
 } satisfies InvoiceEmailProps;

@@ -49,7 +49,7 @@ describe("swr-persistence", () => {
 
   it("ignores snapshots from the previous cache version", () => {
     window.localStorage.setItem(
-      `mailpilot:swr:v1:${ACCOUNT_A}`,
+      `mail-pilot:swr:v1:${ACCOUNT_A}`,
       JSON.stringify({
         "/api/mail/settings": {
           splits: [{ id: "split-1", kind: "LABEL", value: "label-1" }],
@@ -95,7 +95,7 @@ describe("swr-persistence", () => {
     );
 
     const stored = window.localStorage.getItem(
-      `mailpilot:swr:v2:${ACCOUNT_A}`,
+      `mail-pilot:swr:v2:${ACCOUNT_A}`,
     );
     expect(stored).not.toContain("should not persist");
     expect(
@@ -124,7 +124,7 @@ describe("swr-persistence", () => {
   });
 
   it("returns nothing for a corrupt snapshot instead of throwing", () => {
-    window.localStorage.setItem(`mailpilot:swr:v2:${ACCOUNT_A}`, "{not json");
+    window.localStorage.setItem(`mail-pilot:swr:v2:${ACCOUNT_A}`, "{not json");
 
     expect(readPersistedSwrEntries(ACCOUNT_A).size).toBe(0);
   });
@@ -149,7 +149,7 @@ describe("swr-persistence", () => {
     persistSwrEntries(ACCOUNT_A, cacheWith({ "/api/labels": { labels: [] } }));
     persistSwrEntries(ACCOUNT_B, cacheWith({ "/api/labels": { labels: [] } }));
     window.localStorage.setItem(
-      `mailpilot:swr:v1:${ACCOUNT_A}`,
+      `mail-pilot:swr:v1:${ACCOUNT_A}`,
       JSON.stringify({ "/api/labels": { labels: [] } }),
     );
     window.localStorage.setItem("unrelated", "keep-me");
@@ -159,7 +159,7 @@ describe("swr-persistence", () => {
     expect(readPersistedSwrEntries(ACCOUNT_A).size).toBe(0);
     expect(readPersistedSwrEntries(ACCOUNT_B).size).toBe(0);
     expect(
-      window.localStorage.getItem(`mailpilot:swr:v1:${ACCOUNT_A}`),
+      window.localStorage.getItem(`mail-pilot:swr:v1:${ACCOUNT_A}`),
     ).toBeNull();
     expect(window.localStorage.getItem("unrelated")).toBe("keep-me");
   });
@@ -186,10 +186,10 @@ describe("swr-persistence", () => {
   });
 
   it("maps snapshot storage keys back to account ids", () => {
-    expect(accountIdFromSnapshotKey(`mailpilot:swr:v2:${ACCOUNT_A}`)).toBe(
+    expect(accountIdFromSnapshotKey(`mail-pilot:swr:v2:${ACCOUNT_A}`)).toBe(
       ACCOUNT_A,
     );
-    expect(accountIdFromSnapshotKey("mailpilot:swr:v2:")).toBeNull();
+    expect(accountIdFromSnapshotKey("mail-pilot:swr:v2:")).toBeNull();
     expect(accountIdFromSnapshotKey("unrelated-key")).toBeNull();
   });
 });

@@ -1,5 +1,5 @@
 /**
- * Integration test: CALL_WEBHOOK action via @mailpilot/emulate
+ * Integration test: CALL_WEBHOOK action via the `emulate` package
  *
  * Tests the full webhook delivery flow: rule execution fires a
  * CALL_WEBHOOK action which POSTs email + rule details to a local

@@ -424,7 +424,7 @@ describe("archive sender queue", () => {
 
   it("does not restore an in-flight pending fetch after reload", async () => {
     sessionStorage.setItem(
-      `mailpilot:sender-queue:${JSON.stringify({ kind: "archive" })}`,
+      `mail-pilot:sender-queue:${JSON.stringify({ kind: "archive" })}`,
       JSON.stringify({
         durable: [],
         progress: [],
@@ -512,7 +512,7 @@ describe("archive sender queue", () => {
 
     expect(
       sessionStorage.getItem(
-        `mailpilot:sender-queue:${JSON.stringify({ kind: "archive" })}`,
+        `mail-pilot:sender-queue:${JSON.stringify({ kind: "archive" })}`,
       ),
     ).toBeNull();
   });

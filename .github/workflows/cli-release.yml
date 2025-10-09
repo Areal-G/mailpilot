@@ -17,13 +17,13 @@ jobs:
         include:
           - os: macos-latest
             target: bun-darwin-arm64
-            artifact: mailpilot-darwin-arm64
+            artifact: mail-pilot-darwin-arm64
           - os: macos-latest
             target: bun-darwin-x64
-            artifact: mailpilot-darwin-x64
+            artifact: mail-pilot-darwin-x64
           - os: ubuntu-latest
             target: bun-linux-x64
-            artifact: mailpilot-linux-x64
+            artifact: mail-pilot-linux-x64
 
     runs-on: ${{ matrix.os }}
 
@@ -122,9 +122,9 @@ jobs:
       - name: Calculate SHA256
         id: sha
         run: |
-          echo "darwin_arm64=$(sha256sum artifacts/mailpilot-darwin-arm64/mailpilot-darwin-arm64.tar.gz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
-          echo "darwin_x64=$(sha256sum artifacts/mailpilot-darwin-x64/mailpilot-darwin-x64.tar.gz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
-          echo "linux_x64=$(sha256sum artifacts/mailpilot-linux-x64/mailpilot-linux-x64.tar.gz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
+          echo "darwin_arm64=$(sha256sum artifacts/mail-pilot-darwin-arm64/mail-pilot-darwin-arm64.tar.gz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
+          echo "darwin_x64=$(sha256sum artifacts/mail-pilot-darwin-x64/mail-pilot-darwin-x64.tar.gz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
+          echo "linux_x64=$(sha256sum artifacts/mail-pilot-linux-x64/mail-pilot-linux-x64.tar.gz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
 
       - name: Upload to Release
         uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
@@ -132,9 +132,9 @@ jobs:
           tag_name: ${{ steps.version.outputs.tag }}
           make_latest: false
           files: |
-            artifacts/mailpilot-darwin-arm64/mailpilot-darwin-arm64.tar.gz
-            artifacts/mailpilot-darwin-x64/mailpilot-darwin-x64.tar.gz
-            artifacts/mailpilot-linux-x64/mailpilot-linux-x64.tar.gz
+            artifacts/mail-pilot-darwin-arm64/mail-pilot-darwin-arm64.tar.gz
+            artifacts/mail-pilot-darwin-x64/mail-pilot-darwin-x64.tar.gz
+            artifacts/mail-pilot-linux-x64/mail-pilot-linux-x64.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -156,7 +156,7 @@ jobs:
           darwin_x64_sha = os.environ["DARWIN_X64_SHA"]
           linux_x64_sha = os.environ["LINUX_X64_SHA"]
           
-          with open('Formula/mailpilot.rb', 'r') as f:
+          with open('Formula/mail-pilot.rb', 'r') as f:
               content = f.read()
           
           # Update version
@@ -186,7 +186,7 @@ jobs:
               content, count=1, flags=re.DOTALL
           )
           
-          with open('Formula/mailpilot.rb', 'w') as f:
+          with open('Formula/mail-pilot.rb', 'w') as f:
               f.write(content)
           
           print(content)
@@ -196,7 +196,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          add-paths: Formula/mailpilot.rb
+          add-paths: Formula/mail-pilot.rb
           branch: automation/homebrew-formula-${{ steps.version.outputs.version }}
           base: main
           commit-message: "chore: update Homebrew formula for ${{ steps.version.outputs.tag }}"

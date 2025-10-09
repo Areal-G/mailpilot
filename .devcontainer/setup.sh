@@ -57,7 +57,7 @@ CRON_SECRET="${CRON_SECRET_VAL}"
 # Using placeholder values to allow app to start - OAuth won't work until replaced
 GOOGLE_CLIENT_ID=placeholder-replace-with-real-client-id
 GOOGLE_CLIENT_SECRET=placeholder-replace-with-real-client-secret
-GOOGLE_PUBSUB_TOPIC_NAME="projects/dev/topics/mailpilot-dev"
+GOOGLE_PUBSUB_TOPIC_NAME="projects/dev/topics/mail-pilot-dev"
 GOOGLE_PUBSUB_VERIFICATION_TOKEN="${PUBSUB_TOKEN_VAL}"
 
 # Microsoft (optional)

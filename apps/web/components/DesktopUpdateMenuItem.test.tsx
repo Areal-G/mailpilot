@@ -9,7 +9,7 @@ import {
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type {
   DesktopUpdateStatus,
-  InboxZeroDesktopApi,
+  MailPilotDesktopApi,
 } from "@/utils/desktop-app";
 import { DesktopUpdateMenuItem } from "./DesktopUpdateMenuItem";
 import { DesktopUpdateToast } from "@/app/(app)/DesktopUpdateToast";
@@ -35,7 +35,7 @@ vi.mock("sonner", () => ({
 
 afterEach(() => {
   cleanup();
-  window.inboxZeroDesktop = undefined;
+  window.mailPilotDesktop = undefined;
   vi.clearAllMocks();
 });
 
@@ -46,7 +46,7 @@ describe("desktop update footer", () => {
     { onUpdateStatus: vi.fn() },
     { installUpdate: vi.fn() },
   ])("hides without both bridge methods (%s)", (bridge) => {
-    window.inboxZeroDesktop = bridge as InboxZeroDesktopApi | undefined;
+    window.mailPilotDesktop = bridge as MailPilotDesktopApi | undefined;
     render(<DesktopUpdateMenuItem />);
     expect(
       screen.queryByRole("button", { name: "Restart to update" }),
@@ -62,7 +62,7 @@ describe("desktop update footer", () => {
       listener(null);
       return unsubscribe;
     });
-    window.inboxZeroDesktop = {
+    window.mailPilotDesktop = {
       startAuth: async () => {},
       onUpdateStatus,
       installUpdate,
@@ -93,7 +93,7 @@ describe("desktop update footer", () => {
   });
 
   it("shows ready returned to a late subscriber", () => {
-    window.inboxZeroDesktop = {
+    window.mailPilotDesktop = {
       startAuth: async () => {},
       onUpdateStatus: (listener) => {
         listener({ state: "ready", version: "1.2" });

@@ -1,5 +1,5 @@
 #!/bin/bash
-# run-local.sh - Run locally built mailpilot Docker image
+# run-local.sh - Run locally built mail-pilot Docker image
 #
 # Runs the image with docker-compose including PostgreSQL and Redis,
 # or standalone if you have external services configured in .env.
@@ -12,7 +12,7 @@
 set -euo pipefail
 
 # Configuration
-IMAGE_NAME="mailpilot"
+IMAGE_NAME="mail-pilot"
 REGISTRY="ghcr.io"
 ENV_FILE="apps/web/.env"
 COMPOSE_FILE="docker/docker-compose.local.yml"

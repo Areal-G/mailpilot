@@ -22,7 +22,7 @@ export interface InboxHealthEmailProps {
 
 export default function InboxHealthEmail(props: InboxHealthEmailProps) {
   const {
-    baseUrl = "https://www.mailpilot.dev",
+    baseUrl = "https://www.mailpilot.app",
     emailAccountId,
     unsubscribeToken,
     suggestionCount,
@@ -82,7 +82,7 @@ export default function InboxHealthEmail(props: InboxHealthEmailProps) {
 }
 
 InboxHealthEmail.PreviewProps = {
-  baseUrl: "https://www.mailpilot.dev",
+  baseUrl: "https://www.mailpilot.app",
   emailAccountId: "email-account-id",
   unsubscribeToken: "123",
   suggestionCount: 7,

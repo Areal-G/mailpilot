@@ -4,16 +4,16 @@ import { hash } from "@/utils/hash";
 import type { Logger } from "@/utils/logger";
 
 export const INTERNAL_API_KEY_HEADER = "x-api-key";
-export const INTERNAL_CALLER_ID_HEADER = "x-mailpilot-caller-id";
-export const INTERNAL_CALLER_APP_HEADER = "x-mailpilot-caller-app";
-export const INTERNAL_CALLER_RUNTIME_HEADER = "x-mailpilot-caller-runtime";
+export const INTERNAL_CALLER_ID_HEADER = "x-mail-pilot-caller-id";
+export const INTERNAL_CALLER_APP_HEADER = "x-mail-pilot-caller-app";
+export const INTERNAL_CALLER_RUNTIME_HEADER = "x-mail-pilot-caller-runtime";
 export const INTERNAL_CALLER_BASE_URL_HOST_HEADER =
-  "x-mailpilot-caller-base-url-host";
-export const INTERNAL_CALLER_REPO_HEADER = "x-mailpilot-caller-repo";
+  "x-mail-pilot-caller-base-url-host";
+export const INTERNAL_CALLER_REPO_HEADER = "x-mail-pilot-caller-repo";
 export const INTERNAL_CALLER_DEPLOYMENT_URL_HEADER =
-  "x-mailpilot-caller-deployment-url";
+  "x-mail-pilot-caller-deployment-url";
 export const INTERNAL_CALLER_GIT_COMMIT_HEADER =
-  "x-mailpilot-caller-git-commit";
+  "x-mail-pilot-caller-git-commit";
 
 export function getInternalApiUrl(): string {
   const url = env.INTERNAL_API_URL || env.NEXT_PUBLIC_BASE_URL;
@@ -85,8 +85,8 @@ function getInternalCallerMetadata() {
   const baseUrlHost = getHost(env.NEXT_PUBLIC_BASE_URL);
 
   return {
-    id: baseUrlHost || "mailpilot-web",
-    app: "mailpilot-web",
+    id: baseUrlHost || "mail-pilot-web",
+    app: "mail-pilot-web",
     runtime: process.env.VERCEL === "1" ? "vercel" : "self-hosted",
     baseUrlHost,
     repo: getVercelRepo(),

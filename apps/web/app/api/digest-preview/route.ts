@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
 
 function createMockDigestData(categories: string[]): DigestEmailProps {
   const digestData: DigestEmailProps = {
-    baseUrl: "https://www.mailpilot.dev",
+    baseUrl: "https://www.mailpilot.app",
     unsubscribeToken: "preview-token",
     emailAccountId: "preview-account",
     date: new Date(),

@@ -154,7 +154,7 @@ describe("HtmlEmail", () => {
         ?.getAttribute("content"),
     ).toBe("light");
     expect(iframe.srcdoc).toContain(
-      "prefers-color-scheme: mailpilot-authored",
+      "prefers-color-scheme: mail-pilot-authored",
     );
     expect(document.querySelector("pre")?.textContent).toBe(
       "prefers-color-scheme: dark",
@@ -182,7 +182,7 @@ describe("HtmlEmail", () => {
     )) as HTMLIFrameElement;
     expect(iframe.style.colorScheme).toBe("light");
     expect(iframe.srcdoc).toContain(
-      "prefers-color-scheme: mailpilot-authored",
+      "prefers-color-scheme: mail-pilot-authored",
     );
   });
 
@@ -831,10 +831,10 @@ function addEmailDocumentMarker(
   if (!targetDocument) throw new Error("Expected an iframe document");
   const marker = new DOMParser()
     .parseFromString(iframe.srcdoc, "text/html")
-    .querySelector('meta[name="mailpilot-email-document"]');
+    .querySelector('meta[name="mail-pilot-email-document"]');
   if (!marker) throw new Error("Expected an email document marker");
   for (const existingMarker of targetDocument.querySelectorAll(
-    'meta[name="mailpilot-email-document"]',
+    'meta[name="mail-pilot-email-document"]',
   )) {
     existingMarker.remove();
   }

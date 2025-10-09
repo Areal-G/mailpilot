@@ -29,7 +29,7 @@ const LABEL_COLORS = [
   rose,
 ] as const;
 
-export const inboxZeroLabels = {
+export const mailPilotLabels = {
   archived: {
     name: `${PARENT_LABEL}/Archived`,
     color: blue,
@@ -62,7 +62,7 @@ export const inboxZeroLabels = {
   },
 } as const;
 
-export type InboxZeroLabel = keyof typeof inboxZeroLabels;
+export type MailPilotLabel = keyof typeof mailPilotLabels;
 
 export const FOLLOW_UP_LABEL = "Follow-up";
 

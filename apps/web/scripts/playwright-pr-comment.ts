@@ -8,7 +8,7 @@ import {
 } from "./playwright-report-dashboard";
 
 export const PLAYWRIGHT_PR_COMMENT_MARKER =
-  "<!-- mailpilot-playwright-screenshots -->";
+  "<!-- mail-pilot-playwright-screenshots -->";
 export const PLAYWRIGHT_PR_COMMENT_FRAME_LIMIT = 6;
 // Timestamps, avatars, and other run-to-run drift move far fewer pixels than
 // this, so anything above it is a change worth a reviewer's glance.

@@ -1,6 +1,6 @@
-// Run with: `pnpm --filter mailpilot-ai exec tsx scripts/setup-telegram-bot.ts`
-// Optional profile photo: `pnpm --filter mailpilot-ai exec tsx scripts/setup-telegram-bot.ts --profile-photo-url https://example.com/bot.png`
-// Local shortcut: `pnpm --filter mailpilot-ai telegram:setup -- --profile-photo-url https://example.com/bot.png`
+// Run with: `pnpm --filter mailpilot-web exec tsx scripts/setup-telegram-bot.ts`
+// Optional profile photo: `pnpm --filter mailpilot-web exec tsx scripts/setup-telegram-bot.ts --profile-photo-url https://example.com/bot.png`
+// Local shortcut: `pnpm --filter mailpilot-web telegram:setup -- --profile-photo-url https://example.com/bot.png`
 
 import "dotenv/config";
 import { configureTelegramBotMetadata } from "@/utils/messaging/providers/telegram/bot-config";

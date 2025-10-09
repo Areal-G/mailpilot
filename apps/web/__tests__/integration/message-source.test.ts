@@ -1,5 +1,5 @@
 /**
- * Integration test: raw message source via @mailpilot/emulate
+ * Integration test: raw message source via the `emulate` package
  *
  * Usage:
  *   pnpm test-integration message-source

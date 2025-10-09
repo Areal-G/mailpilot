@@ -22,7 +22,7 @@ export async function listMcpTools(
   );
 
   const client = new Client({
-    name: `mailpilot-${integration.name}`,
+    name: `mail-pilot-${integration.name}`,
     version: "1.0.0",
   });
 

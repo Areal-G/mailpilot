@@ -2,8 +2,8 @@
 // object id that sign-in now looks accounts up by. Sign-in re-keys an account
 // on its own next attempt; this sweeps the accounts that do not sign in again.
 //
-// Run with: `pnpm --filter mailpilot-ai exec tsx scripts/migrate-microsoft-provider-account-ids.ts`
-// Apply changes with: `pnpm --filter mailpilot-ai exec tsx scripts/migrate-microsoft-provider-account-ids.ts --apply`
+// Run with: `pnpm --filter mailpilot-web exec tsx scripts/migrate-microsoft-provider-account-ids.ts`
+// Apply changes with: `pnpm --filter mailpilot-web exec tsx scripts/migrate-microsoft-provider-account-ids.ts --apply`
 
 import "dotenv/config";
 import { env } from "@/env";

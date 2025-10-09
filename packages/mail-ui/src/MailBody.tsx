@@ -15,7 +15,7 @@ import { sanitizeMailHtml } from "./sanitize-html";
 const SANS_FONT_STACK = `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`;
 const BODY_TYPE = { fontSize: "14.5px", lineHeight: 1.65 } as const;
 
-export const EMAIL_DOCUMENT_MARKER = "mailpilot-email-document";
+export const EMAIL_DOCUMENT_MARKER = "mail-pilot-email-document";
 
 export type MailPlainTextSegment =
   | { type: "text"; text: string }
@@ -665,7 +665,7 @@ function disableAuthoredDarkColorScheme(mailDocument: Document) {
   for (const stylesheet of mailDocument.querySelectorAll("style")) {
     stylesheet.textContent = (stylesheet.textContent ?? "").replace(
       /prefers-color-scheme\s*:\s*dark/gi,
-      "prefers-color-scheme: mailpilot-authored",
+      "prefers-color-scheme: mail-pilot-authored",
     );
   }
 }

@@ -4,7 +4,7 @@
  * Verifies that saveBatch correctly processes messages returned by
  * getMessagesWithPagination without re-fetching via getMessagesBatch.
  *
- * Uses @mailpilot/emulate for a local Gmail API and mocks Prisma for DB writes.
+ * Uses the `emulate` package for a local Gmail API and mocks Prisma for DB writes.
  *
  * Usage:
  *   pnpm test-integration stats-reuse-messages

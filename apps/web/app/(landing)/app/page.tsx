@@ -14,7 +14,7 @@ import { BRAND_NAME, getBrandTitle } from "@/utils/branding";
 
 export const metadata: Metadata = {
   title: getBrandTitle("Get the app"),
-  description: `${BRAND_NAME} on iPhone and Android. Organize your inbox, draft replies, and reach inbox zero from anywhere.`,
+  description: `${BRAND_NAME} on iPhone and Android. Organize your inbox, draft replies, and clear your inbox from anywhere.`,
   alternates: { canonical: "/app" },
 };
 
@@ -26,7 +26,7 @@ export default function AppPage() {
         <BlurFade duration={0.4} delay={0.125 * 2}>
           <Paragraph size="lg" className="mx-auto mt-6 max-w-[640px]">
             Your AI email assistant, now on iPhone and Android. Organize your
-            inbox, draft replies in your voice, and reach inbox zero from
+            inbox, draft replies in your voice, and clear your inbox from
             anywhere.
           </Paragraph>
         </BlurFade>

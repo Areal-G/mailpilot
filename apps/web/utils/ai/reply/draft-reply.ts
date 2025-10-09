@@ -576,10 +576,10 @@ ${parts.join("\n\n")}
 export function getCalendarBookingLinkForDraft(
   emailAccount: Pick<DraftEmailAccount, "bookingLinks" | "calendarBookingLink">,
 ) {
-  const inboxZeroBookingLink = emailAccount.bookingLinks?.[0];
+  const mailPilotBookingLink = emailAccount.bookingLinks?.[0];
 
-  if (inboxZeroBookingLink) {
-    return `${env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, "")}/book/${inboxZeroBookingLink.slug}`;
+  if (mailPilotBookingLink) {
+    return `${env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, "")}/book/${mailPilotBookingLink.slug}`;
   }
 
   return emailAccount.calendarBookingLink;

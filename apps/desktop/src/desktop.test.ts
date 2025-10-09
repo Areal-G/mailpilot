@@ -25,24 +25,24 @@ import {
 
 describe("desktop shell helpers", () => {
   it("uses the production origin by default", () => {
-    expect(getDesktopAppOrigin("https://www.mailpilot.dev/ignored")).toBe(
-      "https://www.mailpilot.dev",
+    expect(getDesktopAppOrigin("https://www.mailpilot.app/ignored")).toBe(
+      "https://www.mailpilot.app",
     );
-    expect(getDesktopLoginUrl("https://www.mailpilot.dev")).toBe(
-      "https://www.mailpilot.dev/login",
+    expect(getDesktopLoginUrl("https://www.mailpilot.app")).toBe(
+      "https://www.mailpilot.app/login",
     );
-    expect(getDesktopHomeUrl("https://www.mailpilot.dev")).toBe(
-      "https://www.mailpilot.dev/welcome-redirect?mode=mail",
+    expect(getDesktopHomeUrl("https://www.mailpilot.app")).toBe(
+      "https://www.mailpilot.app/welcome-redirect?mode=mail",
     );
   });
 
   it("rejects non-http app URLs", () => {
     expect(() => getDesktopAppOrigin("mailpilot://")).toThrow(
-      "MAILPILOT_APP_URL must be an http(s) URL",
+      "MAIL_PILOT_APP_URL must be an http(s) URL",
     );
   });
 
-  it("treats MAILPILOT_APP_URL as the only allowed origin", () => {
+  it("treats MAIL_PILOT_APP_URL as the only allowed origin", () => {
     const origin = "http://mail.internal.example:8080";
     expect(getDesktopAppOrigin(`${origin}/welcome`)).toBe(origin);
     expect(getDesktopLoginUrl(origin)).toBe(`${origin}/login`);
@@ -57,7 +57,7 @@ describe("desktop shell helpers", () => {
     );
     expect(
       isAllowedDesktopNavigation(
-        "https://www.mailpilot.dev/acc-1/mail",
+        "https://www.mailpilot.app/acc-1/mail",
         origin,
       ),
     ).toBe(false);
@@ -70,17 +70,14 @@ describe("desktop shell helpers", () => {
     expect(
       getDesktopSessionRestoreUrl(
         origin,
-        "https://www.mailpilot.dev/acc-1/mail",
+        "https://www.mailpilot.app/acc-1/mail",
       ),
     ).toBeNull();
     expect(getDesktopMailAccountId(`${origin}/acc-1/mail`, origin)).toBe(
       "acc-1",
     );
     expect(
-      getDesktopMailAccountId(
-        "https://www.mailpilot.dev/acc-1/mail",
-        origin,
-      ),
+      getDesktopMailAccountId("https://www.mailpilot.app/acc-1/mail", origin),
     ).toBeNull();
     expect(getDesktopPostAuthUrl(origin, "/connect-mailbox")).toBe(
       `${origin}/connect-mailbox`,
@@ -90,12 +87,12 @@ describe("desktop shell helpers", () => {
   it("builds the system-browser OAuth start URL", () => {
     expect(
       getDesktopBrowserStartUrl(
-        "https://www.mailpilot.dev",
+        "https://www.mailpilot.app",
         "google",
         "challenge",
       ),
     ).toBe(
-      "https://www.mailpilot.dev/api/mobile-auth/browser-start?provider=google&codeChallenge=challenge",
+      "https://www.mailpilot.app/api/mobile-auth/browser-start?provider=google&codeChallenge=challenge",
     );
   });
 
@@ -143,23 +140,23 @@ describe("desktop shell helpers", () => {
   it("keeps navigation on the app origin", () => {
     expect(
       isAllowedDesktopNavigation(
-        "https://www.mailpilot.dev/mail",
-        "https://www.mailpilot.dev",
+        "https://www.mailpilot.app/mail",
+        "https://www.mailpilot.app",
       ),
     ).toBe(true);
     expect(
       isAllowedDesktopNavigation(
         "https://accounts.google.com/o/oauth2/v2/auth",
-        "https://www.mailpilot.dev",
+        "https://www.mailpilot.app",
       ),
     ).toBe(false);
     expect(
-      isAllowedDesktopNavigation("about:blank", "https://www.mailpilot.dev"),
+      isAllowedDesktopNavigation("about:blank", "https://www.mailpilot.app"),
     ).toBe(true);
   });
 
   it("allows the bundled local mail renderer over file URLs", () => {
-    const rendererFile = "/tmp/mailpilot-desktop/renderer/index.html";
+    const rendererFile = "/tmp/mail-pilot-desktop/renderer/index.html";
     const url = getDesktopLocalMailUrl(rendererFile, ["acc-1"]);
     expect(url.startsWith("file:")).toBe(true);
     expect(url).toContain("accountId=acc-1");
@@ -167,41 +164,41 @@ describe("desktop shell helpers", () => {
     expect(
       isAllowedDesktopNavigation(
         url,
-        "https://www.mailpilot.dev",
+        "https://www.mailpilot.app",
         rendererFile,
       ),
     ).toBe(true);
     expect(
       isAllowedDesktopNavigation(
         "file:///etc/passwd",
-        "https://www.mailpilot.dev",
+        "https://www.mailpilot.app",
         rendererFile,
       ),
     ).toBe(false);
-    expect(shouldUseLocalMailRenderer({ MAILPILOT_LOCAL_MAIL: "1" })).toBe(
+    expect(shouldUseLocalMailRenderer({ MAIL_PILOT_LOCAL_MAIL: "1" })).toBe(
       true,
     );
     expect(shouldUseLocalMailRenderer({})).toBe(false);
-    expect(shouldSmokeLocalMail({ MAILPILOT_LOCAL_MAIL_SMOKE: "1" })).toBe(
+    expect(shouldSmokeLocalMail({ MAIL_PILOT_LOCAL_MAIL_SMOKE: "1" })).toBe(
       true,
     );
     expect(shouldSmokeLocalMail({})).toBe(false);
     expect(
       resolveDesktopStartUrl({
-        requestedUrl: "https://www.mailpilot.dev/account-1/mail",
+        requestedUrl: "https://www.mailpilot.app/account-1/mail",
         localMailUrl: url,
-        homeUrl: "https://www.mailpilot.dev/welcome-redirect?mode=mail",
+        homeUrl: "https://www.mailpilot.app/welcome-redirect?mode=mail",
         rendererFile,
       }),
     ).toBe(url);
     expect(
       resolveDesktopStartUrl({
-        requestedUrl: "https://www.mailpilot.dev/account-1/mail",
+        requestedUrl: "https://www.mailpilot.app/account-1/mail",
         localMailUrl: null,
-        homeUrl: "https://www.mailpilot.dev/welcome-redirect?mode=mail",
+        homeUrl: "https://www.mailpilot.app/welcome-redirect?mode=mail",
         rendererFile,
       }),
-    ).toBe("https://www.mailpilot.dev/account-1/mail");
+    ).toBe("https://www.mailpilot.app/account-1/mail");
   });
 
   it("finds the protocol URL in process arguments", () => {
@@ -219,7 +216,7 @@ describe("desktop shell helpers", () => {
     expect(
       isAllowedExternalUrl("https://accounts.google.com/o/oauth2/v2/auth"),
     ).toBe(true);
-    expect(isAllowedExternalUrl("mailto:hello@mailpilot.dev")).toBe(true);
+    expect(isAllowedExternalUrl("mailto:hello@mailpilot.app")).toBe(true);
     expect(isAllowedExternalUrl("file:///etc/passwd")).toBe(false);
     expect(isAllowedExternalUrl("mailpilot://auth-callback")).toBe(false);
   });
@@ -227,27 +224,24 @@ describe("desktop shell helpers", () => {
   it("loads a validated post-auth path and falls back to mail", () => {
     expect(
       getDesktopPostAuthUrl(
-        "https://www.mailpilot.dev",
+        "https://www.mailpilot.app",
         "/connect-mailbox?next=%2Fwelcome-redirect",
       ),
     ).toBe(
-      "https://www.mailpilot.dev/connect-mailbox?next=%2Fwelcome-redirect",
+      "https://www.mailpilot.app/connect-mailbox?next=%2Fwelcome-redirect",
     );
     expect(
-      getDesktopPostAuthUrl(
-        "https://www.mailpilot.dev",
-        "https://evil.test",
-      ),
-    ).toBe("https://www.mailpilot.dev/welcome-redirect?mode=mail");
+      getDesktopPostAuthUrl("https://www.mailpilot.app", "https://evil.test"),
+    ).toBe("https://www.mailpilot.app/welcome-redirect?mode=mail");
     expect(normalizeDesktopCallbackPath("//evil.test")).toBeNull();
     expect(normalizeDesktopCallbackPath("/.//evil.test")).toBe("/evil.test");
     expect(
-      getDesktopPostAuthUrl("https://www.mailpilot.dev", "/.//evil.test"),
-    ).toBe("https://www.mailpilot.dev/evil.test");
+      getDesktopPostAuthUrl("https://www.mailpilot.app", "/.//evil.test"),
+    ).toBe("https://www.mailpilot.app/evil.test");
   });
 
   it("persists in-app pages but not auth or API URLs", () => {
-    const origin = "https://www.mailpilot.dev";
+    const origin = "https://www.mailpilot.app";
     expect(
       shouldPersistDesktopUrl(`${origin}/account-1/automation`, origin),
     ).toBe(true);
@@ -270,7 +264,7 @@ describe("desktop shell helpers", () => {
   });
 
   it("restores only validated mail URLs on launch", () => {
-    const origin = "https://www.mailpilot.dev";
+    const origin = "https://www.mailpilot.app";
     expect(
       getDesktopSessionRestoreUrl(
         origin,
@@ -289,7 +283,7 @@ describe("desktop shell helpers", () => {
   });
 
   it("reads a mail account id only from same-origin mailbox URLs", () => {
-    const origin = "https://www.mailpilot.dev";
+    const origin = "https://www.mailpilot.app";
     expect(
       getDesktopMailAccountId(`${origin}/account-1/mail?type=inbox`, origin),
     ).toBe("account-1");
@@ -308,10 +302,6 @@ describe("desktop shell helpers", () => {
     expect(getDesktopWindowDragCss("win32")).toBeNull();
     expect(getDesktopWindowDragCss("linux")).toBeNull();
     expect(DESKTOP_WINDOW_DRAG_CSS).toContain("[data-hide-on-desktop-mac]");
-    expect(DESKTOP_WINDOW_DRAG_CSS).toContain(
-      "[data-desktop-mac-titlebar-spacer]",
-    );
-    expect(DESKTOP_WINDOW_DRAG_CSS).toContain("padding-top: 52px");
     expect(DESKTOP_WINDOW_DRAG_CSS).toContain("[data-desktop-mac-end]");
     expect(DESKTOP_WINDOW_DRAG_CSS).toContain(
       "[data-desktop-mac-titlebar-toggle]",

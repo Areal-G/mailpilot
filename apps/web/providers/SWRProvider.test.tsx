@@ -25,7 +25,7 @@ function CacheProbe() {
 }
 
 function snapshotKey(accountId: string) {
-  return `mailpilot:swr:v2:${accountId}`;
+  return `mail-pilot:swr:v2:${accountId}`;
 }
 
 describe("SWRProvider persisted cache", () => {

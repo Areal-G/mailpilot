@@ -16,7 +16,7 @@ import { createTestLogger, getMockMessage } from "@/__tests__/helpers";
 import prisma from "@/utils/__mocks__/prisma";
 import { createEmailProvider } from "@/utils/email/provider";
 
-// pnpm --filter mailpilot-ai test-ai __tests__/eval/assistant-chat-reply-language.test.ts
+// pnpm --filter mailpilot-web test-ai __tests__/eval/assistant-chat-reply-language.test.ts
 
 vi.mock("@/utils/prisma");
 vi.mock("@/utils/email/provider");

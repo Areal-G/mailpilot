@@ -35,7 +35,7 @@ export async function queueAttachmentDownload<T>({
       run: async () => {
         try {
           const result = await navigator.locks.request(
-            "mailpilot:attachment-transfer",
+            "mail-pilot:attachment-transfer",
             { mode: "exclusive", signal: controller.signal },
             async () => {
               controller.signal.throwIfAborted();

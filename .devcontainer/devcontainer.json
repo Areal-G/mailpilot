@@ -2,7 +2,7 @@
   "name": "Mail Pilot Dev",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspaces/mailpilot",
+  "workspaceFolder": "/workspaces/mail-pilot",
   "remoteUser": "node",
   "shutdownAction": "stopCompose",
 

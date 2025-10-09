@@ -1,6 +1,6 @@
 export const CONVERSION_EVENT_PARAM = "conversion_event";
 export const CONVERSION_EVENT_ID_PARAM = "conversion_event_id";
-export const CONVERSION_BROWSER_EVENT = "mailpilot:conversion";
+export const CONVERSION_BROWSER_EVENT = "mail-pilot:conversion";
 
 export type ConversionEventName = "registration_completed" | "trial_started";
 

@@ -18,7 +18,7 @@
  * Usage:
  *   EVAL_DATA_DIRS=/path/to/evals/datasets EVAL_INCLUDE_UNREVIEWED=true \
  *   EVAL_SPLIT=all EVAL_SAMPLES=3 EVAL_MODELS=gpt-5.6-luna-azure \
- *   pnpm --filter mailpilot-ai eval:ablate
+ *   pnpm --filter mailpilot-web eval:ablate
  *
  * Add NEXT_PUBLIC_LOG_SCOPES=<unused-scope> to silence product logging; a full
  * run makes thousands of model calls and each one logs.

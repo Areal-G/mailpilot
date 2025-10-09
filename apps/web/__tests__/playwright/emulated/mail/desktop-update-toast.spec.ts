@@ -11,7 +11,7 @@ test("shows desktop update download progress and restarts when ready", async ({
     Object.assign(window, {
       installUpdateCalls: 0,
       pushUpdateStatus: (status: unknown) => listener?.(status),
-      inboxZeroDesktop: {
+      mailPilotDesktop: {
         startAuth: async () => {},
         onUpdateStatus: (next: (status: unknown) => void) => {
           listener = next;

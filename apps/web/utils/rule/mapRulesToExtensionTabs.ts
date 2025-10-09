@@ -2,7 +2,7 @@ import type { RulesResponse } from "@/app/api/user/rules/route";
 import { ActionType } from "@/generated/prisma/enums";
 import { normalizeLabelName } from "@/utils/label/normalize-label-name";
 
-// Keep in sync with mailpilot-tabs-wxt/entrypoints/background.ts
+// Keep in sync with mail-pilot-tabs-wxt/entrypoints/background.ts
 export type SyncTab = {
   displayLabel: string;
 } & (
@@ -10,7 +10,7 @@ export type SyncTab = {
   | { type: "add_custom"; label: string; icon: string; query: string }
 );
 
-// Keep in sync with mailpilot-tabs-wxt/config/tabs.ts defaultTabsConfig IDs
+// Keep in sync with mail-pilot-tabs-wxt/config/tabs.ts defaultTabsConfig IDs
 const DEFAULT_TABS = [
   { label: "To Reply", tabId: "to-reply" },
   { label: "Awaiting Reply", tabId: "awaiting-reply" },

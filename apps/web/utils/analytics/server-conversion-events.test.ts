@@ -135,7 +135,7 @@ describe("trackServerConversionEvent", () => {
       timestamp: new Date("2026-07-18T00:00:00.000Z"),
       userId: "user-1",
       properties: {
-        planId: "com.getmailpilot.pro.monthly",
+        planId: "app.mailpilot.pro.monthly",
         amount: 29,
         currency: "USD",
         currentOfferDiscountType: null,
@@ -155,7 +155,7 @@ describe("trackServerConversionEvent", () => {
       timestamp: "2026-07-18T00:00:00.000Z",
       userId: "user-1",
       properties: {
-        planId: "com.getmailpilot.pro.monthly",
+        planId: "app.mailpilot.pro.monthly",
         amount: 29,
         currency: "USD",
         currentOfferDiscountType: null,

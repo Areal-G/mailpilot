@@ -6,6 +6,7 @@ import { trackUserSignedUp } from "@/utils/posthog";
 import prisma from "@/utils/prisma";
 import { redis } from "@/utils/redis";
 
+const CONVERSION_TRACKING_DISABLED = true;
 const REGISTRATION_COMPLETED_EVENT = "registration_completed";
 const CONVERSION_DEDUPE_TTL_SECONDS = 24 * 60 * 60;
 
@@ -34,6 +35,8 @@ export async function trackRegistrationCompletedConversion({
   fbp: string;
   logger: Logger;
 }) {
+  // Ad-platform conversion tracking (Facebook Conversions API) is disabled.
+  if (CONVERSION_TRACKING_DISABLED) return;
   try {
     const eventId = getRegistrationCompletedConversionEventId({
       userId,

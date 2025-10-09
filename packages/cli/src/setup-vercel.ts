@@ -44,7 +44,7 @@ export type SetupVercelOptions = {
 };
 
 const DEFAULT_GOOGLE_PUBSUB_TOPIC =
-  "projects/your-project-id/topics/mailpilot-emails";
+  "projects/your-project-id/topics/mail-pilot-emails";
 
 const SHARED_VERCEL_REGIONS = [
   "cle1",
@@ -373,7 +373,7 @@ async function resolveProjectName(
 
   const projectName = await p.text({
     message: "Vercel project name",
-    placeholder: "mailpilot",
+    placeholder: "mail-pilot",
     initialValue: defaultProjectName,
     validate: (value) => (value ? undefined : "Project name is required"),
   });

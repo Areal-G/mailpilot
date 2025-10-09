@@ -34,13 +34,13 @@ describe("composioProvider", () => {
   it("reuses the existing shared server and syncs its tool allowlist", async () => {
     api.state.authConfigs.push({
       id: "ac_existing",
-      name: "mailpilot-app-reuse",
+      name: "mail-pilot-app-reuse",
       status: "ENABLED",
       created_at: "2026-01-01T00:00:00Z",
     });
     api.state.servers.push({
       id: "server-existing",
-      name: "mailpilot-app-reuse",
+      name: "mail-pilot-app-reuse",
       mcp_url: "https://mcp.example.com/server-existing",
       auth_config_ids: ["ac_existing"],
       allowed_tools: ["APP_OLD_TOOL"],
@@ -120,7 +120,7 @@ describe("composioProvider", () => {
       callbackUrl: "http://localhost:3000/callback",
     });
     return api.state.authConfigs.find(
-      (config) => config.name === `mailpilot-${app}`,
+      (config) => config.name === `mail-pilot-${app}`,
     )!.id;
   }
 });

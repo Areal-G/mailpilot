@@ -13,7 +13,7 @@ import {
   shouldRunDecisionModelEvals,
 } from "./helpers";
 
-// pnpm --filter mailpilot-ai test-ai __tests__/eval/decision-model/choose-rule.test.ts
+// pnpm --filter mailpilot-web test-ai __tests__/eval/decision-model/choose-rule.test.ts
 
 const rules = [
   {

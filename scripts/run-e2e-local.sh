@@ -9,7 +9,7 @@
 #
 # Requirements:
 #   - ngrok installed and configured
-#   - ~/.config/mailpilot/.env.e2e with E2E_NGROK_AUTH_TOKEN set
+#   - ~/.config/mail-pilot/.env.e2e with E2E_NGROK_AUTH_TOKEN set
 #
 # Optional env vars:
 #   - E2E_PORT: Port to run Next.js on (default: 3000)
@@ -19,7 +19,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-ENV_FILE="${HOME}/.config/mailpilot/.env.e2e"
+ENV_FILE="${HOME}/.config/mail-pilot/.env.e2e"
 TEST_FILE="${1:-}"
 
 # Colors for output
@@ -52,8 +52,8 @@ trap cleanup EXIT INT TERM
 if [ ! -f "$ENV_FILE" ]; then
     error "E2E env file not found: $ENV_FILE"
     echo "Create it with:"
-    echo "  mkdir -p ~/.config/mailpilot"
-    echo "  # Add your E2E config to ~/.config/mailpilot/.env.e2e"
+    echo "  mkdir -p ~/.config/mail-pilot"
+    echo "  # Add your E2E config to ~/.config/mail-pilot/.env.e2e"
     exit 1
 fi
 
@@ -146,7 +146,7 @@ done
 
 # Start app with E2E environment (dev:e2e uses dotenv to load .env.e2e properly)
 # Use PORT env var which Next.js reads automatically
-# Prepend node_modules/.bin to PATH to ensure we use the correct dotenv-cli
+# Prepend node_modules/.bin to PATH to ensure we use the repo's dotenv CLI
 # (avoids conflicts with other dotenv implementations like Python's dotenv-cli)
 PATH="$PWD/node_modules/.bin:$PATH" PORT="$APP_PORT" pnpm dev:e2e > /tmp/nextjs-e2e.log 2>&1 &
 APP_PID=$!
@@ -190,10 +190,10 @@ export E2E_RUN_ID="local-$(date +%s)"
 
 if [ -n "$TEST_FILE" ]; then
     log "Running specific test: $TEST_FILE"
-    pnpm -F mailpilot-ai test-e2e:flows "$TEST_FILE"
+    pnpm -F mailpilot-web test-e2e:flows "$TEST_FILE"
 else
     log "Running all flow tests"
-    pnpm -F mailpilot-ai test-e2e:flows
+    pnpm -F mailpilot-web test-e2e:flows
 fi
 
 TEST_EXIT_CODE=$?

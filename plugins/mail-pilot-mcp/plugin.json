@@ -1,0 +1,18 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "mail-pilot-mcp",
+  "description": "Connect Cursor to Mail Pilot mail, drafts, rules, and email stats over MCP.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Mail Pilot"
+  },
+  "homepage": "https://docs.mailpilot.app/essentials/mcp",
+  "license": "AGPL-3.0",
+  "keywords": [
+    "mail-pilot",
+    "email",
+    "mcp",
+    "gmail",
+    "outlook"
+  ]
+}

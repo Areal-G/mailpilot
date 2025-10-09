@@ -26,7 +26,7 @@ type InvitationEmailComponent = FC<InvitationEmailProps> & {
 };
 
 const InvitationEmail: InvitationEmailComponent = ({
-  baseUrl = "https://www.mailpilot.dev",
+  baseUrl = "https://www.mailpilot.app",
   organizationName,
   inviterName,
   invitationId,
@@ -44,7 +44,7 @@ const InvitationEmail: InvitationEmailComponent = ({
             <Section className="p-4 text-center">
               <Link href={baseUrl} className="text-[15px]">
                 <Img
-                  src={"https://www.mailpilot.dev/icon.png"}
+                  src={"https://www.mailpilot.app/icon.png"}
                   width="40"
                   height="40"
                   alt="Mail Pilot"
@@ -131,7 +131,7 @@ function Footer({
 }
 
 InvitationEmail.PreviewProps = {
-  baseUrl: "https://www.mailpilot.dev",
+  baseUrl: "https://www.mailpilot.app",
   organizationName: "Apple Inc.",
   inviterName: "Eduardo Lelis",
   invitationId: "cmf5pzul7000lf1zrlatybrr7",

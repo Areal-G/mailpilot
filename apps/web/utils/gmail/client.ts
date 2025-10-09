@@ -5,6 +5,7 @@ import { cleanupInvalidTokens } from "@/utils/auth/cleanup-invalid-tokens";
 import type { Logger } from "@/utils/logger";
 import { SCOPES } from "@/utils/gmail/scopes";
 import { SafeError } from "@/utils/error";
+import { getDemoMailboxTokens } from "@/utils/demo-mailbox-tokens";
 import { classifyEmailAccountProviderIssue } from "@/utils/email/provider-health";
 import { env } from "@/env";
 import {
@@ -63,6 +64,13 @@ export const getGmailClientWithRefresh = async ({
   emailAccountId: string;
   logger: Logger;
 }): Promise<gmail_v1.Gmail> => {
+  const demoTokens = await getDemoMailboxTokens({ emailAccountId, logger });
+  if (demoTokens) {
+    accessToken = demoTokens.accessToken;
+    refreshToken = demoTokens.refreshToken;
+    expiresAt = demoTokens.expiresAt;
+  }
+
   if (!refreshToken) {
     // expected for disconnected accounts
     logger.warn("No refresh token", { emailAccountId });

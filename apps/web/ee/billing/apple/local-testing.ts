@@ -16,7 +16,7 @@ MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAERLkYh0ZSBkmDIDTT7yas+s+kalOJ
 nuZw4RmiMBmEs6kRCP3ed+W9QfkD2TJwlLAZLMBTlGLuTVW1SBKH/iiSaA==
 -----END PUBLIC KEY-----`;
 
-const DEFAULT_BUNDLE_ID = "com.getmailpilot.app";
+const DEFAULT_BUNDLE_ID = "app.mailpilot.app";
 
 export function isAppleLocalTestingEnabled() {
   return env.NODE_ENV !== "production" && Boolean(env.APPLE_IAP_LOCAL_TESTING);

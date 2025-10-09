@@ -276,7 +276,7 @@ describe("syncAppleSubscriptionToDb with a signed transaction", () => {
       environment: "Sandbox",
       expiresDate: Date.now() + 7 * 24 * 60 * 60 * 1000,
       originalTransactionId: "orig-1",
-      productId: "com.getmailpilot.starter.monthly.v2",
+      productId: "app.mailpilot.starter.monthly.v2",
       purchaseDate: Date.now() - 24 * 60 * 60 * 1000,
       transactionId: "txn-1",
     };
@@ -336,7 +336,7 @@ describe("local Apple signed transactions", () => {
       offerDiscountType: "FREE_TRIAL",
       originalTransactionId: "orig-1",
       price: 0,
-      productId: "com.getmailpilot.starter.monthly.v2",
+      productId: "app.mailpilot.starter.monthly.v2",
       purchaseDate: Date.now(),
       transactionId: "txn-1",
     });
@@ -349,7 +349,7 @@ describe("local Apple signed transactions", () => {
     });
 
     expect(premium).toMatchObject({
-      appleProductId: "com.getmailpilot.starter.monthly.v2",
+      appleProductId: "app.mailpilot.starter.monthly.v2",
       appleOfferDiscountType: "FREE_TRIAL",
       appleSubscriptionStatus: "ACTIVE",
       tier: "STARTER_MONTHLY",
@@ -361,7 +361,7 @@ describe("local Apple signed transactions", () => {
     const signedTransaction = await signLocalAppleTransaction({
       expiresDate: Date.now() + 24 * 60 * 60 * 1000,
       originalTransactionId: "orig-1",
-      productId: "com.getmailpilot.starter.annual.v2",
+      productId: "app.mailpilot.starter.annual.v2",
       revocationDate: Date.now(),
       transactionId: "txn-refund",
     });
@@ -373,7 +373,7 @@ describe("local Apple signed transactions", () => {
     });
 
     expect(premium).toMatchObject({
-      appleProductId: "com.getmailpilot.starter.annual.v2",
+      appleProductId: "app.mailpilot.starter.annual.v2",
       appleSubscriptionStatus: "REVOKED",
       tier: "STARTER_ANNUALLY",
     });

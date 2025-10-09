@@ -19,7 +19,11 @@ const ExternalScript = NextScript as unknown as ComponentType<{
   strategy: "afterInteractive";
 }>;
 
+const CONVERSION_TRACKING_DISABLED = true;
+
 export function ConversionAnalyticsScript() {
+  // Third-party conversion tracking is disabled.
+  if (CONVERSION_TRACKING_DISABLED) return null;
   if (!env.NEXT_PUBLIC_CONVERSION_ANALYTICS_SCRIPT_URL) return null;
 
   return (

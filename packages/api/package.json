@@ -3,26 +3,21 @@
   "version": "2.29.2",
   "description": "CLI tool for managing Mail Pilot through the external API",
   "keywords": [
-    "mailpilot",
+    "mail-pilot",
     "api",
     "cli",
     "automation"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/areal/mailpilot.git",
-    "directory": "packages/api"
-  },
   
   "type": "module",
   "bin": {
-    "mailpilot-api": "bin/mailpilot-api.js"
+    "mail-pilot-api": "bin/mail-pilot-api.js"
   },
   "files": [
     "bin"
   ],
   "scripts": {
-    "build": "bun build src/main.ts --outfile bin/mailpilot-api.js --target node",
+    "build": "bun build src/main.ts --outfile bin/mail-pilot-api.js --target node",
     "dev": "bun run src/main.ts",
     "prepublishOnly": "bun run build",
     "test": "vitest run",

@@ -1,0 +1,16 @@
+apiVersion: v2
+name: mail-pilot
+description: A Helm chart for running Mail Pilot on Kubernetes
+type: application
+version: 0.1.0
+appVersion: "latest"
+keywords:
+  - mail-pilot
+  - email
+  - ai
+  - nextjs
+home: https://www.mailpilot.app
+sources:
+  - https://github.com/arealgizaw/mail-pilot
+maintainers:
+  - name: Mail Pilot

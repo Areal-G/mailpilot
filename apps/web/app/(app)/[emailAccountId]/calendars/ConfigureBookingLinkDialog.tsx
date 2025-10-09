@@ -242,7 +242,7 @@ function GeneralTab({
           name="slug"
           label="Link URL"
           leftText={publicUrlPrefix}
-          placeholder="elie"
+          placeholder="yourname"
           registerProps={{
             value: slug,
             onChange: (event: ChangeEvent<HTMLInputElement>) =>

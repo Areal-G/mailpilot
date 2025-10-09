@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "mail-pilot": {
+      "url": "https://www.mailpilot.app/mcp"
+    }
+  }
+}

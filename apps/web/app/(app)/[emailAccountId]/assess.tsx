@@ -2,7 +2,7 @@
 
 import { useAction } from "next-safe-action/hooks";
 import { useEffect } from "react";
-import { whitelistInboxZeroAction } from "@/utils/actions/whitelist";
+import { whitelistMailPilotAction } from "@/utils/actions/whitelist";
 import {
   analyzeWritingStyleAction,
   assessAction,
@@ -16,8 +16,8 @@ export function AssessUser() {
   const { executeAsync: executeAssessAsync } = useAction(
     assessAction.bind(null, emailAccountId),
   );
-  const { execute: executeWhitelistInboxZero } = useAction(
-    whitelistInboxZeroAction.bind(null, emailAccountId),
+  const { execute: executeWhitelistMailPilot } = useAction(
+    whitelistMailPilotAction.bind(null, emailAccountId),
   );
   const { execute: executeAnalyzeWritingStyle } = useAction(
     analyzeWritingStyleAction.bind(null, emailAccountId),
@@ -32,7 +32,7 @@ export function AssessUser() {
       const result = await executeAssessAsync();
       // no need to run this over and over after the first time
       if (!result?.data?.skipped && provider !== "microsoft") {
-        executeWhitelistInboxZero();
+        executeWhitelistMailPilot();
       }
     }
 

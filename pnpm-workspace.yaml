@@ -2,7 +2,9 @@ packages:
   - packages/*
   - apps/*
 
-enableGlobalVirtualStore: true
+# Off: with the global store, Turbopack's root becomes the common ancestor of the
+# repo and the store (the user profile), so it watches everything and HMR reloads nonstop.
+enableGlobalVirtualStore: false
 
 # Supply-chain hardening: block versions published <24h ago. Malicious npm releases
 # are typically yanked within hours, so the cooldown blocks the attack window.
@@ -18,6 +20,7 @@ overrides:
   "@types/react-dom": "19.2.4"
   "@xmldom/xmldom": "0.8.13"
   axios: "1.16.1"
+  dompurify: "3.4.17"
   fast-xml-parser: "5.8.0"
   # One ioredis copy for BullMQ and @chat-adapter/state-ioredis. The adapter
   # still declares ^5.4.1, but v6 keeps legacy reply mapping and closing the

@@ -93,7 +93,7 @@ jobs:
         working-directory: apps/desktop
         shell: bash
         env:
-          MAILPILOT_SENTRY_DSN: ${{ secrets.DESKTOP_SENTRY_DSN }}
+          MAIL_PILOT_SENTRY_DSN: ${{ secrets.DESKTOP_SENTRY_DSN }}
         run: |
           if [ "${{ runner.os }}" = "macOS" ]; then
             unset CSC_LINK CSC_KEY_PASSWORD

@@ -138,16 +138,16 @@ describe.skipIf(!RUN_INTEGRATION_TESTS)(
 
       (
         globalThis as typeof globalThis & {
-          inboxZeroMessagingAdapterRegistry?: unknown;
-          inboxZeroMessagingChatSdk?: unknown;
+          mailPilotMessagingAdapterRegistry?: unknown;
+          mailPilotMessagingChatSdk?: unknown;
         }
-      ).inboxZeroMessagingAdapterRegistry = undefined;
+      ).mailPilotMessagingAdapterRegistry = undefined;
       (
         globalThis as typeof globalThis & {
-          inboxZeroMessagingAdapterRegistry?: unknown;
-          inboxZeroMessagingChatSdk?: unknown;
+          mailPilotMessagingAdapterRegistry?: unknown;
+          mailPilotMessagingChatSdk?: unknown;
         }
-      ).inboxZeroMessagingChatSdk = undefined;
+      ).mailPilotMessagingChatSdk = undefined;
 
       fetchSpy?.mockRestore();
       slackApiCallSpy?.mockRestore();

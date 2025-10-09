@@ -21,7 +21,7 @@ describe("expandPromptCommand", () => {
   });
 
   it("maps command variants that include a bot username suffix", () => {
-    expect(expandPromptCommand("/summary@InboxZeroBot")).toBe(
+    expect(expandPromptCommand("/summary@MailPilotBot")).toBe(
       "Summarize what needs attention in my inbox today.",
     );
   });
@@ -43,7 +43,7 @@ describe("isHelpCommand", () => {
   });
 
   it("returns true for help command with bot username", () => {
-    expect(isHelpCommand("/help@InboxZeroBot")).toBe(true);
+    expect(isHelpCommand("/help@MailPilotBot")).toBe(true);
   });
 
   it("returns false when additional text is appended", () => {
@@ -54,7 +54,7 @@ describe("isHelpCommand", () => {
 describe("isTelegramStartCommand", () => {
   it("recognizes Telegram start command variants", () => {
     expect(isTelegramStartCommand("/start")).toBe(true);
-    expect(isTelegramStartCommand("/start@InboxZeroBot")).toBe(true);
+    expect(isTelegramStartCommand("/start@MailPilotBot")).toBe(true);
     expect(isTelegramStartCommand("/start referral-code")).toBe(true);
   });
 });
@@ -88,7 +88,7 @@ describe("getHelpText", () => {
 describe("isUnsupportedSlashCommand", () => {
   it("identifies unknown slash commands", () => {
     expect(isUnsupportedSlashCommand("/unknown")).toBe(true);
-    expect(isUnsupportedSlashCommand("/unknown@InboxZeroBot value")).toBe(true);
+    expect(isUnsupportedSlashCommand("/unknown@MailPilotBot value")).toBe(true);
   });
 
   it("allows supported commands and regular messages", () => {

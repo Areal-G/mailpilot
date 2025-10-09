@@ -7,17 +7,19 @@ import prisma from "@/utils/prisma";
 import { redis } from "@/utils/redis";
 
 const logger = createScopedLogger("posthog");
+// Analytics are disabled: no events or LLM traces are sent to PostHog.
+const POSTHOG_KEY: string | undefined = undefined;
 let posthogLlmClient: PostHog | undefined;
 
 export function getPosthogLlmClient() {
-  if (!env.NEXT_PUBLIC_POSTHOG_KEY) return;
+  if (!POSTHOG_KEY) return;
 
   if (!posthogLlmClient) {
     const host = env.NEXT_PUBLIC_POSTHOG_API_HOST?.startsWith("http")
       ? env.NEXT_PUBLIC_POSTHOG_API_HOST
       : undefined;
 
-    posthogLlmClient = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY, {
+    posthogLlmClient = new PostHog(POSTHOG_KEY, {
       ...(host ? { host } : {}),
       flushAt: 1,
       flushInterval: 0,
@@ -109,13 +111,13 @@ export async function aliasPosthogUser({
   oldEmail: string;
   newEmail: string;
 }) {
-  if (!env.NEXT_PUBLIC_POSTHOG_KEY) {
+  if (!POSTHOG_KEY) {
     logger.warn("NEXT_PUBLIC_POSTHOG_KEY not set");
     return;
   }
 
   try {
-    const client = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY);
+    const client = new PostHog(POSTHOG_KEY);
     // Alias links the old distinct ID to the new distinct ID
     // This ensures all historical events remain connected
     client.alias({ distinctId: newEmail, alias: oldEmail });
@@ -139,12 +141,12 @@ export async function posthogCaptureEvent(
   { uuid, timestamp }: { uuid?: string; timestamp?: Date } = {},
 ) {
   try {
-    if (!env.NEXT_PUBLIC_POSTHOG_KEY) {
+    if (!POSTHOG_KEY) {
       logger.warn("NEXT_PUBLIC_POSTHOG_KEY not set");
       return false;
     }
 
-    const client = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY);
+    const client = new PostHog(POSTHOG_KEY);
     client.capture({
       distinctId: email,
       event,

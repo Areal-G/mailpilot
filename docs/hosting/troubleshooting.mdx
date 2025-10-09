@@ -7,16 +7,16 @@ description: 'Solutions for common issues when running Mail Pilot'
 
 If you installed via the CLI, use the built-in logs command:
 ```bash
-mailpilot logs            # Show last 100 lines
-mailpilot logs -f         # Follow logs in real-time
-mailpilot logs -n 500     # Show last 500 lines
+mail-pilot logs            # Show last 100 lines
+mail-pilot logs -f         # Follow logs in real-time
+mail-pilot logs -n 500     # Show last 500 lines
 ```
 
 If you're running Docker directly, use:
 ```bash
-docker logs mailpilot-services-web-1
-docker logs mailpilot-services-db-1
-docker logs mailpilot-services-redis-1
+docker logs mail-pilot-services-web-1
+docker logs mail-pilot-services-db-1
+docker logs mail-pilot-services-redis-1
 ```
 
 ## Container Won't Start
@@ -25,15 +25,15 @@ Check logs for errors using the commands above.
 
 **Common issues:**
 - **Port conflicts**: Another service is using port 3000, 5432, or 6379
-  - Solution: Set custom ports via environment variables before starting: `WEB_PORT=3001 POSTGRES_PORT=5433 REDIS_PORT=6381 mailpilot start`
+  - Solution: Set custom ports via environment variables before starting: `WEB_PORT=3001 POSTGRES_PORT=5433 REDIS_PORT=6381 mail-pilot start`
 - **Need remote DB/Redis access from another machine**: Postgres/Redis ports bind to localhost by default for security
   - Solution: set shell environment variables before start, for example: `POSTGRES_BIND_HOST=0.0.0.0 REDIS_BIND_HOST=0.0.0.0 REDIS_HTTP_BIND_HOST=0.0.0.0 docker compose --profile all up -d`
 - **Insufficient memory**: Container is being killed by OOM
   - Solution: Increase VPS RAM or add swap space
 - **Missing environment variables**: Check `.env` file exists and has required values
-  - Solution: Run `mailpilot setup` again
+  - Solution: Run `mail-pilot setup` again
 - **Containers start but ignore your settings**: Compose couldn't find your env file and started without it. This usually happens with a named config (for example `.env.production`) or a file outside the default location, started with plain `docker compose up`
-  - Solution: use the Compose command printed by `mailpilot setup`, or pass the file explicitly: `docker compose --env-file <path-to-your-env-file> --profile all up -d`. Setting `MAILPILOT_ENV_FILE` inside the env file only takes effect when that file is passed with `--env-file`
+  - Solution: use the Compose command printed by `mail-pilot setup`, or pass the file explicitly: `docker compose --env-file <path-to-your-env-file> --profile all up -d`. Setting `MAIL_PILOT_ENV_FILE` inside the env file only takes effect when that file is passed with `--env-file`
 - **Slow page loads with `validate-email-account` or `Unable to parse response body` Redis warnings**: `docker compose` may have started `serverless-redis-http` without the token from `apps/web/.env`
   - Solution: make sure repo-root `.env` matches `apps/web/.env` before starting Docker, create a link if no root `.env` exists: `ln -s apps/web/.env .env`. Preserve and review any existing root configuration, then recreate the affected containers with `docker compose --env-file apps/web/.env --profile all up -d`
 
@@ -49,13 +49,13 @@ Check logs for errors using the commands above.
 - Fix: stop containers and remove volumes so Postgres is recreated with the current password:
   ```bash
   docker compose --profile all down -v
-  mailpilot start
+  mail-pilot start
   ```
 
 **Error: "relation does not exist"**
 - Migrations haven't run yet
 - Wait for web container to complete startup (check logs)
-- Manually run: `docker exec mailpilot-services-web-1 npm run db:migrate`
+- Manually run: `docker exec mail-pilot-services-web-1 npm run db:migrate`
 
 ## OAuth Configuration Issues
 
@@ -103,7 +103,7 @@ Check logs for errors using the commands above.
 
 **Can't create rules using AI prompt:**
 - Same cause — the AI provider must be correctly configured with a valid, funded API key.
-- Check logs (`mailpilot logs -f`) for specific error messages from the AI provider.
+- Check logs (`mail-pilot logs -f`) for specific error messages from the AI provider.
 
 **Emails not processing automatically (Pub/Sub):**
 - Verify your Pub/Sub topic and subscription are configured correctly — see the [Pub/Sub setup guide](/hosting/google-pubsub).
@@ -135,17 +135,17 @@ To re-run setup without removing Google Cloud resources:
 
 **If you used the CLI (standalone mode):**
 ```bash
-mailpilot stop
-docker compose -f ~/.mailpilot/docker-compose.yml --profile all down -v
-rm ~/.mailpilot/.env
-mailpilot setup
+mail-pilot stop
+docker compose -f ~/.mail-pilot/docker-compose.yml --profile all down -v
+rm ~/.mail-pilot/.env
+mail-pilot setup
 ```
 
 **If you're running from the cloned repo:**
 ```bash
 docker compose --profile all down -v
 rm apps/web/.env
-mailpilot setup
+mail-pilot setup
 ```
 
 ### Full removal
@@ -156,8 +156,8 @@ mailpilot setup
 
 If you used the CLI (standalone mode):
 ```bash
-mailpilot stop
-docker compose -f ~/.mailpilot/docker-compose.yml --profile all down -v
+mail-pilot stop
+docker compose -f ~/.mail-pilot/docker-compose.yml --profile all down -v
 ```
 
 If you're running from the cloned repo:
@@ -169,7 +169,7 @@ docker compose --profile all down -v
 
 ```bash
 # Standalone mode
-rm -rf ~/.mailpilot
+rm -rf ~/.mail-pilot
 
 # If running from the cloned repo
 rm apps/web/.env
@@ -187,6 +187,6 @@ rm apps/web/.env
 ## Getting Help
 
 If you're still stuck:
-1. Check [GitHub Issues](https://github.com/areal/mailpilot/issues) for similar problems
-2. Join the [Discord community](https://www.mailpilot.dev/discord)
+1. Check [GitHub Issues](https://github.com/arealgizaw/mail-pilot/issues) for similar problems
+2. Join the [Discord community](https://www.mailpilot.app/discord)
 3. Include relevant logs and your setup details when asking for help

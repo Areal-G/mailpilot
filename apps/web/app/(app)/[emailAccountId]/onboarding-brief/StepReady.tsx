@@ -141,7 +141,7 @@ export function StepReady() {
               <Link
                 href={getGmailBasicSearchUrl(
                   emailAccount.email,
-                  "from:(mailpilot.dev) subject:(Briefing for)",
+                  "from:(mailpilot.app) subject:(Briefing for)",
                 )}
                 target="_blank"
                 rel="noopener noreferrer"

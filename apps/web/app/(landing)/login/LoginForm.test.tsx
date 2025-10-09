@@ -76,7 +76,7 @@ describe("LoginForm", () => {
 
   afterEach(() => {
     cleanup();
-    window.inboxZeroDesktop = undefined;
+    window.mailPilotDesktop = undefined;
   });
 
   it("keeps secondary options off the main login page", () => {
@@ -161,7 +161,7 @@ describe("LoginForm", () => {
 
   it("starts desktop system-browser auth instead of in-window OAuth", async () => {
     const startAuth = vi.fn().mockResolvedValue(undefined);
-    window.inboxZeroDesktop = { startAuth };
+    window.mailPilotDesktop = { startAuth };
 
     render(
       <LoginForm
@@ -185,7 +185,7 @@ describe("LoginForm", () => {
 
   it("starts desktop auth even when the Google OAuth emulator is enabled", async () => {
     const startAuth = vi.fn().mockResolvedValue(undefined);
-    window.inboxZeroDesktop = { startAuth };
+    window.mailPilotDesktop = { startAuth };
 
     render(<LoginForm enabledProviders={["google"]} useGoogleOauthEmulator />);
 
@@ -203,7 +203,7 @@ describe("LoginForm", () => {
 
   it("passes Apple's connect-mailbox callback through desktop auth", async () => {
     const startAuth = vi.fn().mockResolvedValue(undefined);
-    window.inboxZeroDesktop = { startAuth };
+    window.mailPilotDesktop = { startAuth };
 
     render(
       <LoginForm

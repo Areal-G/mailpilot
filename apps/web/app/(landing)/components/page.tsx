@@ -68,7 +68,6 @@ import { IconCircle } from "@/app/(app)/[emailAccountId]/onboarding/IconCircle";
 import { isValidEmail } from "@/utils/email";
 import { EmailAccountPreviewProvider } from "@/providers/EmailAccountProvider";
 import { ActionBadges } from "@/app/(app)/[emailAccountId]/assistant/Rules";
-import { DismissibleVideoCard } from "@/components/VideoCard";
 import { PremiumExpiredCardContent } from "@/components/PremiumCard";
 import { AnnouncementDialogDemo } from "@/components/feature-announcements/AnnouncementDialogDemo";
 import {
@@ -361,21 +360,6 @@ function ComponentsDemo() {
               <MutedText className="mb-2">Free Plan (needs upgrade):</MutedText>
               <PremiumAiAssistantAlert showSetApiKey={false} tier={null} />
             </div>
-          </div>
-        </div>
-
-        <div>
-          <div className="underline">DismissibleVideoCard</div>
-          <div className="mt-4">
-            <DismissibleVideoCard
-              icon={<SparklesIcon className="h-5 w-5" />}
-              title="Getting started with AI Assistant"
-              description={
-                "Learn how to use the AI Assistant to automatically label, archive, and more."
-              }
-              muxPlaybackId="TYo3SIMdhg008x022H79400CxeRSiB6mLyuwHx8Szc00Rec"
-              storageKey={`video-dismissible-${Date.now()}`}
-            />
           </div>
         </div>
 
@@ -1174,7 +1158,7 @@ function getActivityLogEntries(): ActivityLogEntry[] {
     },
     {
       id: "3",
-      from: "Areal <elie@mailpilot.dev>",
+      from: "Alex Morgan <alex@example.com>",
       subject: "talk tomorrow",
       status: "processing",
     },

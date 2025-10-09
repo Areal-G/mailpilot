@@ -1,5 +1,5 @@
 /**
- * Integration test: Gmail thread fetching & pagination via @mailpilot/emulate
+ * Integration test: Gmail thread fetching & pagination via the `emulate` package
  *
  * Tests getThread, getThreadsWithNextPageToken, and GmailProvider's
  * getMessagesWithPagination against a local Gmail emulator with seeded threads.

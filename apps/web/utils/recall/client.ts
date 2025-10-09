@@ -374,7 +374,7 @@ async function readMeetingBotCameraImage(): Promise<string> {
         "public",
         "images",
         "meetings",
-        "mailpilot-notetaker.jpg",
+        "mail-pilot-notetaker.jpg",
       ),
       "base64",
     );
@@ -391,7 +391,7 @@ async function readMeetingBotCameraImage(): Promise<string> {
         "public",
         "images",
         "meetings",
-        "mailpilot-notetaker.jpg",
+        "mail-pilot-notetaker.jpg",
       ),
       "base64",
     );

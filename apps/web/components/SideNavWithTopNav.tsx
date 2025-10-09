@@ -1,7 +1,6 @@
 "use client";
 
-import { type CSSProperties, Suspense, useCallback, useRef } from "react";
-import dynamic from "next/dynamic";
+import { type CSSProperties, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
 import {
   SidebarInset,
@@ -13,8 +12,6 @@ import { SideNav } from "@/components/SideNav";
 import { SidebarRight } from "@/components/SidebarRight";
 import { chatSidebarWidthCss } from "@/components/chat-sidebar-width";
 import { cn } from "@/utils";
-
-const CrispWithNoSSR = dynamic(() => import("@/components/CrispChat"));
 
 function ContentWrapper({ children }: { children: React.ReactNode }) {
   const { state } = useSidebar();
@@ -49,9 +46,6 @@ function ContentWrapper({ children }: { children: React.ReactNode }) {
       >
         {children}
       </SidebarInset>
-      <Suspense>
-        <CrispWithNoSSR />
-      </Suspense>
     </div>
   );
 }

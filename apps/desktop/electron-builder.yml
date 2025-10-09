@@ -1,4 +1,4 @@
-appId: com.getmailpilot.desktop
+appId: app.mailpilot.desktop
 productName: Mail Pilot
 copyright: Copyright © Areal
 artifactName: Mail-Pilot-${version}-${os}-${arch}.${ext}
@@ -48,4 +48,4 @@ nsis:
   allowToChangeInstallationDirectory: false
 publish:
   provider: generic
-  url: https://github.com/areal/mailpilot/releases/download/desktop-updates
+  url: https://github.com/arealgizaw/mail-pilot/releases/download/desktop-updates

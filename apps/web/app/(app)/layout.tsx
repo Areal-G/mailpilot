@@ -12,12 +12,10 @@ import {
   CHAT_SIDEBAR_WIDTH_COOKIE,
 } from "@/components/chat-sidebar-width";
 import { auth } from "@/utils/auth";
-import { PostHogIdentify } from "@/providers/PostHogProvider";
 import { CommandK } from "@/components/CommandK";
 import { FeedbackDialog } from "@/components/FeedbackDialog";
 import { AppProviders } from "@/providers/AppProviders";
 import { AssessUser } from "@/app/(app)/[emailAccountId]/assess";
-import { SentryIdentify } from "@/app/(app)/sentry-identify";
 import { AiAutomationStatusBanner } from "@/app/(app)/AiAutomationStatusBanner";
 import { ErrorMessages } from "@/app/(app)/ErrorMessages";
 import { DesktopMailIndicators } from "@/app/(app)/DesktopMailIndicators";
@@ -119,11 +117,8 @@ export default async function AppLayout({
             <AnnouncementDialog />
             {feedbackEnabled && <FeedbackDialog />}
             <ErrorBoundary extra={{ component: "AppLayout" }}>
-              <PostHogIdentify />
-
               <CommandK feedbackEnabled={feedbackEnabled} />
               <AssessUser />
-              <SentryIdentify email={session.user.email} />
             </ErrorBoundary>
           </MailEngineRuntime>
         </AppProviders>

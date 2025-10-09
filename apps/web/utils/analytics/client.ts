@@ -1,4 +1,4 @@
-import { getInboxZeroDesktopApp } from "@/utils/desktop-app";
+import { getMailPilotDesktopApp } from "@/utils/desktop-app";
 import { hasDesktopMailEngineIpc } from "@/utils/mail-engine/desktop-ipc";
 import { selectMailEngineRuntimeMode } from "@/utils/mail-engine/runtime-mode";
 import { browserMailEngineCapabilities } from "@/utils/mail-engine/worker-protocol";
@@ -9,7 +9,7 @@ export function getClientAnalyticsProperties() {
     ...browserMailEngineCapabilities(),
   });
 
-  if (!getInboxZeroDesktopApp()) {
+  if (!getMailPilotDesktopApp()) {
     return { client: "web", mail_engine_transport: mailEngineTransport };
   }
 
@@ -22,8 +22,8 @@ export function getClientAnalyticsProperties() {
 
 /**
  * Electron's default user agent carries `<app name>/<version>`, with
- * whitespace stripped from the product name: `InboxZero/1.2.3`.
+ * whitespace stripped from the product name: `MailPilot/1.2.3`.
  */
 export function parseDesktopAppVersion(userAgent: string): string | undefined {
-  return userAgent.match(/(?:^|[\s(])Inbox\s?Zero\/(\d[\w.+-]*)/i)?.[1];
+  return userAgent.match(/(?:^|[\s(])Mail\s?Pilot\/(\d[\w.+-]*)/i)?.[1];
 }

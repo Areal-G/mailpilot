@@ -156,12 +156,12 @@ const testCases = [
       {
         subject: "Receipt from Apple",
         snippet:
-          "Apple ID: elie@gmail.com. iCloud+ 200GB — $2.99/month. Billed Mar 1, 2026. Order ID: ML4928XTPZ. Payment: Visa ending in 4242.",
+          "Apple ID: alex@gmail.com. iCloud+ 200GB — $2.99/month. Billed Mar 1, 2026. Order ID: ML4928XTPZ. Payment: Visa ending in 4242.",
       },
       {
         subject: "Receipt from Apple",
         snippet:
-          "Apple ID: elie@gmail.com. 1Password — Families — $6.99/month. Billed Feb 1, 2026. Order ID: MK7712RQVN. Payment: Visa ending in 4242.",
+          "Apple ID: alex@gmail.com. 1Password — Families — $6.99/month. Billed Feb 1, 2026. Order ID: MK7712RQVN. Payment: Visa ending in 4242.",
       },
     ],
     expected: "Receipt",

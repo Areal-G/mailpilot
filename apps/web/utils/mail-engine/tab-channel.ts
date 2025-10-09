@@ -11,8 +11,8 @@ import {
   type WorkerObserveKind,
 } from "@/utils/mail-engine/worker-protocol";
 
-export const MAIL_ENGINE_OWNER_LOCK = "mailpilot:mail-engine-owner";
-export const MAIL_ENGINE_TAB_CHANNEL = "mailpilot:mail-engine-tabs";
+export const MAIL_ENGINE_OWNER_LOCK = "mail-pilot:mail-engine-owner";
+export const MAIL_ENGINE_TAB_CHANNEL = "mail-pilot:mail-engine-tabs";
 
 export type TabMailMessage =
   | {

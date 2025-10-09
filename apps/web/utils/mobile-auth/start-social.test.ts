@@ -15,7 +15,7 @@ const {
   mockEnv: {
     DESKTOP_AUTH_ORIGIN: "mailpilot://",
     MOBILE_AUTH_ORIGIN: "mailpilot://",
-    NEXT_PUBLIC_BASE_URL: "https://www.mailpilot.dev",
+    NEXT_PUBLIC_BASE_URL: "https://www.mailpilot.app",
   },
   storeMobileAuthStateMock: vi.fn(),
 }));
@@ -81,7 +81,7 @@ describe("startMobileSocialAuth", () => {
     );
     const [signInRequest] = handlerMock.mock.calls[0] as [Request];
     expect(signInRequest.url).toBe(
-      "https://www.mailpilot.dev/api/auth/sign-in/social",
+      "https://www.mailpilot.app/api/auth/sign-in/social",
     );
     await expect(signInRequest.json()).resolves.toMatchObject({
       provider: "google",
@@ -103,7 +103,7 @@ describe("startMobileSocialAuth", () => {
     );
     const [signInRequest] = handlerMock.mock.calls[0] as [Request];
     expect(signInRequest.url).toBe(
-      "https://www.mailpilot.dev/api/auth/sign-in/social",
+      "https://www.mailpilot.app/api/auth/sign-in/social",
     );
     await expect(signInRequest.json()).resolves.toMatchObject({
       provider: "google",

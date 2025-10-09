@@ -20,7 +20,7 @@ This guide covers deploying Mail Pilot on a GCP Compute Engine VM using Cloudfla
 ## 1. Create the Compute Engine VM
 
 1. Go to **Compute Engine → VM instances → Create instance**
-2. **Name:** `mailpilot` (or your choice)
+2. **Name:** `mail-pilot` (or your choice)
 3. **Region/Zone:** choose one close to your users
 4. **Machine configuration:**
    - Minimum: `e2-medium` (2 vCPU, 4 GB RAM) — add swap if using this size
@@ -75,7 +75,7 @@ In the **Cloudflare dashboard**:
 
 1. Go to **Zero Trust → Networks → Tunnels → Add a tunnel**
 2. Choose **Cloudflared** as the connector type
-3. Name the tunnel (e.g. `mailpilot`)
+3. Name the tunnel (e.g. `mail-pilot`)
 4. Follow the install instructions for **Debian** — copy the `cloudflared` install command shown in the dashboard and run it on your VM:
 
 ```bash
@@ -123,8 +123,8 @@ When prompted, enter your full Cloudflare Tunnel URL as the base URL (e.g. `http
 ### Option B: Manual
 
 ```bash
-git clone https://github.com/areal/mailpilot.git
-cd mailpilot
+git clone https://github.com/arealgizaw/mail-pilot.git
+cd mail-pilot
 cp apps/web/.env.example apps/web/.env
 nano apps/web/.env
 ```
@@ -156,7 +156,7 @@ Check that all containers are up:
 
 ```bash
 docker ps
-docker logs mailpilot-services-web-1 -f
+docker logs mail-pilot-services-web-1 -f
 ```
 
 Startup takes 30–60 seconds. Once the web container logs show the Next.js server is ready, visit your Cloudflare URL.
@@ -192,7 +192,7 @@ NEXT_PUBLIC_BASE_URL=https://inbox.yourdomain.com docker compose --profile all u
 ### View logs
 
 ```bash
-docker logs mailpilot-services-web-1 -f
+docker logs mail-pilot-services-web-1 -f
 journalctl -u cloudflared -f
 ```
 
@@ -200,7 +200,7 @@ journalctl -u cloudflared -f
 
 **Tunnel shows as "Healthy" but site returns 502:**
 - The app container may still be starting up — wait 60 seconds and refresh
-- Check `docker logs mailpilot-services-web-1` for startup errors
+- Check `docker logs mail-pilot-services-web-1` for startup errors
 
 **Cloudflare Tunnel disconnected:**
 - Check `journalctl -u cloudflared` for errors

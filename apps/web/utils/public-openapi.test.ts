@@ -7,7 +7,7 @@ import staticOpenApiDocument from "../../../docs/openapi.json";
 vi.mock("@/env", () => ({
   env: {
     NEXT_PUBLIC_EXTERNAL_API_ENABLED: true,
-    NEXT_PUBLIC_BASE_URL: "https://www.mailpilot.dev",
+    NEXT_PUBLIC_BASE_URL: "https://www.mailpilot.app",
   },
 }));
 
@@ -93,7 +93,7 @@ describe("createPublicOpenApiDocument", () => {
 
     expect(docs.servers).toEqual([
       {
-        url: "https://www.mailpilot.dev/api/v1",
+        url: "https://www.mailpilot.app/api/v1",
         description: "Primary server",
       },
     ]);

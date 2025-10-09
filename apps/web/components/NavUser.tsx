@@ -172,7 +172,7 @@ export function NavUser() {
             )}
             <DropdownMenuItem asChild>
               <Link
-                href="https://docs.mailpilot.dev"
+                href="https://docs.mailpilot.app"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => closeMobileSidebar("left-sidebar")}

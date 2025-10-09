@@ -62,7 +62,7 @@ async function loadUpstashModule({
     getInternalApiUrl: () => internalApiUrl,
     getInternalApiHeaders: () => ({
       "x-api-key": "internal-api-key",
-      "x-mailpilot-caller-id": "public.example.com",
+      "x-mail-pilot-caller-id": "public.example.com",
     }),
   }));
 
@@ -189,7 +189,7 @@ describe("publishToQstash", () => {
       "secret_test",
     );
     expect(request?.headers.get("x-api-key")).toBeNull();
-    expect(request?.headers.get("x-mailpilot-caller-id")).toBeNull();
+    expect(request?.headers.get("x-mail-pilot-caller-id")).toBeNull();
   });
 
   it("falls back when the QStash callback URL resolves to loopback", async () => {

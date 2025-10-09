@@ -1,5 +1,5 @@
 /**
- * Integration test: Gmail draft creation & sending via @mailpilot/emulate
+ * Integration test: Gmail draft creation & sending via the `emulate` package
  *
  * Tests draftEmail (reply draft creation) and sendDraft against a local
  * Gmail emulator. Verifies drafts are created with correct threading,

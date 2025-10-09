@@ -1,7 +1,7 @@
 import { tiers } from "@/app/(app)/premium/config";
 
-const DOCS_ORIGIN = "https://docs.mailpilot.dev";
-const GITHUB_URL = "https://github.com/areal/mailpilot";
+const DOCS_ORIGIN = "https://docs.mailpilot.app";
+const GITHUB_URL = "https://github.com/arealgizaw/mail-pilot";
 
 interface AgentContentBranding {
   brandName: string;
@@ -16,7 +16,7 @@ export function getHomepageMarkdown(
 
   return `# ${branding.brandName}
 
-${branding.brandName} is an open-source AI email assistant for Gmail and Outlook. It organizes your inbox with AI labels and rules, drafts replies in your voice, blocks cold emails, bulk-unsubscribes from newsletters, surfaces email analytics, and works from Slack or Telegram so you can reach inbox zero faster.
+${branding.brandName} is an open-source AI email assistant for Gmail and Outlook. It organizes your inbox with AI labels and rules, drafts replies in your voice, blocks cold emails, bulk-unsubscribes from newsletters, surfaces email analytics, and works from Slack or Telegram so you can clear your inbox faster.
 
 ## Product
 
@@ -69,7 +69,7 @@ Contact sales for SSO, SCIM, on-premise deployment, and a dedicated account mana
 
 - [Pricing page](${base}/pricing)
 - [Product home](${base}/)
-- [Talk to sales](https://www.mailpilot.dev/sales)
+- [Talk to sales](https://www.mailpilot.app/sales)
 - [Agent resources](${base}/llms.txt)
 - [Documentation](${DOCS_ORIGIN}/)
 ${branding.supportEmail ? `- Support: ${branding.supportEmail}\n` : ""}`;

@@ -1,8 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Gift, Repeat, Zap } from "lucide-react";
-import { HeroVideoDialog } from "@/app/(landing)/home/HeroVideoDialog";
-import { BlurFade } from "@/components/new-landing/common/BlurFade";
 import { Button } from "@/components/new-landing/common/Button";
 import { Card, CardContent } from "@/components/new-landing/common/Card";
 import { CardWrapper } from "@/components/new-landing/common/CardWrapper";
@@ -19,12 +16,6 @@ import { tiers } from "@/app/(app)/premium/config";
 import { MAIL_CLIENT_SIGNUP_PATH } from "@/utils/config";
 
 export const EMAIL_CLIENT_SECTION_ID = "email-client";
-
-const LAUNCH_VIDEO = {
-  playbackId: "1K01tCypmkqhB3OZwCzO9j0202K0089aqXX02tYpgoUzztmc",
-  title: "Meet the Mail Pilot email app",
-  thumbnailTime: 1.5,
-};
 
 const reasons = [
   {
@@ -53,24 +44,7 @@ export function EmailClient() {
         and iPhone. Like Superhuman, but free.
       </SectionSubtitle>
       <SectionContent>
-        <BlurFade inView>
-          <div className="relative overflow-hidden rounded-3xl border border-[#EFEFEF] md:rounded-[43px]">
-            <HeroVideoDialog
-              playbackId={LAUNCH_VIDEO.playbackId}
-              thumbnailTime={LAUNCH_VIDEO.thumbnailTime}
-              title={LAUNCH_VIDEO.title}
-            />
-            <Image
-              src={`https://image.mux.com/${LAUNCH_VIDEO.playbackId}/thumbnail.jpg?time=${LAUNCH_VIDEO.thumbnailTime}&width=1920`}
-              alt={LAUNCH_VIDEO.title}
-              width={1920}
-              height={1080}
-              sizes="(min-width: 1280px) 1152px, (min-width: 1024px) calc(100vw - 64px), calc(100vw - 48px)"
-              className="h-auto w-full"
-            />
-          </div>
-        </BlurFade>
-        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {reasons.map((reason) => (
             <CardWrapper key={reason.title}>
               <Card variant="extra-rounding" className="h-full">

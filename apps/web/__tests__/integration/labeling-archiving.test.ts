@@ -1,5 +1,5 @@
 /**
- * Integration test: Gmail labeling & archiving operations via @mailpilot/emulate
+ * Integration test: Gmail labeling & archiving operations via the `emulate` package
  *
  * Tests labelThread, archiveThread, markReadThread, createLabel, and
  * labelMessage against a local Gmail emulator. Verifies labels persist

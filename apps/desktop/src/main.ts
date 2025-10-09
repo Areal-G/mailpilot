@@ -80,7 +80,7 @@ import {
   parseDesktopWindowStates,
 } from "./windows";
 
-const PARTITION = "persist:mailpilot";
+const PARTITION = "persist:mail-pilot";
 const DESKTOP_AUTH_PROOF_TTL_MS = 5 * 60 * 1000;
 const PENDING_CALLBACK_PATH_FILE = "pending-auth-callback-path";
 const LAST_APP_URL_FILE = "last-app-url";
@@ -137,7 +137,7 @@ if (!gotTheLock) {
 function startDesktopApp() {
   initDesktopSentry();
   nativeTheme.themeSource = "light";
-  app.setAppUserModelId("com.getmailpilot.desktop");
+  app.setAppUserModelId("app.mailpilot.desktop");
   if (shouldSmokeLocalMail()) app.disableHardwareAcceleration();
 
   ipcMain.on("desktop:ready", (event) => {

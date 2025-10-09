@@ -5,7 +5,7 @@ description: "Use the Mail Pilot API CLI from npm or npx."
 
 Use the Mail Pilot API CLI when you want a thin wrapper around the public API for scripts, bots, or local automation.
 
-The package is published to npm as `@mailpilot/api`, and the executable name is `mailpilot-api`.
+The package is published to npm as `@mailpilot/api`, and the executable name is `mail-pilot-api`.
 
 ## Run with npx
 
@@ -27,75 +27,75 @@ The CLI reads configuration in this order:
 
 1. Command flags
 2. Environment variables
-3. `~/.mailpilot-api/config.json`
+3. `~/.mail-pilot-api/config.json`
 
 Supported environment variables:
 
-- `MAILPILOT_API_KEY`
-- `MAILPILOT_BASE_URL` for self-hosted or custom API deployments
+- `MAIL_PILOT_API_KEY`
+- `MAIL_PILOT_BASE_URL` for self-hosted or custom API deployments
 
 Example:
 
 ```bash
-mailpilot-api rules list
+mail-pilot-api rules list
 ```
 
-`base-url` is optional. The CLI defaults to `https://www.mailpilot.dev` and only needs an override for self-hosted or custom deployments.
+`base-url` is optional. The CLI defaults to `https://www.mailpilot.app` and only needs an override for self-hosted or custom deployments.
 
-Set `MAILPILOT_API_KEY` in your shell or secret manager before running commands. Avoid passing API keys as CLI arguments because they can leak into shell history and process listings.
+Set `MAIL_PILOT_API_KEY` in your shell or secret manager before running commands. Avoid passing API keys as CLI arguments because they can leak into shell history and process listings.
 
 ## Common commands
 
 List rules:
 
 ```bash
-mailpilot-api rules list
-mailpilot-api rules list --json
+mail-pilot-api rules list
+mail-pilot-api rules list --json
 ```
 
 Get a rule:
 
 ```bash
-mailpilot-api rules get rule_123 --json
+mail-pilot-api rules get rule_123 --json
 ```
 
 Create a rule from JSON:
 
 ```bash
-mailpilot-api rules create --file rule.json
-cat rule.json | mailpilot-api rules create --file -
+mail-pilot-api rules create --file rule.json
+cat rule.json | mail-pilot-api rules create --file -
 ```
 
 Update a rule from JSON:
 
 ```bash
-cat rule.json | mailpilot-api rules update rule_123 --file -
+cat rule.json | mail-pilot-api rules update rule_123 --file -
 ```
 
 Delete a rule:
 
 ```bash
-mailpilot-api rules delete rule_123
+mail-pilot-api rules delete rule_123
 ```
 
 Read stats:
 
 ```bash
-mailpilot-api stats by-period --period week --json
-mailpilot-api stats response-time --json
+mail-pilot-api stats by-period --period week --json
+mail-pilot-api stats response-time --json
 ```
 
 Unsubscribe from a sender:
 
 ```bash
-mailpilot-api senders unsubscribe news@example.com
-mailpilot-api senders unsubscribe news@example.com --json
+mail-pilot-api senders unsubscribe news@example.com
+mail-pilot-api senders unsubscribe news@example.com --json
 ```
 
 Fetch the live OpenAPI document:
 
 ```bash
-mailpilot-api openapi --json
+mail-pilot-api openapi --json
 ```
 
 For bots, prefer `--json` so the output is stable and machine-readable.

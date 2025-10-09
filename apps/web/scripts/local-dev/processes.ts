@@ -13,12 +13,21 @@ export function createProcessManager(cwd: string, env: NodeJS.ProcessEnv) {
   ) {
     controller.signal.throwIfAborted();
     console.log(`[local] Starting ${name}`);
-    const child = spawn(command, args, {
-      cwd,
-      env,
-      stdio: "inherit",
-      detached: process.platform !== "win32",
-    });
+    // Node refuses to spawn .cmd shims without a shell on Windows.
+    const viaShell = process.platform === "win32" && command.endsWith(".cmd");
+    const child = spawn(
+      command,
+      viaShell
+        ? args.map((arg) => (arg.includes(" ") ? `"${arg}"` : arg))
+        : args,
+      {
+        cwd,
+        env,
+        stdio: "inherit",
+        detached: process.platform !== "win32",
+        shell: viaShell,
+      },
+    );
     children.add(child);
     const exited = new Promise<void>((resolve, reject) => {
       child.once("error", reject);
@@ -116,7 +125,11 @@ export function createProcessManager(cwd: string, env: NodeJS.ProcessEnv) {
 function signalChild(child: ChildProcess, signal: NodeJS.Signals) {
   if (!child.pid) return;
   try {
-    if (process.platform === "win32") child.kill(signal);
+    // Shell-spawned children leave grandchildren behind unless the tree is killed.
+    if (process.platform === "win32")
+      spawn("taskkill", ["/pid", String(child.pid), "/T", "/F"], {
+        stdio: "ignore",
+      });
     else process.kill(-child.pid, signal);
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "ESRCH") throw error;

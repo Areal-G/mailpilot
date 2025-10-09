@@ -135,7 +135,7 @@ export async function readLatestMailMutation(
 ) {
   try {
     const commands = await page.evaluate(async () => {
-      const inspect = window.__inboxZeroMailInspect;
+      const inspect = window.__mailPilotMailInspect;
       if (!inspect?.read) return;
       const diagnostics = (await inspect.read()) as {
         commands?: InspectCommand[];
@@ -215,7 +215,7 @@ export function expectSeamlessReplyHandoff(
 export async function requestMailSync(page: Page) {
   await page
     .evaluate(async () => {
-      await window.__inboxZeroMailInspect?.requestSync?.();
+      await window.__mailPilotMailInspect?.requestSync?.();
     })
     .catch((error) => {
       if (!String(error).includes("Execution context was destroyed"))

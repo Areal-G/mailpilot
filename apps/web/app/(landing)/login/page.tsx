@@ -14,9 +14,9 @@ import { getEnabledLoginProviders } from "@/utils/oauth/login-providers";
 import { AlertBasic } from "@/components/Alert";
 import { Button } from "@/components/ui/button";
 import { WELCOME_PATH } from "@/utils/config";
-import { CrispChatLoggedOutVisible } from "@/components/CrispChat";
 import { MutedText } from "@/components/Typography";
 import { normalizeInternalPath } from "@/utils/path";
+import { TryDemoForm } from "@/components/TryDemoForm";
 import {
   BRAND_NAME,
   SUPPORT_EMAIL,
@@ -60,6 +60,13 @@ export default async function AuthenticationPage(props: {
               useGoogleOauthEmulator={isGoogleOauthEmulationEnabled()}
             />
           </Suspense>
+          {env.NEXT_PUBLIC_DEMO_MODE ? (
+            <TryDemoForm className="mt-4">
+              <Button type="submit" variant="outline" className="w-full">
+                Try demo, no sign-up needed
+              </Button>
+            </TryDemoForm>
+          ) : null}
         </div>
 
         {searchParams?.error && <ErrorAlert error={searchParams?.error} />}
@@ -164,6 +171,16 @@ function ErrorAlert({ error }: { error: string }) {
     );
   }
 
+  if (error === "demo_unavailable") {
+    return (
+      <AlertBasic
+        variant="destructive"
+        title="Demo unavailable"
+        description="The demo account hasn't been set up yet. Sign in once with the demo account to create it."
+      />
+    );
+  }
+
   if (error === "email_already_linked") {
     return (
       <AlertBasic
@@ -177,15 +194,10 @@ function ErrorAlert({ error }: { error: string }) {
   }
 
   return (
-    <>
-      <AlertBasic
-        variant="destructive"
-        title="Error logging in"
-        description={`There was an error logging in. Please try logging in again. If this error persists please contact support at ${SUPPORT_EMAIL}`}
-      />
-      <Suspense>
-        <CrispChatLoggedOutVisible />
-      </Suspense>
-    </>
+    <AlertBasic
+      variant="destructive"
+      title="Error logging in"
+      description={`There was an error logging in. Please try logging in again. If this error persists please contact support at ${SUPPORT_EMAIL}`}
+    />
   );
 }

@@ -114,5 +114,5 @@ HostBookingConfirmationEmail.PreviewProps = {
   timeRange: "10:00 AM – 10:15 AM",
   timezoneLabel: "Asia/Jerusalem",
   guestNote:
-    "Hey Elie, building a B2B email tool, would love to chat about your AI rules approach.",
+    "Hey Alex, building a B2B email tool, would love to chat about your AI rules approach.",
 } satisfies HostBookingConfirmationEmailProps;

@@ -116,7 +116,7 @@ describe("executeAct", () => {
   });
 
   it("keeps labels but skips archive for protected company senders", async () => {
-    envMock.WHITELIST_FROM = "onboarding@mailpilot.dev";
+    envMock.WHITELIST_FROM = "onboarding@mailpilot.app";
     mockRunActionFunction.mockResolvedValueOnce({ success: true });
 
     const executedRule = {
@@ -134,7 +134,7 @@ describe("executeAct", () => {
         ...message,
         headers: {
           ...message.headers,
-          from: "Mail Pilot <onboarding@mailpilot.dev>",
+          from: "Mail Pilot <onboarding@mailpilot.app>",
         },
       },
       emailAccount,

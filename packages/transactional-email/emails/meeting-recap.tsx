@@ -54,7 +54,7 @@ function renderBulletSection(title: string, items: string[]) {
 }
 
 export default function MeetingRecapEmail({
-  baseUrl = "https://www.mailpilot.dev",
+  baseUrl = "https://www.mailpilot.app",
   emailAccountId,
   meetingTitle,
   formattedTime,
@@ -131,7 +131,7 @@ export default function MeetingRecapEmail({
 }
 
 MeetingRecapEmail.PreviewProps = {
-  baseUrl: "https://www.mailpilot.dev",
+  baseUrl: "https://www.mailpilot.app",
   unsubscribeToken: "test-token",
   emailAccountId: "test-account",
   meetingTitle: "Product Strategy Review with Acme Corp",

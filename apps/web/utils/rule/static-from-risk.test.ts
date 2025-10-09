@@ -12,7 +12,7 @@ describe("hasLowTrustStaticFromPattern", () => {
   });
 
   it("is false when all OR segments are address-like", () => {
-    expect(hasLowTrustStaticFromPattern("elie@x.com")).toBe(false);
+    expect(hasLowTrustStaticFromPattern("alex@x.com")).toBe(false);
     expect(hasLowTrustStaticFromPattern("a@x.com|b@y.com")).toBe(false);
   });
 

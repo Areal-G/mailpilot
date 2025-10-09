@@ -18,7 +18,7 @@ describe("forwardQueueMessageToInternalApi", () => {
       getInternalApiUrl: () => "https://worker.example.com",
       getInternalApiHeaders: () => ({
         "x-api-key": "internal-api-key",
-        "x-mailpilot-caller-id": "worker.example.com",
+        "x-mail-pilot-caller-id": "worker.example.com",
       }),
     }));
 
@@ -40,7 +40,7 @@ describe("forwardQueueMessageToInternalApi", () => {
         headers: expect.objectContaining({
           "Content-Type": "application/json",
           "x-api-key": "internal-api-key",
-          "x-mailpilot-caller-id": "worker.example.com",
+          "x-mail-pilot-caller-id": "worker.example.com",
         }),
       }),
     );

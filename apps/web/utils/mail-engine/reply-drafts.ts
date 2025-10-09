@@ -64,7 +64,7 @@ const listeners = new Set<(scope: ReplyDraftScope) => void>();
 const accountEpoch = new Map<string, number>();
 const channel =
   typeof window !== "undefined" && typeof BroadcastChannel !== "undefined"
-    ? new BroadcastChannel("mailpilot-reply-drafts")
+    ? new BroadcastChannel("mail-pilot-reply-drafts")
     : null;
 
 export function getReplyDraftSessionId(

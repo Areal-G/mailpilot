@@ -40,7 +40,7 @@ vi.mock("@/providers/EmailAccountProvider", () => ({
 }));
 
 vi.mock("@/utils/desktop-app", () => ({
-  getInboxZeroDesktopApp: () => ({ openWindow: mockOpenWindow }),
+  getMailPilotDesktopApp: () => ({ openWindow: mockOpenWindow }),
 }));
 
 vi.mock("./AllAccountsSelectionDialog", () => ({

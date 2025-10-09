@@ -127,13 +127,13 @@ Colocate unit tests. Add real database tests at `apps/web/__tests__/db/shared-co
 Run after creating the tests, from repository root:
 
 ```bash
-pnpm --filter mailpilot-ai test --run utils/team-comments
-pnpm --filter mailpilot-ai test --run components/team-comments
-pnpm --filter mailpilot-ai test-db __tests__/db/shared-conversations.test.ts
-pnpm --filter mailpilot-ai test-integration __tests__/integration/shared-conversations.test.ts
-PLAYWRIGHT_MAIL_PROVIDER=google pnpm -F mailpilot-ai test:playwright:emulated mail/team-comments.spec.ts mail/team-comments-access.spec.ts
-PLAYWRIGHT_MAIL_PROVIDER=microsoft pnpm -F mailpilot-ai test:playwright:emulated mail/team-comments.spec.ts mail/team-comments-access.spec.ts
-pnpm -F mailpilot-ai check-server-actions
+pnpm --filter mailpilot-web test --run utils/team-comments
+pnpm --filter mailpilot-web test --run components/team-comments
+pnpm --filter mailpilot-web test-db __tests__/db/shared-conversations.test.ts
+pnpm --filter mailpilot-web test-integration __tests__/integration/shared-conversations.test.ts
+PLAYWRIGHT_MAIL_PROVIDER=google pnpm -F mailpilot-web test:playwright:emulated mail/team-comments.spec.ts mail/team-comments-access.spec.ts
+PLAYWRIGHT_MAIL_PROVIDER=microsoft pnpm -F mailpilot-web test:playwright:emulated mail/team-comments.spec.ts mail/team-comments-access.spec.ts
+pnpm -F mailpilot-web check-server-actions
 ```
 
 Run changed file formatting and lint. Add an explicit disposable Postgres CI job; database tests currently skip default CI. Update browser change selection for feature, schema, actions, routes, and lifecycle files. Verify both provider jobs execute; Microsoft matrix selects mail area specs. Missing or skipped tests do not count as passes. Bound long commands. Let browser harness manage service startup; do not launch standalone dev/build unless requested. Do not use root `tsc --noEmit`; use `build:ci` only when explicitly requested. Search entire browser suite for changed affordance names without truncation.

@@ -9,8 +9,8 @@ import prisma from "@/utils/prisma";
 
 const RECENT_SIGNUP_DAYS = 1;
 
-export const whitelistInboxZeroAction = actionClient
-  .metadata({ name: "whitelistInboxZero" })
+export const whitelistMailPilotAction = actionClient
+  .metadata({ name: "whitelistMailPilot" })
   .action(async ({ ctx: { emailAccountId, userId, provider, logger } }) => {
     if (!env.WHITELIST_FROM) return;
     if (!isGoogleProvider(provider)) return;

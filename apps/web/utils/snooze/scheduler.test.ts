@@ -14,8 +14,8 @@ const { cancelMessages, env, publishJSON } = vi.hoisted(() => ({
   cancelMessages: vi.fn(),
   env: {
     CRON_SECRET: "cron-secret",
-    INTERNAL_API_URL: "https://mailpilot.test",
-    NEXT_PUBLIC_BASE_URL: "https://mailpilot.test",
+    INTERNAL_API_URL: "https://mail-pilot.test",
+    NEXT_PUBLIC_BASE_URL: "https://mail-pilot.test",
     QSTASH_TOKEN: "",
   },
   publishJSON: vi.fn(),
@@ -332,7 +332,7 @@ describe("snoozed thread scheduler", () => {
     });
 
     expect(publishJSON).toHaveBeenCalledWith({
-      url: "https://mailpilot.test/api/snoozed-threads/execute",
+      url: "https://mail-pilot.test/api/snoozed-threads/execute",
       body: { snoozedThreadId: "snooze" },
       notBefore: Math.ceil(scheduledFor.getTime() / 1000),
       deduplicationId: "snoozed-thread-snooze",

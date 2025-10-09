@@ -11,7 +11,7 @@ setEnvDefault(
 );
 setEnvDefault("GOOGLE_CLIENT_ID", "test-google-client-id");
 setEnvDefault("GOOGLE_CLIENT_SECRET", "test-google-client-secret");
-setEnvDefault("GOOGLE_PUBSUB_TOPIC_NAME", "projects/test/topics/mailpilot");
+setEnvDefault("GOOGLE_PUBSUB_TOPIC_NAME", "projects/test/topics/mail-pilot");
 setEnvDefault("GOOGLE_PUBSUB_VERIFICATION_TOKEN", "test-google-webhook-token");
 setEnvDefault("AUTH_SECRET", "test-auth-secret");
 setEnvDefault("EMAIL_ENCRYPT_SECRET", "test-email-encrypt-secret");

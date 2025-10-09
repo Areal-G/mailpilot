@@ -1,5 +1,6 @@
 import { OpenedConversationAttachments } from "./OpenedConversationAttachments";
 import {
+  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -10,10 +11,20 @@ import {
 import { isSendCommandFor } from "@/app/(app)/[emailAccountId]/compose/queued-reply";
 import { useHotkeys } from "react-hotkeys-hook";
 import { isTypingTarget } from "@/lib/shortcuts/registry";
-import { ChevronsDownUpIcon, ChevronsUpDownIcon } from "lucide-react";
+import {
+  ChevronsDownUpIcon,
+  ChevronsUpDownIcon,
+  ForwardIcon,
+  ReplyAllIcon,
+  ReplyIcon,
+} from "lucide-react";
 import { Tooltip } from "@/components/Tooltip";
 import type { ThreadMessage } from "@/components/email-list/types";
-import { EmailMessage } from "@/components/email-list/EmailMessage";
+import {
+  EmailMessage,
+  type MessageReplyActions,
+} from "@/components/email-list/EmailMessage";
+import { canReplyAll } from "@/utils/email/reply-all";
 import { useAccount } from "@/providers/EmailAccountProvider";
 import { useReplyDrafts } from "@/hooks/useReplyDrafts";
 import { ThreadDeliveryStatus } from "@/components/email-list/ThreadDeliveryStatus";
@@ -198,6 +209,29 @@ export function EmailThread({
     activeCompose?.threadId === threadId
       ? getComposerMessageId(activeCompose.messageId, sendOperationIds)
       : undefined;
+  const lastReplyActionsRef = useRef<MessageReplyActions>(null);
+  const [openComposerIds, setOpenComposerIds] = useState(
+    () => new Set<string>(),
+  );
+  const onComposerOpenChange = useCallback(
+    (messageId: string, open: boolean) =>
+      setOpenComposerIds((previous) => {
+        if (previous.has(messageId) === open) return previous;
+        const next = new Set(previous);
+        if (open) next.add(messageId);
+        else next.delete(messageId);
+        return next;
+      }),
+    [],
+  );
+  const lastMessage = organizedMessages.at(-1)?.message;
+  // The same gate as each message's hover icons, hidden while any reply,
+  // forward or draft is already open in the thread.
+  const showThreadReplyActions =
+    showReplyButton &&
+    Boolean(lastMessage) &&
+    !lastMessage?.labelIds?.includes(GmailLabel.DRAFT) &&
+    openComposerIds.size === 0;
   const [recoveredReply, setRecoveredReply] = useState<{
     messageId: string;
     mode: ReplyDraftMode;
@@ -477,6 +511,10 @@ export function EmailThread({
                   sendOperationId ? `outgoing:${sendOperationId}` : undefined
                 }
                 sendOperationId={sendOperationId}
+                replyActionsRef={
+                  message.id === lastMessageId ? lastReplyActionsRef : undefined
+                }
+                onComposerOpenChange={onComposerOpenChange}
                 concealed={
                   Boolean(sendOperationId) &&
                   sentReplyHandoff?.operationId === sendOperationId
@@ -535,6 +573,43 @@ export function EmailThread({
             );
           })}
         </ul>
+        {showThreadReplyActions && lastMessage && (
+          <div
+            aria-label="Reply actions"
+            className="flex flex-wrap gap-2 px-3 pt-3 pb-1 sm:px-4 sm:pl-[3.25rem]"
+            role="group"
+          >
+            <Button
+              className="gap-1.5"
+              onClick={() => lastReplyActionsRef.current?.reply()}
+              size="sm"
+              variant="outline"
+            >
+              <ReplyIcon className="size-4" />
+              Reply
+            </Button>
+            {canReplyAll(lastMessage, userEmail) && (
+              <Button
+                className="gap-1.5"
+                onClick={() => lastReplyActionsRef.current?.replyAll()}
+                size="sm"
+                variant="outline"
+              >
+                <ReplyAllIcon className="size-4" />
+                Reply all
+              </Button>
+            )}
+            <Button
+              className="gap-1.5"
+              onClick={() => lastReplyActionsRef.current?.forward()}
+              size="sm"
+              variant="outline"
+            >
+              <ForwardIcon className="size-4" />
+              Forward
+            </Button>
+          </div>
+        )}
         {threadId && (
           <ThreadDeliveryStatus
             emailAccountId={emailAccountId}

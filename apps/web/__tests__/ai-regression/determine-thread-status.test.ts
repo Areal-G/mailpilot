@@ -624,7 +624,7 @@ Platform Support`,
         subject: "Great speaking",
         content: `Hey,
 
-Great speaking. To sign up: https://mailpilot.dev
+Great speaking. To sign up: https://mailpilot.app
 
 In your specific case I'd recommend adding custom rules to get the most out of it.`,
       });

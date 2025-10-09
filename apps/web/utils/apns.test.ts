@@ -4,7 +4,7 @@ import { createTestLogger } from "@/__tests__/helpers";
 vi.mock("@/env", () => ({
   env: {
     APNS_ENVIRONMENT: "sandbox",
-    APNS_TOPIC: "com.getmailpilot.app",
+    APNS_TOPIC: "app.mailpilot.app",
     APNS_TRANSPORT: "fake",
     NODE_ENV: "test",
   },
@@ -59,7 +59,7 @@ describe("deliverApnsNotifications", () => {
     expect(takeRecordedApnsSends()).toEqual([
       {
         token: "a".repeat(64),
-        topic: "com.getmailpilot.app",
+        topic: "app.mailpilot.app",
         sandbox: true,
         payload: {
           aps: {
@@ -87,7 +87,7 @@ describe("deliverApnsNotifications", () => {
     expect(takeRecordedApnsSends()).toEqual([
       {
         token: "b".repeat(64),
-        topic: "com.getmailpilot.app",
+        topic: "app.mailpilot.app",
         sandbox: true,
         payload: {
           aps: { "content-available": 1 },

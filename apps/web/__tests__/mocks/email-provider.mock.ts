@@ -111,7 +111,7 @@ export function createMockEmailProvider(
       .mockResolvedValue({ id: "label-123", name: "Test Label", type: "user" }),
     deleteLabel: vi.fn().mockResolvedValue(undefined),
     updateLabel: vi.fn().mockResolvedValue(undefined),
-    getOrCreateInboxZeroLabel: vi
+    getOrCreateMailPilotLabel: vi
       .fn()
       .mockResolvedValue({ id: "iz-label", name: "Mail Pilot", type: "user" }),
 

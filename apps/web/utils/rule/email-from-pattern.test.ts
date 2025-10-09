@@ -25,13 +25,13 @@ describe("splitEmailPatterns", () => {
 
 describe("isAddressLikeEmailPattern", () => {
   it("accepts emails and domain-shaped patterns", () => {
-    expect(isAddressLikeEmailPattern("elie@example.com")).toBe(true);
+    expect(isAddressLikeEmailPattern("alex@example.com")).toBe(true);
     expect(isAddressLikeEmailPattern("@company.com")).toBe(true);
     expect(isAddressLikeEmailPattern("company.com")).toBe(true);
   });
 
   it("rejects display-name-only patterns", () => {
-    expect(isAddressLikeEmailPattern("Elie")).toBe(false);
+    expect(isAddressLikeEmailPattern("Alex")).toBe(false);
     expect(isAddressLikeEmailPattern("Team *")).toBe(false);
   });
 });

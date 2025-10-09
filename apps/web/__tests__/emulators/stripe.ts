@@ -8,7 +8,7 @@ import type { AddressInfo } from "node:net";
 
 /**
  * A local stand-in for Stripe's API, hosted checkout page, and webhook
- * delivery, in the spirit of `@mailpilot/emulate` but kept in-repo.
+ * delivery, in the spirit of the `emulate` package but kept in-repo.
  *
  * It is stateful rather than a mock: checkout sessions become subscriptions,
  * trials end into invoices that can succeed or fail, and every state change is

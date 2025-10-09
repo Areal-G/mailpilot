@@ -85,7 +85,7 @@ const LEGACY_GENERATED_EMULATE_CONFIG_PATH = resolve(
   CONTEXT_DIR,
   "worktree-emulate.config.yaml",
 );
-const SHARED_ENV_DIR = resolve(homedir(), ".config/mailpilot");
+const SHARED_ENV_DIR = resolve(homedir(), ".config/mail-pilot");
 const SHARED_ENV_LOCAL_PATH = resolve(SHARED_ENV_DIR, ".env.local");
 const SHARED_ENV_TEST_PATH = resolve(SHARED_ENV_DIR, ".env.test");
 const SHARED_ENV_E2E_PATH = resolve(SHARED_ENV_DIR, ".env.e2e");

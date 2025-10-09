@@ -38,7 +38,7 @@ type BookingLink = NonNullable<
 export function BookingLinksSection() {
   const bookingLinksEnabled = useBookingLinksEnabled();
 
-  if (bookingLinksEnabled) return <BookingLinksWithInboxZeroLink />;
+  if (bookingLinksEnabled) return <BookingLinksWithMailPilotLink />;
 
   return (
     <section className="space-y-3">
@@ -47,23 +47,23 @@ export function BookingLinksSection() {
   );
 }
 
-function BookingLinksWithInboxZeroLink() {
+function BookingLinksWithMailPilotLink() {
   const { data } = useBookingLinks();
-  const hasActiveInboxZeroLink = Boolean(
+  const hasActiveMailPilotLink = Boolean(
     data?.bookingLinks.some((bookingLink) => bookingLink.isActive),
   );
 
   return (
     <section className="space-y-3">
-      <InboxZeroBookingLinkPanel />
+      <MailPilotBookingLinkPanel />
       <CalendarBookingLinkCard
-        disabledByInboxZeroLink={hasActiveInboxZeroLink}
+        disabledByMailPilotLink={hasActiveMailPilotLink}
       />
     </section>
   );
 }
 
-function InboxZeroBookingLinkPanel() {
+function MailPilotBookingLinkPanel() {
   const { emailAccountId, emailAccount } = useAccount();
   const { data, isLoading, error, mutate } = useBookingLinks();
   const [configureLinkId, setConfigureLinkId] = useState<string | null>(null);
@@ -171,9 +171,9 @@ function InboxZeroBookingLinkPanel() {
 }
 
 function CalendarBookingLinkCard({
-  disabledByInboxZeroLink = false,
+  disabledByMailPilotLink = false,
 }: {
-  disabledByInboxZeroLink?: boolean;
+  disabledByMailPilotLink?: boolean;
 }) {
   const { emailAccountId } = useAccount();
   const analytics = useProductAnalytics("calendars");
@@ -196,7 +196,7 @@ function CalendarBookingLinkCard({
   const onSubmit: SubmitHandler<z.infer<typeof updateBookingLinkBody>> = (
     formData,
   ) => {
-    if (disabledByInboxZeroLink) return;
+    if (disabledByMailPilotLink) return;
 
     analytics.captureAction("calendar_booking_link_save_started", {
       has_booking_link: Boolean(formData.bookingLink),
@@ -215,7 +215,7 @@ function CalendarBookingLinkCard({
           error={error}
           loadingComponent={<Skeleton className="h-10 w-80" />}
         >
-          {disabledByInboxZeroLink ? (
+          {disabledByMailPilotLink ? (
             <span className="text-sm text-muted-foreground">
               Using Mail Pilot booking link
             </span>

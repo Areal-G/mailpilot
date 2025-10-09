@@ -3,7 +3,7 @@ import { redirectWithError, redirectWithMessage } from "./redirect";
 
 vi.mock("@/env", () => ({
   env: {
-    NEXT_PUBLIC_BASE_URL: "https://www.mailpilot.dev",
+    NEXT_PUBLIC_BASE_URL: "https://www.mailpilot.app",
   },
 }));
 
@@ -16,7 +16,7 @@ describe("redirectWithMessage", () => {
     );
 
     expect(response.headers.get("location")).toBe(
-      "https://www.mailpilot.dev/phish?step=1&message=connected#fragment",
+      "https://www.mailpilot.app/phish?step=1&message=connected#fragment",
     );
   });
 
@@ -28,7 +28,7 @@ describe("redirectWithMessage", () => {
     );
 
     expect(response.headers.get("location")).toBe(
-      "https://www.mailpilot.dev/phish?step=1&message=connected#fragment",
+      "https://www.mailpilot.app/phish?step=1&message=connected#fragment",
     );
   });
 });
@@ -36,13 +36,13 @@ describe("redirectWithMessage", () => {
 describe("redirectWithError", () => {
   it("preserves same-origin redirect targets", () => {
     const response = redirectWithError(
-      new URL("https://www.mailpilot.dev/accounts"),
+      new URL("https://www.mailpilot.app/accounts"),
       "forbidden",
       new Headers(),
     );
 
     expect(response.headers.get("location")).toBe(
-      "https://www.mailpilot.dev/accounts?error=forbidden",
+      "https://www.mailpilot.app/accounts?error=forbidden",
     );
   });
 });
