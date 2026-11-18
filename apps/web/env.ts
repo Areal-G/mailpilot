@@ -417,13 +417,6 @@ const parsedEnv = createEnv({
     TELEGRAM_BOT_SECRET_TOKEN: z.string().optional(),
     APP_REVIEW_DEMO_ENABLED: booleanString.optional().default(false),
     APP_REVIEW_DEMO_ACCOUNTS: z.string().optional(),
-    DEMO_USER_EMAIL: z
-      .string()
-      .trim()
-      .toLowerCase()
-      .email()
-      .optional()
-      .default("developer@example.com"),
     SSO_LOGIN_ENABLED: booleanString.optional().default(false),
     UNSUBSCRIBE_WORKER_URL: z
       .url()
@@ -458,9 +451,7 @@ const parsedEnv = createEnv({
       optionalEnvValue,
       z.coerce.number().int().nonnegative().default(5),
     ),
-    NEXT_PUBLIC_CALL_LINK: z
-      .string()
-      .default("https://mailpilot.app/feedback"),
+    NEXT_PUBLIC_CALL_LINK: z.string().default("https://mailpilot.app/feedback"),
     NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_API_HOST: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_ONBOARDING_SURVEY_ID: z.string().optional(),
@@ -507,7 +498,6 @@ const parsedEnv = createEnv({
       .default(false),
     NEXT_PUBLIC_USE_AEONIK_FONT: booleanString.optional().default(false),
     NEXT_PUBLIC_BYPASS_PREMIUM_CHECKS: booleanString.optional(),
-    NEXT_PUBLIC_DEMO_MODE: booleanString.optional().default(false),
     NEXT_PUBLIC_DIGEST_ENABLED: booleanString.optional(),
     NEXT_PUBLIC_MEETING_BRIEFS_ENABLED: booleanString.optional(),
     NEXT_PUBLIC_MEETING_RECORDER_ENABLED: booleanString.optional(),
@@ -617,7 +607,6 @@ const parsedEnv = createEnv({
     NEXT_PUBLIC_USE_AEONIK_FONT: process.env.NEXT_PUBLIC_USE_AEONIK_FONT,
     NEXT_PUBLIC_BYPASS_PREMIUM_CHECKS:
       process.env.NEXT_PUBLIC_BYPASS_PREMIUM_CHECKS,
-    NEXT_PUBLIC_DEMO_MODE: process.env.NEXT_PUBLIC_DEMO_MODE,
     NEXT_PUBLIC_DIGEST_ENABLED: process.env.NEXT_PUBLIC_DIGEST_ENABLED,
     NEXT_PUBLIC_MEETING_BRIEFS_ENABLED:
       process.env.NEXT_PUBLIC_MEETING_BRIEFS_ENABLED,

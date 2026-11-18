@@ -34,8 +34,6 @@ import { Mail } from "@/components/new-landing/icons/Mail";
 import { landingPageAnalytics } from "@/hooks/useAnalytics";
 import { cn } from "@/utils";
 import { MAIL_CLIENT_SIGNUP_PATH } from "@/utils/config";
-import { GET_STARTED_PATH } from "@/utils/landing-paths";
-import { env } from "@/env";
 
 type PricingTier = Tier & {
   badges?: {
@@ -60,7 +58,7 @@ const pricingTiers: PricingTier[] = [
     button: {
       variant: "secondary-two",
       content: "Try free for 7 days",
-      href: GET_STARTED_PATH,
+      href: "/login",
     },
     icon: <Briefcase />,
   },
@@ -72,7 +70,7 @@ const pricingTiers: PricingTier[] = [
     ],
     button: {
       content: "Try free for 7 days",
-      href: GET_STARTED_PATH,
+      href: "/login",
     },
     icon: <Zap />,
   },
@@ -82,7 +80,7 @@ const pricingTiers: PricingTier[] = [
     button: {
       variant: "secondary-two",
       content: "Try free for 7 days",
-      href: GET_STARTED_PATH,
+      href: "/login",
     },
     icon: <Sparkle />,
   },
@@ -170,11 +168,7 @@ export function Pricing() {
               </div>
               <Button size="lg" asChild>
                 <Link
-                  href={
-                    env.NEXT_PUBLIC_DEMO_MODE
-                      ? GET_STARTED_PATH
-                      : MAIL_CLIENT_SIGNUP_PATH
-                  }
+                  href={MAIL_CLIENT_SIGNUP_PATH}
                   className="shrink-0 whitespace-nowrap"
                   onClick={() =>
                     landingPageAnalytics.pricingCtaClicked(posthog, {

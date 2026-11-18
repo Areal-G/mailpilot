@@ -15,6 +15,7 @@ export function createForwardingQueueHandler<TSchema extends z.ZodTypeAny>({
   path,
   invalidPayloadMessage,
   visibilityTimeoutSeconds,
+  maxDeliveryAttempts,
   getLoggerContext,
   getTraceContext,
 }: {
@@ -23,6 +24,9 @@ export function createForwardingQueueHandler<TSchema extends z.ZodTypeAny>({
   path: string;
   invalidPayloadMessage: string;
   visibilityTimeoutSeconds: number;
+  // Drops the message after this many failed deliveries. Unset retries until
+  // the queue's own retention runs out.
+  maxDeliveryAttempts?: number;
   getLoggerContext?: (
     payload: z.infer<TSchema>,
     metadata: QueueMetadata,
@@ -64,11 +68,25 @@ export function createForwardingQueueHandler<TSchema extends z.ZodTypeAny>({
     },
     {
       visibilityTimeoutSeconds,
-      retry: (_error, metadata) => ({
-        afterSeconds: getQueueRetryBackoffSeconds({
-          deliveryCount: metadata.deliveryCount,
-        }),
-      }),
+      retry: (error, metadata) => {
+        if (
+          maxDeliveryAttempts !== undefined &&
+          metadata.deliveryCount >= maxDeliveryAttempts
+        ) {
+          logger.error("Dropping queue message after final delivery attempt", {
+            error,
+            queueMessageId: metadata.messageId,
+            deliveryCount: metadata.deliveryCount,
+          });
+          return { acknowledge: true };
+        }
+
+        return {
+          afterSeconds: getQueueRetryBackoffSeconds({
+            deliveryCount: metadata.deliveryCount,
+          }),
+        };
+      },
     },
   );
 

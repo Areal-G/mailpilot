@@ -8,20 +8,32 @@ import type {
 import { saasFounderMixedInbox } from "../__tests__/fixtures/inboxes/demo-inboxes";
 
 const DEFAULT_BASE_URL = "http://localhost:3000";
-const GOOGLE_EMAIL = "developer@example.com";
-const GOOGLE_NAME = "Developer";
 const MICROSOFT_EMAIL = "developer@outlook.test";
 const MICROSOFT_NAME = "Developer";
 const TEAMMATE_GOOGLE_EMAIL = "teammate@example.com";
 const TEAMMATE_MICROSOFT_EMAIL = "teammate@outlook.test";
 const TEAMMATE_NAME = "Teammate";
 
-export function buildEmulateSeed(baseUrl = DEFAULT_BASE_URL) {
+// The seeded Gmail mailbox owner. Local sign-in picks this account in the
+// Google emulator, so set SEED_OWNER_EMAIL / SEED_OWNER_NAME to sign in as
+// someone other than the default developer account.
+export function getSeedOwner(env: Partial<NodeJS.ProcessEnv> = process.env) {
+  return {
+    email:
+      env.SEED_OWNER_EMAIL?.trim().toLowerCase() || "developer@example.com",
+    name: env.SEED_OWNER_NAME?.trim() || "Developer",
+  };
+}
+
+export function buildEmulateSeed(
+  baseUrl = DEFAULT_BASE_URL,
+  owner = getSeedOwner(),
+) {
   const normalizedBaseUrl = baseUrl.replace(/\/+$/u, "");
 
   return {
     google: {
-      users: [{ email: GOOGLE_EMAIL, name: GOOGLE_NAME }],
+      users: [owner],
       oauth_clients: [
         {
           client_id: "emulate-google-client.apps.googleusercontent.com",
@@ -34,16 +46,13 @@ export function buildEmulateSeed(baseUrl = DEFAULT_BASE_URL) {
           ],
         },
       ],
-      labels: toSeedLabels(saasFounderMixedInbox, GOOGLE_EMAIL),
-      messages: toSeedMessages(saasFounderMixedInbox, {
-        email: GOOGLE_EMAIL,
-        name: GOOGLE_NAME,
-      }),
+      labels: toSeedLabels(saasFounderMixedInbox, owner.email),
+      messages: toSeedMessages(saasFounderMixedInbox, owner),
       calendars: [
         {
           id: "primary",
-          user_email: GOOGLE_EMAIL,
-          summary: GOOGLE_EMAIL,
+          user_email: owner.email,
+          summary: owner.email,
           primary: true,
           selected: true,
           time_zone: "UTC",
@@ -52,7 +61,7 @@ export function buildEmulateSeed(baseUrl = DEFAULT_BASE_URL) {
       drive_items: [
         {
           id: "drv_root_child",
-          user_email: GOOGLE_EMAIL,
+          user_email: owner.email,
           name: "Smoke Docs",
           mime_type: "application/vnd.google-apps.folder",
           parent_ids: ["root"],

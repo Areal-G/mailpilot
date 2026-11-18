@@ -7,7 +7,6 @@ import { Logo } from "@/components/new-landing/common/Logo";
 import { Button } from "@/components/new-landing/common/Button";
 import { HeaderLinks } from "@/components/new-landing/HeaderLinks";
 import { landingPageAnalytics } from "@/hooks/useAnalytics";
-import { GET_STARTED_PATH, LOG_IN_PATH } from "@/utils/landing-paths";
 
 interface HeaderProps {
   className: string;
@@ -34,7 +33,7 @@ export function Header({ className }: HeaderProps) {
         <div className="hidden md:block">
           <Button variant="secondary" asChild>
             <Link
-              href={LOG_IN_PATH}
+              href="/login"
               onClick={() => landingPageAnalytics.logInClicked(posthog)}
             >
               Log in
@@ -43,7 +42,7 @@ export function Header({ className }: HeaderProps) {
         </div>
         <Button asChild>
           <Link
-            href={GET_STARTED_PATH}
+            href="/login"
             onClick={() => landingPageAnalytics.getStartedClicked(posthog)}
           >
             <span className="relative z-10">Get started free</span>

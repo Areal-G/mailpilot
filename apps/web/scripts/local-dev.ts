@@ -16,7 +16,7 @@ import { Client } from "pg";
 import Redis from "ioredis";
 import { createLlmEmulator } from "../__tests__/emulators/llm";
 import { createStripeEmulator } from "../__tests__/emulators/stripe";
-import { writeEmulateSeed } from "./emulate-seed";
+import { getSeedOwner, writeEmulateSeed } from "./emulate-seed";
 import { createLocalEnvironment } from "./local-dev/environment";
 import { acquireLocalLock } from "./local-dev/lock";
 import { createProcessManager } from "./local-dev/processes";
@@ -247,7 +247,8 @@ async function main() {
       ["exec", "prisma", "migrate", "deploy"],
       1_800_000,
     );
-    await configureDemoOnboarding(env.DATABASE_URL);
+    const seedOwner = getSeedOwner();
+    await configureLocalOnboarding(env.DATABASE_URL, seedOwner.email);
 
     const redis = new Redis(env.REDIS_URL, {
       lazyConnect: true,
@@ -328,7 +329,7 @@ async function main() {
       240_000,
     );
     console.log(
-      `\n[local] Ready: ${env.NEXT_PUBLIC_BASE_URL}/mail\n[local] Sign in with Google: developer@example.com\n[local] Or Microsoft: developer@outlook.test\n[local] Mail, billing, email delivery, and AI use local emulators. AI responses are canned.\n[local] Data survives restarts. Press Ctrl-C to stop.\n`,
+      `\n[local] Ready: ${env.NEXT_PUBLIC_BASE_URL}/mail\n[local] Sign in with Google: ${seedOwner.email}\n[local] Or Microsoft: developer@outlook.test\n[local] Mail, billing, email delivery, and AI use local emulators. AI responses are canned.\n[local] Data survives restarts. Press Ctrl-C to stop.\n`,
     );
     await delay(2 ** 31 - 1, undefined, { signal: processes.signal });
   } catch (error) {
@@ -367,7 +368,10 @@ async function main() {
   }
 }
 
-async function configureDemoOnboarding(databaseUrl: string) {
+async function configureLocalOnboarding(
+  databaseUrl: string,
+  googleEmail: string,
+) {
   const client = new Client({
     connectionString: databaseUrl,
     connectionTimeoutMillis: 2000,
@@ -386,7 +390,7 @@ async function configureDemoOnboarding(databaseUrl: string) {
       $$ LANGUAGE plpgsql;
       DROP TRIGGER IF EXISTS local_dev_onboarding ON "User";
       CREATE TRIGGER local_dev_onboarding BEFORE INSERT ON "User"
-      FOR EACH ROW WHEN (NEW.email IN ('developer@example.com', 'developer@outlook.test'))
+      FOR EACH ROW WHEN (NEW.email IN (${client.escapeLiteral(googleEmail)}, 'developer@outlook.test'))
       EXECUTE FUNCTION local_dev_complete_onboarding();
     `);
   } finally {

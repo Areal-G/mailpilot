@@ -3,6 +3,7 @@ import { saasFounderMixedInbox } from "../__tests__/fixtures/inboxes/demo-inboxe
 import {
   buildEmulateSeed,
   buildEmulateSeedWithTeammates,
+  getSeedOwner,
 } from "./emulate-seed";
 
 describe("buildEmulateSeed", () => {
@@ -17,6 +18,29 @@ describe("buildEmulateSeed", () => {
     expect(seed.google.labels).toHaveLength(
       saasFounderMixedInbox.labels.length,
     );
+  });
+
+  it("seeds the mailbox for the configured owner", () => {
+    const owner = getSeedOwner({
+      SEED_OWNER_EMAIL: " Owner@Example.com ",
+      SEED_OWNER_NAME: "Owner",
+    });
+    const seed = buildEmulateSeed(undefined, owner);
+
+    expect(owner).toEqual({ email: "owner@example.com", name: "Owner" });
+    expect(seed.google.users).toEqual([owner]);
+    expect(
+      seed.google.messages.every(
+        (message) => message.user_email === "owner@example.com",
+      ),
+    ).toBe(true);
+  });
+
+  it("defaults the owner to the developer account", () => {
+    expect(getSeedOwner({})).toEqual({
+      email: "developer@example.com",
+      name: "Developer",
+    });
   });
 
   it("uses the workspace URL for OAuth callbacks", () => {

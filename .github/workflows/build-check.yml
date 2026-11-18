@@ -3,33 +3,9 @@ name: Build Check
 permissions:
   contents: read
 
+# Manual only: this repo is kept for storage, so nothing runs automatically.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "apps/web/**"
-      - "packages/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "pnpm-workspace.yaml"
-      - "turbo.json"
-      - "tsconfig.json"
-      - "konsistent.json"
-      - "scripts/pnpm-install-without-desktop.sh"
-      - ".github/workflows/build-check.yml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "apps/web/**"
-      - "packages/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "pnpm-workspace.yaml"
-      - "turbo.json"
-      - "tsconfig.json"
-      - "konsistent.json"
-      - "scripts/pnpm-install-without-desktop.sh"
-      - ".github/workflows/build-check.yml"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

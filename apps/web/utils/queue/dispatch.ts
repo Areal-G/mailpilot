@@ -1,4 +1,4 @@
-import { send } from "@vercel/queue";
+import { type SendOptions, send } from "@vercel/queue";
 import { env } from "@/env";
 import type { Logger } from "@/utils/logger";
 import {
@@ -12,11 +12,14 @@ import { getQueueBackend } from "@/utils/queue/backend";
 export async function enqueueBackgroundJob<T>({
   topic,
   body,
+  vercel,
   qstash,
   logger,
 }: {
   topic: string;
   body: T;
+  // Applies only when the job goes through Vercel Queues.
+  vercel?: Pick<SendOptions, "delaySeconds">;
   qstash: {
     queueName: string;
     parallelism: number;
@@ -28,7 +31,7 @@ export async function enqueueBackgroundJob<T>({
 }) {
   if (isVercelQueueDispatchEnabled()) {
     try {
-      await send(topic, body);
+      await send(topic, body, vercel);
       return "vercel";
     } catch (error) {
       logger.error("Failed to enqueue Vercel queue message", {

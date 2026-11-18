@@ -972,8 +972,8 @@ importers:
         specifier: 18.0.8
         version: 18.0.8
       emulate:
-        specifier: npm:@mailpilot/emulate@0.14.1
-        version: '@mailpilot/emulate@0.14.1'
+        specifier: npm:@inbox-zero/emulate@0.14.1
+        version: '@inbox-zero/emulate@0.14.1'
       esbuild:
         specifier: 0.28.2
         version: 0.28.2
@@ -3421,7 +3421,7 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@mailpilot/emulate@0.14.1':
+  '@inbox-zero/emulate@0.14.1':
     resolution: {integrity: sha512-DyLBBP4YPgCzTC5nOhPLXjYJGsTDCMOviOkrAY0h5DyIQlR/ZohhvTOVCryTNbxxZHh4C/VKK/31MXEneijQWg==}
     hasBin: true
 
@@ -15871,7 +15871,7 @@ snapshots:
   '@img/sharp-win32-x64@0.35.5':
     optional: true
 
-  '@mailpilot/emulate@0.14.1':
+  '@inbox-zero/emulate@0.14.1':
     dependencies:
       commander: 14.0.3
       picocolors: 1.1.1

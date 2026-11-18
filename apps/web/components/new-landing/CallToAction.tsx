@@ -6,9 +6,6 @@ import { Button } from "@/components/new-landing/common/Button";
 import { Chat } from "@/components/new-landing/icons/Chat";
 import { landingPageAnalytics } from "@/hooks/useAnalytics";
 import { cn } from "@/utils";
-import { env } from "@/env";
-import { TryDemoForm } from "@/components/TryDemoForm";
-import { GET_STARTED_PATH } from "@/utils/landing-paths";
 
 interface CallToActionProps {
   buttonSize?: "xl" | "lg";
@@ -22,7 +19,7 @@ export function CallToAction({
   text = "Get started",
   buttonSize = "xl",
   className,
-  href = GET_STARTED_PATH,
+  href = "/login",
   showSalesButton = true,
 }: CallToActionProps) {
   const posthog = usePostHog();
@@ -37,13 +34,7 @@ export function CallToAction({
           <span className="relative z-10">{text}</span>
         </Link>
       </Button>
-      {env.NEXT_PUBLIC_DEMO_MODE ? (
-        <TryDemoForm>
-          <Button variant="secondary-two" size={buttonSize} type="submit">
-            Try demo
-          </Button>
-        </TryDemoForm>
-      ) : showSalesButton ? (
+      {showSalesButton ? (
         <Button variant="secondary-two" size={buttonSize} asChild>
           <Link
             href="https://www.mailpilot.app/sales"

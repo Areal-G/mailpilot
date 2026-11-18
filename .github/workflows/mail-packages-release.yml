@@ -1,13 +1,7 @@
 name: Mail packages
 
+# Manual only: this repo is kept for storage, so nothing runs automatically.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "packages/mail-core/**"
-      - "packages/mail-sqlite/**"
-      - "packages/mail-react/**"
-      - ".github/workflows/mail-packages-release.yml"
   workflow_dispatch:
 
 permissions:

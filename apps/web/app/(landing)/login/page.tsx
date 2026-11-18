@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { WELCOME_PATH } from "@/utils/config";
 import { MutedText } from "@/components/Typography";
 import { normalizeInternalPath } from "@/utils/path";
-import { TryDemoForm } from "@/components/TryDemoForm";
 import {
   BRAND_NAME,
   SUPPORT_EMAIL,
@@ -60,13 +59,6 @@ export default async function AuthenticationPage(props: {
               useGoogleOauthEmulator={isGoogleOauthEmulationEnabled()}
             />
           </Suspense>
-          {env.NEXT_PUBLIC_DEMO_MODE ? (
-            <TryDemoForm className="mt-4">
-              <Button type="submit" variant="outline" className="w-full">
-                Try demo, no sign-up needed
-              </Button>
-            </TryDemoForm>
-          ) : null}
         </div>
 
         {searchParams?.error && <ErrorAlert error={searchParams?.error} />}
@@ -167,16 +159,6 @@ function ErrorAlert({ error }: { error: string }) {
             </Button>
           </>
         }
-      />
-    );
-  }
-
-  if (error === "demo_unavailable") {
-    return (
-      <AlertBasic
-        variant="destructive"
-        title="Demo unavailable"
-        description="The demo account hasn't been set up yet. Sign in once with the demo account to create it."
       />
     );
   }

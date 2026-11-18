@@ -1,8 +1,7 @@
 name: Desktop Release
 
+# Manual only: this repo is kept for storage, so nothing runs automatically.
 on:
-  push:
-    tags: ["desktop-v*"]
   workflow_dispatch:
     inputs:
       publish:

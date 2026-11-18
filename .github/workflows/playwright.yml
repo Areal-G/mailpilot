@@ -1,71 +1,7 @@
 name: Playwright
 
+# Manual only: this repo is kept for storage, so nothing runs automatically.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "packages/mail-*/**"
-      - "packages/email-editor/**"
-      - "apps/desktop/**"
-      - "apps/web/app/**"
-      - "apps/web/components/**"
-      - "apps/web/hooks/**"
-      - "apps/web/providers/**"
-      - "apps/web/store/**"
-      - "apps/web/styles/**"
-      - "apps/web/utils/auth/**"
-      - "apps/web/utils/auth.ts"
-      - "apps/web/utils/auth-client.ts"
-      - "apps/web/utils/middleware.ts"
-      - "apps/web/utils/playwright/**"
-      - "apps/web/__tests__/playwright/**"
-      - "apps/web/emulate.playwright.config.yaml"
-      - "apps/web/emulate.playwright.microsoft.yaml"
-      - "apps/web/playwright.config.mjs"
-      - "apps/web/scripts/generate-playwright-report-dashboard.ts"
-      - "apps/web/scripts/playwright-report-dashboard*"
-      - "apps/web/scripts/png-validation*"
-      - "apps/web/env.ts"
-      - "apps/web/instrumentation.ts"
-      - "apps/web/next.config.*"
-      - "apps/web/package.json"
-      - "pnpm-lock.yaml"
-      - "scripts/pnpm-install-without-desktop.sh"
-      - "scripts/publish-playwright-report.sh"
-      - ".github/workflows/playwright.yml"
-      - ".github/workflows/publish-playwright-report.yml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "packages/mail-*/**"
-      - "packages/email-editor/**"
-      - "apps/desktop/**"
-      - "apps/web/app/**"
-      - "apps/web/components/**"
-      - "apps/web/hooks/**"
-      - "apps/web/providers/**"
-      - "apps/web/store/**"
-      - "apps/web/styles/**"
-      - "apps/web/utils/**"
-      - "apps/web/lib/**"
-      - "apps/web/__tests__/playwright/**"
-      - "apps/web/emulate.playwright.config.yaml"
-      - "apps/web/emulate.playwright.microsoft.yaml"
-      - "apps/web/playwright.config.mjs"
-      - "apps/web/scripts/generate-playwright-report-dashboard.ts"
-      - "apps/web/scripts/playwright-report-dashboard*"
-      - "apps/web/scripts/png-validation*"
-      - "apps/web/env.ts"
-      - "apps/web/instrumentation.ts"
-      - "apps/web/next.config.*"
-      - "apps/web/package.json"
-      - "pnpm-lock.yaml"
-      - "scripts/pnpm-install-without-desktop.sh"
-      - "scripts/publish-playwright-report.sh"
-      - ".github/workflows/playwright.yml"
-      - ".github/workflows/publish-playwright-report.yml"
-  schedule:
-    - cron: "0 6 * * *"
   workflow_dispatch:
 
 permissions:

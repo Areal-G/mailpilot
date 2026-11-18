@@ -10,7 +10,7 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Prisma_7-4169E1?logo=postgresql&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-BullMQ-DC382D?logo=redis&logoColor=white)
 ![Tests](https://img.shields.io/badge/test_files-1%2C300%2B-2563eb)
-![Demo](https://img.shields.io/badge/demo-guest_login-2563eb)
+[![Live demo](https://img.shields.io/badge/demo-live-2563eb)](https://mailpilot.arealjagema.com)
 
 [Features](#features) · [Design](#design) · [Screenshots](#screenshots) · [Tech stack](#tech-stack) · [Getting started](#getting-started)
 
@@ -32,11 +32,11 @@ Mail Pilot has two parts, and each works on its own:
 
 Everything is self-hostable. A single command, `pnpm local:start`, runs the whole stack against local emulators for Google, Microsoft, the LLM, billing and email delivery, so no OAuth credentials or API keys are needed to try it.
 
-## Try the demo
+## Live demo
 
-Run it locally (see [Getting started](#getting-started)) and open `http://localhost:3000/login`. Local mode turns on the guest demo: click **Try demo, no sign-up needed** to land in a seeded Gmail inbox as `developer@example.com`. You can also sign in through the emulated Google (`developer@example.com`) or Microsoft (`developer@outlook.test`) accounts.
+**[mailpilot.arealjagema.com](https://mailpilot.arealjagema.com)** runs a portfolio build of the web app with in-memory sample data and no outside services. It is built from the [`demo`](../../tree/demo) branch.
 
-The guest demo blocks sending email, billing, API keys and other account-level actions. AI responses come from a local emulator and are canned, so local mode shows how the app flows, not how good the model is.
+To try the full app, run it locally (see [Getting started](#getting-started)), open `http://localhost:3000/login` and sign in through the emulated Google (`developer@example.com`) or Microsoft (`developer@outlook.test`) account. AI responses come from a local emulator and are canned, so local mode shows how the app flows, not how good the model is.
 
 ## Features
 
@@ -111,7 +111,7 @@ Ask the assistant to handle today's inbox, clean up, or suggest new rules. The s
 | --- | --- |
 | <img src="readme/clean.png" width="440" alt="Inbox cleaner onboarding"><br>**Inbox cleaner.** A guided clean-up that archives old mail while keeping important threads. | <img src="readme/rule-light.png" width="440" alt="Rule editor"><br>**Rule editor.** Conditions and actions for a single rule. |
 
-All screenshots come from the running app in local mode with the seeded demo mailbox: desktop at 1440×900 and mobile at 390×844 (iPhone user agent), both at retina resolution.
+All screenshots come from the running app in local mode with the seeded sample mailbox: desktop at 1440×900 and mobile at 390×844 (iPhone user agent), both at retina resolution.
 
 ## Tech stack
 
@@ -176,33 +176,8 @@ flowchart LR
 - **Provider-agnostic mail layer.** `EmailProvider` (`utils/email/types.ts`) is one interface implemented for Gmail and Microsoft Graph: archive, label, draft, bulk-archive by sender and more. Rules, cleanup and the assistant call the interface, never a provider SDK directly.
 - **Rules as a staged pipeline.** `runRules` (`utils/ai/choose-rule/run-rules.ts`) prepares the rule set, finds matching rules (static conditions first, the LLM only when needed), then keeps conversation and calendar rules consistent across a thread before any action runs.
 - **Schemas that work with LLMs.** Structured output from some providers rejects `min`/`max` constraints, so fields such as action delays have a strict schema for user input and an "LLM-safe" twin that moves the limits into the description.
-- **A demo that cannot leak.** The guest demo is blocked at two layers: a named list of server actions (sending, billing, API keys, account deletion, integrations) and a check on API routes in the middleware.
 - **Tests at every level.** More than 1,300 test files across the workspace: Vitest unit tests next to the code, integration and database suites, Playwright against emulated Google, Microsoft and LLM providers, and AI evals that check behaviour rather than exact wording.
 - **Formatting and linting** with Biome (Ultracite preset), and strict TypeScript across apps and packages (`pnpm typecheck:packages`).
-
-```ts
-// apps/web/utils/demo.ts
-// Server actions with an effect outside the demo mailbox: sending mail,
-// billing, account deletion, connecting outside services, and invitations.
-const DEMO_BLOCKED_ACTIONS = new Set([
-  "claimPremiumAdmin",
-  "createApiKey",
-  "deleteAccount",
-  // …
-]);
-
-export function assertDemoActionAllowed({
-  actionName,
-  userEmail,
-}: {
-  actionName: string;
-  userEmail: string | null | undefined;
-}) {
-  if (isDemoUserEmail(userEmail) && DEMO_BLOCKED_ACTIONS.has(actionName)) {
-    throw new SafeError(DEMO_BLOCKED_MESSAGE, 403);
-  }
-}
-```
 
 ```ts
 // apps/web/utils/actions/rule.validation.ts
@@ -241,6 +216,16 @@ pnpm local:start          # add --port 3001 if 3000 is taken
 
 Then open `http://localhost:3000/mail`. The launcher starts PostgreSQL, Redis and its HTTP proxy, the Google and Microsoft emulators, the billing, email-delivery and LLM emulators, and Next.js. It applies migrations and waits until everything is ready. Generated credentials and seed data live in `.context/local-dev/`, and database data survives restarts. Use `--backend docker` or `--backend native` to choose how PostgreSQL and Redis run. Press **Ctrl-C** to stop everything.
 
+### Sample data
+
+The Gmail emulator is seeded with a sample inbox (threads, labels, a calendar and a Drive folder). The launcher writes the seed on every start; `npm run seed` writes it to `apps/web/.tmp/emulate.generated.json` for running the emulator on its own (`pnpm -F mailpilot-web emulate:google`). The seed only writes that file, so it is safe to run repeatedly.
+
+The mailbox owner, the account you pick on the emulated Google sign-in, comes from `SEED_OWNER_EMAIL` and `SEED_OWNER_NAME` (default `developer@example.com`, `Developer`). There is no password: sign-in is OAuth against the emulator.
+
+```bash
+SEED_OWNER_EMAIL=me@example.com SEED_OWNER_NAME="Me" pnpm local:start
+```
+
 ### Run against real providers
 
 ```bash
@@ -269,7 +254,7 @@ pnpm dev
 | `LLM_API_KEY`, `DEFAULT_LLMS`, `ECONOMY_LLMS`, `CHAT_LLMS`, `NANO_LLMS`, `DRAFT_LLMS` | Yes | AI provider key and `provider:model` choices per task |
 | `SLACK_*`, `TELEGRAM_*`, `TEAMS_*` | No | Chat integrations |
 | `STRIPE_*` | No | Billing |
-| `NEXT_PUBLIC_DEMO_MODE`, `DEMO_USER_EMAIL` | No | Guest "Try demo" sign-in. Enable only with an emulated or throwaway mailbox |
+| `SEED_OWNER_EMAIL`, `SEED_OWNER_NAME` | No | Owner of the seeded emulator mailbox in local mode |
 | `NEXT_PUBLIC_BYPASS_PREMIUM_CHECKS` | No | Unlock premium features when self-hosting |
 
 </details>
@@ -284,6 +269,7 @@ Run from the repository root:
 | Script | What it does |
 |---|---|
 | `pnpm local:start` | Full local stack with emulators |
+| `npm run seed` | Write the sample-mailbox seed for the Gmail emulator |
 | `pnpm dev` / `pnpm build` | Web app dev server / production build (Turborepo) |
 | `pnpm desktop` / `pnpm desktop:dist` | Electron app in dev / packaged |
 | `pnpm worker` | Background worker |
@@ -343,11 +329,11 @@ pnpm -F mailpilot-web test-ai                    # AI evals (needs a real LLM ke
 - **AWS:** `pnpm setup-aws` (Copilot) or `pnpm setup-terraform`.
 - **Vercel** works for the web app, with a managed PostgreSQL database, Upstash Redis and QStash.
 
-For production, create Google and Microsoft OAuth apps, set up Gmail Pub/Sub for push notifications, choose your LLM providers, and keep `NEXT_PUBLIC_DEMO_MODE` off.
+For production, create Google and Microsoft OAuth apps, set up Gmail Pub/Sub for push notifications, and choose your LLM providers.
 
 ## Roadmap
 
-- Sample analytics and sender data in the local demo, so the Bulk Unsubscribe and Analytics pages are populated out of the box.
+- Sample analytics and sender data in local mode, so the Bulk Unsubscribe and Analytics pages are populated out of the box.
 - Smarter draft replies that learn from sent mail over time.
 - More chat channels and richer actions from Slack and Teams.
 - Shared inboxes and team assignment in the client.

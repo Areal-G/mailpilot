@@ -1,9 +1,4 @@
 import { ZodError } from "zod";
-import {
-  DEMO_BLOCKED_MESSAGE,
-  isDemoBlockedApiRequest,
-  isDemoUserEmail,
-} from "@/utils/demo";
 import { type NextRequest, NextResponse, after } from "next/server";
 import { randomUUID } from "node:crypto";
 import * as Sentry from "@sentry/nextjs";
@@ -335,19 +330,6 @@ async function authMiddleware(
     return NextResponse.json(
       { error: "Unauthorized", isKnownError: true },
       { status: 401 },
-    );
-  }
-
-  if (
-    isDemoUserEmail(session.user.email) &&
-    isDemoBlockedApiRequest({
-      method: req.method,
-      pathname: new URL(req.url).pathname,
-    })
-  ) {
-    return NextResponse.json(
-      { error: DEMO_BLOCKED_MESSAGE, isKnownError: true },
-      { status: 403 },
     );
   }
 

@@ -1,9 +1,8 @@
 name: publish Playwright report
 
+# Manual only: this repo is kept for storage, so nothing runs automatically.
 on:
-  workflow_run:
-    workflows: [Playwright]
-    types: [completed]
+  workflow_dispatch:
 
 permissions:
   actions: read

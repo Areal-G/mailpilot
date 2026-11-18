@@ -3,19 +3,9 @@ name: Deploy Image Proxy
 permissions:
   contents: read
 
+# Manual only: this repo is kept for storage, so nothing runs automatically.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "apps/image-proxy/**"
-      - "packages/image-proxy/**"
-      - "packages/network/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "pnpm-workspace.yaml"
-      - "turbo.json"
-      - "tsconfig.json"
-      - ".github/workflows/deploy-image-proxy.yml"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

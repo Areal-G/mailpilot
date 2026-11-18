@@ -5,8 +5,8 @@ permissions:
 
 # Runs AI tests only when explicitly triggered
 
+# Manual only: this repo is kept for storage, so nothing runs automatically.
 on:
-  # Manual trigger with optional test filter and multi-model support
   workflow_dispatch:
     inputs:
       test_filter:

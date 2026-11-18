@@ -7,12 +7,8 @@ name: E2E Flow Tests
 # To enable: Set the repository variable E2E_FLOWS_ENABLED=true
 # To disable: Remove the variable or set it to anything other than "true"
 
+# Manual only: this repo is kept for storage, so nothing runs automatically.
 on:
-  # Run on schedule (every 12 hours)
-  schedule:
-    - cron: "0 */12 * * *"
-
-  # Allow manual trigger with branch selection
   workflow_dispatch:
     inputs:
       branch:
@@ -23,8 +19,8 @@ on:
         description: "Specific test file (optional, e.g., full-reply-cycle)"
         required: false
         default: ""
-
 # Prevent concurrent runs to avoid test account conflicts
+
 concurrency:
   group: e2e-flows
   cancel-in-progress: false

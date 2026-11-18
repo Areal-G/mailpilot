@@ -1,12 +1,8 @@
 name: Validate Changelog
 
+# Manual only: this repo is kept for storage, so nothing runs automatically.
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "docs/changelog-entries/**"
-      - "docs/changelog.mdx"
-      - "docs/scripts/build-changelog.mjs"
+  workflow_dispatch:
 
 permissions:
   contents: read

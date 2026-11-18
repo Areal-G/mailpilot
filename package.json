@@ -5,6 +5,7 @@
     "build": "turbo build --filter=./apps/web",
     "dev": "turbo dev --filter=./apps/web",
     "local:start": "node --import tsx apps/web/scripts/local-dev.ts",
+    "seed": "pnpm --filter mailpilot-web emulate:seed",
     "desktop": "pnpm --filter @mailpilot/desktop dev",
     "desktop:dist": "pnpm --filter @mailpilot/desktop dist",
     "worker": "pnpm --filter @mailpilot/worker start",

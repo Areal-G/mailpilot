@@ -174,13 +174,29 @@ export const createMockEmailProvider = (
   isReplyInThread: vi.fn().mockReturnValue(false),
   isSentMessage: vi.fn().mockReturnValue(false),
   getThreadsFromSenderWithSubject: vi.fn().mockResolvedValue([]),
-  processHistory: vi.fn().mockResolvedValue(undefined),
   moveThreadToFolder: vi.fn().mockResolvedValue(undefined),
   getOrCreateFolderIdByName: vi.fn().mockResolvedValue("folder1"),
   renameFolder: vi.fn().mockResolvedValue(undefined),
   deleteFolder: vi.fn().mockResolvedValue(undefined),
   sendEmailWithHtml: vi.fn().mockResolvedValue(undefined),
   getDrafts: vi.fn().mockResolvedValue([]),
+  getDraftAttachments: vi.fn().mockResolvedValue(null),
+  addDraftAttachment: vi.fn().mockResolvedValue({
+    messageId: "draft-message1",
+    attachments: [],
+    attachmentId: "attachment1",
+  }),
+  removeDraftAttachment: vi
+    .fn()
+    .mockResolvedValue({ messageId: "draft-message1", attachments: [] }),
+  startDraftAttachmentUpload: vi.fn(),
+  getAttachmentStream: vi.fn().mockResolvedValue(new ReadableStream()),
+  getContactPhotos: vi.fn().mockResolvedValue({}),
+  countMessages: vi.fn().mockResolvedValue(0),
+  markMessagesStarredState: vi.fn().mockResolvedValue(undefined),
+  markNotSpam: vi.fn().mockResolvedValue(undefined),
+  localMailSyncStrategy: "account-history",
+  syncLocalMail: vi.fn(),
   ...overrides,
 });
 
