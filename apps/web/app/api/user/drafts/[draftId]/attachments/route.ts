@@ -7,8 +7,6 @@ import { SafeError } from "@/utils/error";
 import { withEmailProvider } from "@/utils/middleware";
 import { readRequestBytes } from "@/utils/request-body";
 
-export const maxDuration = 120;
-
 export type GetDraftAttachmentsResponse = NonNullable<
   Awaited<ReturnType<EmailProvider["getDraftAttachments"]>>
 >;

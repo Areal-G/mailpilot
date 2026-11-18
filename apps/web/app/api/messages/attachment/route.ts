@@ -5,8 +5,6 @@ import { EMAIL_ACCOUNT_HEADER } from "@/utils/config";
 import { createEmailProvider } from "@/utils/email/provider";
 import prisma from "@/utils/prisma";
 
-export const maxDuration = 300;
-
 export const GET = withAuth("messages/attachment", async (request) => {
   const { searchParams } = new URL(request.url);
   // Native browser downloads cannot supply the account header used by fetch.

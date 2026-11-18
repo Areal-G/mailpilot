@@ -11,7 +11,7 @@ enableGlobalVirtualStore: false
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - "@mailpilot/*"
-  - "@mailpilot/emulate"
+  - "@inbox-zero/emulate"
 
 overrides:
   "@hono/node-server": "1.19.14"

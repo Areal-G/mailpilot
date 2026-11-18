@@ -11,8 +11,6 @@ import {
   transcribeVoiceBody,
 } from "@/utils/voice/validation";
 
-export const maxDuration = 60;
-
 export type TranscribeVoiceResponse = { text: string };
 
 export const POST = withEmailAccount("voice/transcribe", async (request) => {

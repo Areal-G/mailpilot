@@ -7,8 +7,6 @@ import {
   refreshLocalMailInterest,
 } from "@/utils/redis/local-mail-hints";
 
-export const maxDuration = 300;
-
 export const GET = withAuth("mail-stream", async (request) => {
   const emailAccountId = new URL(request.url).searchParams.get(
     "emailAccountId",

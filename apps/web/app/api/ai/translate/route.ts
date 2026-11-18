@@ -5,8 +5,6 @@ import { getEmailAccountWithAi } from "@/utils/user/get";
 import { assertHasAiAccess } from "@/utils/premium/limits";
 import { aiTranslateEmails } from "@/utils/ai/translate-email";
 
-export const maxDuration = 60;
-
 export type TranslateResponse = { translations: string[] };
 
 export const POST = withEmailAccount(async (request) => {

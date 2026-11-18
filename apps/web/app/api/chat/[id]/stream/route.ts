@@ -5,8 +5,6 @@ import prisma from "@/utils/prisma";
 import { getChatStreamContext, getLiveStreamId } from "@/utils/chat/active-run";
 import { sleep } from "@/utils/sleep";
 
-export const maxDuration = 800;
-
 const REGISTRATION_POLL_MS = 500;
 const REGISTRATION_TIMEOUT_MS = 15_000;
 

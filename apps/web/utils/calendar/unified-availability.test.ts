@@ -318,4 +318,75 @@ describe("getUnifiedCalendarAvailability", () => {
       expect(result).toEqual([]);
     });
   });
+
+  describe("public booking options", () => {
+    it("skips a failing provider by default", async () => {
+      vi.mocked(prisma.calendarConnection.findMany).mockResolvedValue([
+        getCalendarConnection({ provider: "google", calendarIds: ["cal-1"] }),
+      ]);
+      vi.mocked(createGoogleAvailabilityProvider).mockReturnValue({
+        fetchBusyPeriods: vi.fn().mockRejectedValue(new Error("boom")),
+      } as any);
+
+      await expect(
+        getUnifiedCalendarAvailability({
+          emailAccountId,
+          startDate: "2026-05-04",
+          endDate: "2026-05-04",
+          logger,
+        }),
+      ).resolves.toEqual([]);
+    });
+
+    it("fails closed when asked, and tells providers to", async () => {
+      vi.mocked(prisma.calendarConnection.findMany).mockResolvedValue([
+        getCalendarConnection({ provider: "google", calendarIds: ["cal-1"] }),
+      ]);
+      const fetchBusyPeriods = vi.fn().mockRejectedValue(new Error("boom"));
+      vi.mocked(createGoogleAvailabilityProvider).mockReturnValue({
+        fetchBusyPeriods,
+      } as any);
+
+      await expect(
+        getUnifiedCalendarAvailability({
+          emailAccountId,
+          startDate: "2026-05-04",
+          endDate: "2026-05-04",
+          logger,
+          failClosed: true,
+        }),
+      ).rejects.toThrow("boom");
+      expect(fetchBusyPeriods).toHaveBeenCalledWith(
+        expect.objectContaining({ failOnCalendarError: true }),
+      );
+    });
+
+    it("leaves out Google's generated calendars when asked", async () => {
+      vi.mocked(prisma.calendarConnection.findMany).mockResolvedValue([
+        getCalendarConnection({
+          provider: "google",
+          calendarIds: [
+            "user@example.com",
+            "en.usa#holiday@group.v.calendar.google.com",
+          ],
+        }),
+      ]);
+      const fetchBusyPeriods = vi.fn().mockResolvedValue([]);
+      vi.mocked(createGoogleAvailabilityProvider).mockReturnValue({
+        fetchBusyPeriods,
+      } as any);
+
+      await getUnifiedCalendarAvailability({
+        emailAccountId,
+        startDate: "2026-05-04",
+        endDate: "2026-05-04",
+        logger,
+        excludeGoogleVirtualCalendars: true,
+      });
+
+      expect(fetchBusyPeriods).toHaveBeenCalledWith(
+        expect.objectContaining({ calendarIds: ["user@example.com"] }),
+      );
+    });
+  });
 });

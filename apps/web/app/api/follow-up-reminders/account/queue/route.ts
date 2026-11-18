@@ -5,8 +5,6 @@ import { createScopedLogger } from "@/utils/logger";
 import { getQueueRetryBackoffSeconds } from "@/utils/queue/retry";
 import { processFollowUpRemindersForEmailAccountId } from "@/utils/follow-up/process";
 
-export const maxDuration = 800;
-
 const logger = createScopedLogger("follow-up-reminders/account/queue");
 
 const queuePayloadSchema = z.object({

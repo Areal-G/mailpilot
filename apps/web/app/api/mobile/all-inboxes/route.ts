@@ -5,8 +5,6 @@ import { getConnectedEmailAccounts } from "@/utils/email/connected-accounts";
 import { withAuth } from "@/utils/middleware";
 import { loadAllInboxesSummary } from "./summary";
 
-export const maxDuration = 30;
-
 const querySchema = z.object({
   accountId: z.string().min(1).optional(),
   after: z.coerce.date(),

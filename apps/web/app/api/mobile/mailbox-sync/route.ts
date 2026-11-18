@@ -4,8 +4,6 @@ import { InvalidMailboxSyncCursorError } from "@/utils/email/mailbox-sync";
 import type { EmailProvider } from "@/utils/email/types";
 import { withEmailProvider } from "@/utils/middleware";
 
-export const maxDuration = 60;
-
 const bodySchema = z
   .object({
     after: z

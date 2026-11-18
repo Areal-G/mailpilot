@@ -34,6 +34,10 @@ const microsoftEmulatorOrigin = env.MICROSOFT_BASE_URL
 const nextConfig: NextConfig = {
   // Don't let `next dev` write AGENTS.md / DEV.md into the checkout.
   agentRules: false,
+  // Inlined so the portfolio demo's server functions see it at runtime.
+  ...(process.env.DEMO_IN_MEMORY
+    ? { env: { DEMO_IN_MEMORY: process.env.DEMO_IN_MEMORY } }
+    : {}),
   allowedDevOrigins: [
     "127.0.0.1",
     ...(URL.canParse(env.NEXT_PUBLIC_BASE_URL)
@@ -236,6 +240,7 @@ const nextConfig: NextConfig = {
   output: process.env.DOCKER_BUILD === "true" ? "standalone" : undefined,
   outputFileTracingIncludes: {
     "/mcp": ["./generated/mcp-app/*"],
+    "/*": ["./.demo/schema.sql"],
   },
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
   reactStrictMode: true,
@@ -399,10 +404,13 @@ const nextConfig: NextConfig = {
   },
   serverExternalPackages: [
     "@chat-adapter/teams",
+    "@electric-sql/pglite",
+    "@electric-sql/pglite-socket",
     "@sentry/nextjs",
     "@sentry/node",
     "@vercel/queue",
     "bullmq",
+    "emulate",
     "ioredis",
     "mammoth",
     "unpdf",

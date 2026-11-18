@@ -18,7 +18,6 @@ import {
 } from "../helpers";
 import { enqueueBackgroundJob } from "@/utils/queue/dispatch";
 
-export const maxDuration = 300;
 const RESEND_INBOX_HEALTH_TOPIC = "resend-inbox-health";
 
 export const GET = withError(

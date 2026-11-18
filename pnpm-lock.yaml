@@ -412,6 +412,12 @@ importers:
       '@dub/analytics':
         specifier: 0.0.32
         version: 0.0.32
+      '@electric-sql/pglite':
+        specifier: 0.4.3
+        version: 0.4.3
+      '@electric-sql/pglite-socket':
+        specifier: 0.1.3
+        version: 0.1.3(@electric-sql/pglite@0.4.3)
       '@googleapis/calendar':
         specifier: 20.1.0
         version: 20.1.0(supports-color@8.1.1)
@@ -700,6 +706,9 @@ importers:
       embla-carousel-react:
         specifier: 8.6.0
         version: 8.6.0(react@19.3.1)
+      emulate:
+        specifier: npm:@inbox-zero/emulate@0.14.1
+        version: '@inbox-zero/emulate@0.14.1'
       encoding:
         specifier: 0.1.13
         version: 0.1.13
@@ -971,9 +980,6 @@ importers:
       dotenv:
         specifier: 18.0.8
         version: 18.0.8
-      emulate:
-        specifier: npm:@mailpilot/emulate@0.14.1
-        version: '@mailpilot/emulate@0.14.1'
       esbuild:
         specifier: 0.28.2
         version: 0.28.2
@@ -3421,7 +3427,7 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@mailpilot/emulate@0.14.1':
+  '@inbox-zero/emulate@0.14.1':
     resolution: {integrity: sha512-DyLBBP4YPgCzTC5nOhPLXjYJGsTDCMOviOkrAY0h5DyIQlR/ZohhvTOVCryTNbxxZHh4C/VKK/31MXEneijQWg==}
     hasBin: true
 
@@ -15871,7 +15877,7 @@ snapshots:
   '@img/sharp-win32-x64@0.35.5':
     optional: true
 
-  '@mailpilot/emulate@0.14.1':
+  '@inbox-zero/emulate@0.14.1':
     dependencies:
       commander: 14.0.3
       picocolors: 1.1.1

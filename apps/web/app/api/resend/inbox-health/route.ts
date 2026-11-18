@@ -28,8 +28,6 @@ import {
 import { sendInboxHealthEmailBody } from "./validation";
 import { getInboxHealthEmailData, getInboxHealthSkipReason } from "./helpers";
 
-export const maxDuration = 60;
-
 export const GET = withEmailAccount("resend/inbox-health", async (request) => {
   // send to self
   const emailAccountId = request.auth.emailAccountId;

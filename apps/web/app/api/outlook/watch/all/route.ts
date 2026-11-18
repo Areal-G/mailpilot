@@ -12,8 +12,6 @@ import {
 import { createManagedOutlookSubscription } from "@/utils/outlook/subscription-manager";
 import type { Logger } from "@/utils/logger";
 
-export const maxDuration = 300;
-
 export const GET = withError("outlook/watch/all", async (request) => {
   if (!hasCronSecret(request)) {
     captureException(

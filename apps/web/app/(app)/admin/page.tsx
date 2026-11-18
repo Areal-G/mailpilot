@@ -19,9 +19,6 @@ import { PageWrapper } from "@/components/PageWrapper";
 import { PageHeader } from "@/components/PageHeader";
 import { AdminTopSpenders } from "@/app/(app)/admin/AdminTopSpenders";
 
-// NOTE: Turn on Fluid Compute on Vercel to allow for 800 seconds max duration
-export const maxDuration = 800;
-
 export default async function AdminPage() {
   const session = await auth();
 

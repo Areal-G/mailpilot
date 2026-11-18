@@ -7,8 +7,6 @@ const createLabelBody = z.object({
   description: z.string().nullish(),
 });
 
-export const maxDuration = 15;
-
 export const POST = withEmailProvider(async (request) => {
   const { emailProvider } = request;
   const body = await request.json();

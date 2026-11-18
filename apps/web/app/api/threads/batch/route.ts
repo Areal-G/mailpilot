@@ -8,7 +8,6 @@ export type ThreadsBatchResponse = {
   threads: ThreadsResponse["threads"];
 };
 
-export const maxDuration = 30;
 const THREAD_FETCH_CONCURRENCY = 5;
 
 export const GET = withEmailProvider("threads/batch", async (request) => {

@@ -13,8 +13,6 @@ export type UnsubscribeSenderResponse = Awaited<
   ReturnType<typeof unsubscribeSenderAndMark>
 >;
 
-export const maxDuration = 180;
-
 /**
  * Tries RFC 8058 one-click POST, then a simple HTML form, then the isolated
  * browser worker when configured. Otherwise uses the existing HTTP GET

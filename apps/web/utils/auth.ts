@@ -14,6 +14,8 @@ import { setSessionCookie } from "better-auth/cookies";
 import { renameGoogleEmail } from "@/utils/auth/rename-email";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
+import { inMemoryDemoSignIn } from "@/utils/demo";
+import { isInMemoryDemo } from "@/utils/demo-runtime/defaults";
 import { cookies, headers } from "next/headers";
 import { after } from "next/server";
 import { env } from "@/env";
@@ -291,6 +293,7 @@ export const betterAuthConfig = betterAuth({
         ]
       : []),
     ...mcpOAuthPlugins(),
+    ...(isInMemoryDemo() ? [inMemoryDemoSignIn()] : []),
     nextCookies(), // Must be last
   ],
   session: {

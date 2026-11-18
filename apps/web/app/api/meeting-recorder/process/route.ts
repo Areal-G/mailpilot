@@ -4,8 +4,6 @@ import { withError } from "@/utils/middleware";
 import { withQstashOrInternal } from "@/utils/qstash";
 import { meetingRecorderProcessBody } from "./validation";
 
-export const maxDuration = 300;
-
 export const POST = withError(
   "meeting-recorder/process",
   withQstashOrInternal(async (request) => {

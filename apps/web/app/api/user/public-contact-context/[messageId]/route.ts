@@ -18,8 +18,6 @@ export type GetPublicContactContextResponse = Awaited<
   ReturnType<typeof getData>
 >;
 
-export const maxDuration = 60;
-
 export const GET = withEmailProvider(
   "user/public-contact-context",
   async (request, context) => {

@@ -14,7 +14,6 @@ import { getPremiumUserFilter } from "@/utils/premium";
 import type { SendSummaryEmailBody } from "../validation";
 import { enqueueBackgroundJob } from "@/utils/queue/dispatch";
 
-export const maxDuration = 300;
 const RESEND_SUMMARY_TOPIC = "resend-summary";
 
 export const GET = withError("cron/resend/summary/all", async (request) => {

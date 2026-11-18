@@ -12,8 +12,6 @@ import {
 } from "@/utils/voice/runtime";
 import { liveSessionBody } from "@/utils/voice/validation";
 
-export const maxDuration = 60;
-
 export type CreateLiveVoiceSessionResponse = {
   sessionId: string;
   sdp: string;

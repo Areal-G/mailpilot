@@ -4,8 +4,6 @@ import { deleteExpiredEmailSendOperations } from "@/utils/email-send-operation-r
 import { captureException } from "@/utils/error";
 import { type RequestWithLogger, withError } from "@/utils/middleware";
 
-export const maxDuration = 300;
-
 export const GET = withError(
   "cron/email-send-operation-retention",
   async (request) => {

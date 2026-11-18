@@ -1,6 +1,7 @@
 import { env } from "@/env";
 import { betterAuthConfig } from "@/utils/auth";
 import { getDemoMailboxTokens } from "@/utils/demo-mailbox-tokens";
+import { upsertDemoSession } from "@/utils/demo-runtime/session";
 import type { Logger } from "@/utils/logger";
 import { buildMobileSessionCookie } from "@/utils/mobile-auth/session-cookie";
 import prisma from "@/utils/prisma";
@@ -31,19 +32,15 @@ export async function createDemoSession(logger: Logger) {
 
   await getDemoMailboxTokens({ emailAccountId: emailAccount.id, logger });
 
+  const session = await upsertDemoSession(emailAccount.user.id);
   const authContext = await betterAuthConfig.$context;
-  const session = await authContext.internalAdapter.createSession(
-    emailAccount.user.id,
-    false,
-    {},
-  );
 
   return {
     emailAccountId: emailAccount.id,
     sessionCookie: await buildMobileSessionCookie({
       authContext,
-      expiresAt: session.expiresAt,
-      sessionToken: session.token,
+      expiresAt: session.expires,
+      sessionToken: session.sessionToken,
     }),
   };
 }

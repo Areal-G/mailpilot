@@ -15,8 +15,6 @@ import { env } from "@/env";
 import type { Logger } from "@/utils/logger";
 import { processDueSnoozedThreads } from "@/utils/snooze/process-due";
 
-export const maxDuration = 300;
-
 const BATCH_SIZE = 100;
 
 export const GET = withError("cron/scheduled-actions", async (request) => {

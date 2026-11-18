@@ -3,10 +3,8 @@
 import { ButtonCheckbox } from "@/components/ButtonCheckbox";
 import { SenderIcon } from "@/components/SenderIcon";
 import { Progress } from "@/components/ui/progress";
-import type { NewsletterStatsResponse } from "@/app/api/user/stats/newsletters/route";
+import type { Newsletter } from "@/app/(app)/[emailAccountId]/onboarding/useInboxScan";
 import { cn } from "@/utils";
-
-type Newsletter = NewsletterStatsResponse["newsletters"][number];
 
 export function UnsubscribeSuggestionRow({
   sender,

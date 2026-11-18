@@ -32,7 +32,26 @@ Mail Pilot has two parts, and each works on its own:
 
 Everything is self-hostable. A single command, `pnpm local:start`, runs the whole stack against local emulators for Google, Microsoft, the LLM, billing and email delivery, so no OAuth credentials or API keys are needed to try it.
 
-## Try the demo
+> **Portfolio demo build.** This `demo` branch is what runs at [mailpilot.arealjagema.com](https://mailpilot.arealjagema.com): the web app with in-memory data and no outside services. The full app is on [`main`](../../tree/main).
+
+## Portfolio demo
+
+The live demo needs no database, Redis, Google account or LLM key. Built with `DEMO_IN_MEMORY=true` (set on the Vercel project, together with `NEXT_PUBLIC_BASE_URL`; `apps/web/vercel.json` holds the install and build commands); route-level `maxDuration` settings are removed on this branch, since the demo does no slow work and every route then shares one function configuration, the server starts everything inside its own process before it takes requests:
+
+- **Database:** [PGlite](https://pglite.dev) in memory, served to Prisma over a loopback socket. Its schema is generated from `prisma/schema.prisma` at build time (`pnpm demo:schema`).
+- **Mailbox and AI:** the same Google and LLM emulators local mode uses, on loopback ports. Nothing contacts Gmail or an AI API.
+- **Redis:** a small in-memory store behind the same HTTP API the app uses for Upstash.
+- **Sample data:** the guest user, mailbox and a public booking page (`/book/developer`, weekdays 9:00-17:00) are seeded at startup with fixed ids, and mail dates move forward so the newest thread is from yesterday. Every serverless instance seeds the same data, and the shared guest session is valid on all of them. Changes stay in the instance that made them and reset on cold start.
+
+**Try demo** on the login page signs you in as the guest. Provider sign-in and sign-up are disabled. No environment variables are required; `AUTH_SECRET` is optional. To run the demo build locally:
+
+```bash
+pnpm install
+DEMO_IN_MEMORY=true NEXT_PUBLIC_BASE_URL=http://localhost:3000 pnpm -F mailpilot-web build
+DEMO_IN_MEMORY=true NEXT_PUBLIC_BASE_URL=http://localhost:3000 pnpm -F mailpilot-web start
+```
+
+## Try the demo locally
 
 Run it locally (see [Getting started](#getting-started)) and open `http://localhost:3000/login`. Local mode turns on the guest demo: click **Try demo, no sign-up needed** to land in a seeded Gmail inbox as `developer@example.com`. You can also sign in through the emulated Google (`developer@example.com`) or Microsoft (`developer@outlook.test`) accounts.
 

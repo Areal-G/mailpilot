@@ -5,6 +5,8 @@ import { TooltipExplanation } from "@/components/TooltipExplanation";
 import { Switch } from "@/components/ui/switch";
 
 export interface ToggleProps {
+  // Accessible name for a toggle without a visible label.
+  ariaLabel?: string;
   disabled?: boolean;
   disabledTooltipText?: string;
   enabled: boolean;
@@ -19,6 +21,7 @@ export interface ToggleProps {
 
 export const Toggle = (props: ToggleProps) => {
   const {
+    ariaLabel,
     label,
     labelRight,
     tooltipText,
@@ -29,7 +32,12 @@ export const Toggle = (props: ToggleProps) => {
   } = props;
 
   const switchComponent = (
-    <Switch checked={enabled} onCheckedChange={onChange} disabled={disabled} />
+    <Switch
+      checked={enabled}
+      onCheckedChange={onChange}
+      disabled={disabled}
+      aria-label={ariaLabel}
+    />
   );
 
   return (

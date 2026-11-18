@@ -1,4 +1,5 @@
 /* eslint-disable no-process-env */
+import "@/utils/demo-runtime/defaults";
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 import { buildLegacyLlmsEnv, optionalEnvValue } from "@/env-legacy-llms";
@@ -458,9 +459,7 @@ const parsedEnv = createEnv({
       optionalEnvValue,
       z.coerce.number().int().nonnegative().default(5),
     ),
-    NEXT_PUBLIC_CALL_LINK: z
-      .string()
-      .default("https://mailpilot.app/feedback"),
+    NEXT_PUBLIC_CALL_LINK: z.string().default("https://mailpilot.app/feedback"),
     NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_API_HOST: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_ONBOARDING_SURVEY_ID: z.string().optional(),

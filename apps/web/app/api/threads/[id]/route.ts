@@ -32,8 +32,6 @@ async function getThread(
   };
 }
 
-export const maxDuration = 300;
-
 export const GET = withEmailProvider(
   "threads/detail",
   async (request, context) => {

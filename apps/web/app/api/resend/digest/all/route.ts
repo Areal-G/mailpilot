@@ -8,7 +8,6 @@ import type { Logger } from "@/utils/logger";
 import { getPremiumUserFilter } from "@/utils/premium";
 import { enqueueBackgroundJob } from "@/utils/queue/dispatch";
 
-export const maxDuration = 300;
 const RESEND_DIGEST_TOPIC = "resend-digest";
 
 export const GET = withError("cron/resend/digest/all", async (request) => {

@@ -2,8 +2,6 @@ import { env } from "@/env";
 import { withError } from "@/utils/middleware";
 import { handleMessagingWebhookRoute } from "@/utils/messaging/chat-sdk/webhook-route";
 
-export const maxDuration = 120;
-
 export const POST = withError("telegram/events", async (request) =>
   handleMessagingWebhookRoute({
     request,

@@ -4,7 +4,6 @@ import { confirmAssistantEmailActionBody } from "@/utils/actions/assistant-chat.
 import { withEmailAccount } from "@/utils/middleware";
 import { getEmailAccountWithAi } from "@/utils/user/get";
 
-export const maxDuration = 120;
 const MOBILE_PENDING_ACTION_PERSIST_WAIT_MS = 10_000;
 
 // Mobile clients call this endpoint directly; web uses the server action path.

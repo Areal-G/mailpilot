@@ -11,8 +11,6 @@ export type BulkSenderActionsResponse = {
   results: BulkSenderActionResult[];
 };
 
-export const maxDuration = 180;
-
 /**
  * Applies unsubscribe and sender-status changes for many senders.
  * At most 20 actions per request. These mail actions do not use AI credits.

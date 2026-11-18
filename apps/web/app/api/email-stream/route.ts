@@ -4,8 +4,6 @@ import { NextResponse } from "next/server";
 import { getEmailAccount } from "@/utils/redis/account-validation";
 import { assertCleanerApiEnabled } from "@/utils/cleaner-feature";
 
-export const maxDuration = 300;
-
 // 5 minutes in milliseconds
 const INACTIVITY_TIMEOUT = 5 * 60 * 1000;
 

@@ -51,8 +51,6 @@ import {
   startChatRun,
 } from "@/utils/chat/active-run";
 
-export const maxDuration = 800;
-
 export const POST = withEmailAccount("chat", async (request) => {
   const emailAccountId = request.auth.emailAccountId;
 

@@ -5,8 +5,6 @@ import prisma from "@/utils/prisma";
 import { withQstashOrInternal } from "@/utils/qstash";
 import { processSnoozedThread } from "@/utils/snooze/process-due";
 
-export const maxDuration = 300;
-
 const bodySchema = z.object({ snoozedThreadId: z.string().min(1) });
 
 export const POST = withError(

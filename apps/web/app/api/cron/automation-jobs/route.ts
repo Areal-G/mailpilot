@@ -14,8 +14,6 @@ import {
   SUPPORTED_AUTOMATION_MESSAGING_PROVIDERS,
 } from "@/utils/automation-jobs/messaging-channel";
 
-export const maxDuration = 300;
-
 const BATCH_SIZE = 100;
 const AUTOMATION_JOBS_TOPIC = "automation-jobs-execute";
 

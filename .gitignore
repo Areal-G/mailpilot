@@ -115,5 +115,7 @@ eval-results/
 .context/
 .deepsec/
 .tmp/
+# Generated schema for the in-memory demo database (pnpm demo:schema)
+.demo/
 
 /.private-build-install.json

@@ -7,8 +7,6 @@ import { mapWithConcurrency } from "@/utils/async";
 
 const ACCOUNT_CONCURRENCY = 4;
 
-export const maxDuration = 300;
-
 const bodySchema = z.object({
   threads: z
     .array(

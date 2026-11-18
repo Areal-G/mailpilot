@@ -8,8 +8,6 @@ import { captureException } from "@/utils/error";
 import { createScopedLogger } from "@/utils/logger";
 import { getQueueRetryBackoffSeconds } from "@/utils/queue/retry";
 
-export const maxDuration = 300;
-
 const logger = createScopedLogger("automation-jobs/execute/queue");
 
 const queueHandler = handleCallback<z.infer<typeof executeAutomationJobBody>>(

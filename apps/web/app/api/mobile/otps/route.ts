@@ -5,8 +5,6 @@ import { withAuth } from "@/utils/middleware";
 import prisma from "@/utils/prisma";
 import { loadRecentOtpSummary } from "./summary";
 
-export const maxDuration = 30;
-
 const querySchema = z.object({
   accountId: z.string().min(1).optional(),
 });

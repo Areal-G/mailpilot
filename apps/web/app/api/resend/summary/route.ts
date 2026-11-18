@@ -31,8 +31,6 @@ import {
   buildArchivedEmailSummaryItems,
 } from "./archived-emails";
 
-export const maxDuration = 300;
-
 const COLD_EMAIL_DISPLAY_LIMIT = 100;
 
 export const GET = withEmailAccount("resend/summary", async (request) => {

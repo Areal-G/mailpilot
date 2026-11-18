@@ -5,8 +5,6 @@ import {
   executeAutomationJobRun,
 } from "@/utils/automation-jobs/execute";
 
-export const maxDuration = 300;
-
 export const POST = withError(
   "automation-jobs/execute",
   withQstashOrInternal(async (request) => {

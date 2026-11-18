@@ -4,8 +4,6 @@ import { withEmailProvider } from "@/utils/middleware";
 import { threadsQuery, threadsView } from "@/utils/threads/validation";
 import { loadThreads, toListThreads } from "@/utils/threads/load";
 
-export const maxDuration = 30;
-
 export const GET = withEmailProvider(
   "threads",
   async (request) => {

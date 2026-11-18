@@ -53,6 +53,30 @@ describe("enqueueBackgroundJob", () => {
     mockIsVercelQueueDispatchEnabled.mockReturnValue(false);
   });
 
+  it("passes the Vercel delay through to Vercel Queues", async () => {
+    const { enqueueBackgroundJob } = await loadDispatchModule({});
+    mockIsVercelQueueDispatchEnabled.mockReturnValue(true);
+
+    const result = await enqueueBackgroundJob({
+      topic: "topic",
+      body: { id: "job-1" },
+      vercel: { delaySeconds: 30 },
+      qstash: {
+        queueName: "draft-cleanup",
+        parallelism: 3,
+        path: "/api/cron/draft-cleanup/account",
+      },
+      logger: createTestLogger(),
+    });
+
+    expect(result).toBe("vercel");
+    expect(mockSend).toHaveBeenCalledWith(
+      "topic",
+      { id: "job-1" },
+      { delaySeconds: 30 },
+    );
+  });
+
   it("uses BullMQ when configured", async () => {
     const { enqueueBackgroundJob } = await loadDispatchModule({
       queueBackend: "bullmq",

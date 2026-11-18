@@ -3,8 +3,6 @@ import { PermissionsCheck } from "@/app/(app)/[emailAccountId]/PermissionsCheck"
 import { EmailLabelsProvider } from "@/providers/EmailLabelsProvider";
 import { MailEngineHost } from "@/utils/mail-engine/MailEngineHost";
 
-export const maxDuration = 180;
-
 export default function Mail() {
   return (
     <EmailLabelsProvider>

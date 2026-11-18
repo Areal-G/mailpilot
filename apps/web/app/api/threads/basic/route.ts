@@ -13,8 +13,6 @@ export type GetThreadsResponse = {
   nextPageToken?: string;
 };
 
-export const maxDuration = 30;
-
 export const GET = withEmailProvider("threads/basic", async (request) => {
   const { emailProvider } = request;
   const { emailAccountId } = request.auth;

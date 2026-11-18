@@ -9,8 +9,6 @@ import { resolveSenderUnsubscribeSource } from "@/utils/senders/source";
 import { unsubscribeSenderAndMark } from "@/utils/senders/unsubscribe";
 import { unsubscribeSenderRequestSchema } from "./validation";
 
-export const maxDuration = 180;
-
 export const GET = createPublicApiMethodNotAllowedHandler(["POST"]);
 export const PUT = createPublicApiMethodNotAllowedHandler(["POST"]);
 export const PATCH = createPublicApiMethodNotAllowedHandler(["POST"]);

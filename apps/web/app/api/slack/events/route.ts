@@ -11,8 +11,6 @@ import { validateSlackWebhookRequest } from "@/utils/messaging/providers/slack/v
 import { publishAppHome } from "@/utils/messaging/providers/slack/app-home";
 import { handleSlackAppUninstalled } from "@/utils/messaging/providers/slack/uninstall";
 
-export const maxDuration = 120;
-
 export const POST = withError("slack/events", async (request) => {
   const logger = request.logger;
 

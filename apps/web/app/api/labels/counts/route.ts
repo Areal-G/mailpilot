@@ -8,10 +8,6 @@ import { redis } from "@/utils/redis";
 import { isDefined } from "@/utils/types";
 import { runWithBoundedConcurrency } from "@/utils/async";
 
-// The mail sidebar fills counts in after first paint, so this must degrade
-// rather than hang: a slow provider is worth less than an empty sidebar.
-export const maxDuration = 15;
-
 const CACHE_KEY_PREFIX = "label-counts";
 const CACHE_TTL_SECONDS = 60;
 const MAX_USER_LABELS = 100;

@@ -5,8 +5,6 @@ import { getHelpText } from "@/utils/messaging/prompt-commands";
 import { processSlackSlashCommand } from "@/utils/messaging/providers/slack/slash-commands";
 import { validateSlackWebhookRequest } from "@/utils/messaging/providers/slack/verify-signature";
 
-export const maxDuration = 120;
-
 export const POST = withError("slack/commands", async (request) => {
   const logger = request.logger;
 

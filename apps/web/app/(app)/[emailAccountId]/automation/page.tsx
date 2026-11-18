@@ -16,8 +16,6 @@ import {
 } from "@/app/(app)/[emailAccountId]/onboarding/onboardingFlow";
 import { AutomationTabs } from "@/app/(app)/[emailAccountId]/automation/AutomationTabs";
 
-export const maxDuration = 300; // Applies to the actions
-
 export default async function AutomationPage({
   params,
 }: {

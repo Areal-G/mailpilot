@@ -13,8 +13,6 @@ import {
 } from "@/utils/mail-api/authorization";
 import { createEmailProviderMailboxSource } from "@/utils/mail-api/source";
 
-export const maxDuration = 300;
-
 export const GET = withEmailProvider(
   "mail/v1/attachment-content",
   async (request, context) => {

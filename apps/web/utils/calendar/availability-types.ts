@@ -16,6 +16,8 @@ export interface CalendarAvailabilityProvider {
     calendarIds: string[];
     timeMin: string;
     timeMax: string;
+    /** Throw when a calendar can't report availability instead of skipping it. */
+    failOnCalendarError?: boolean;
   }): Promise<BusyPeriod[]>;
   name: "google" | "microsoft";
 }
