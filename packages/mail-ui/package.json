@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "description": "Shared React DOM mail presentation for web and Electron",
-  
   "type": "module",
   "sideEffects": [
     "**/*.css"
@@ -32,7 +31,7 @@
   "dependencies": {
     "@mailpilot/mail-core": "workspace:*",
     "@mailpilot/mail-react": "workspace:*",
-    "dompurify": "3.4.17",
+    "dompurify": "3.4.18",
     "linkify-it": "6.1.0",
     "tlds": "1.261.0",
     "utif2": "4.1.0"
@@ -42,13 +41,13 @@
     "react-dom": ">=19"
   },
   "devDependencies": {
-    "@types/node": "24.10.1",
+    "@types/node": "24.19.2",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "jsdom": "27.3.0",
+    "jsdom": "31.0.1",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "typescript": "6.0.3",
-    "vitest": "5.0.5"
+    "vitest": "5.1.0"
   }
 }

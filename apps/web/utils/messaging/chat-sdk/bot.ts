@@ -2461,7 +2461,8 @@ async function extractImagePartsFromMessage({
           ? attachment.data
           : Buffer.from(await new Response(attachment.data).arrayBuffer());
       } else if (attachment.fetchData) {
-        buffer = await attachment.fetchData();
+        const data = await attachment.fetchData();
+        buffer = Buffer.isBuffer(data) ? data : Buffer.from(data);
       } else if (attachment.url) {
         const response = await fetch(attachment.url, {
           signal: AbortSignal.timeout(15_000),
