@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "description": "Portable email HTML contracts and a Squire web editor for Mail Pilot",
-  
   "keywords": [
     "email",
     "editor",
@@ -27,7 +26,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "parse5": "8.0.1"
+    "parse5": "8.1.1"
   },
   "peerDependencies": {
     "dompurify": "3.4.17",
@@ -53,13 +52,13 @@
     "@testing-library/react": "16.3.3",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "dompurify": "3.4.17",
-    "jsdom": "27.3.0",
+    "dompurify": "3.4.18",
+    "jsdom": "31.0.1",
     "react": "19.3.1",
     "react-dom": "19.3.1",
-    "squire-rte": "2.4.9",
+    "squire-rte": "2.4.11",
     "typescript": "6.0.3",
-    "vitest": "5.0.5"
+    "vitest": "5.1.0"
   },
   "publishConfig": {
     "access": "public"
